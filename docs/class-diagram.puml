@@ -84,6 +84,7 @@ package bussiness {
             - fullName: String
             - billingAddress: String
             - email: String
+            - isWholesaler: boolean
             + createdAt: DateTime
             + updatedAt: DateTime
             + addProductToCart(): void

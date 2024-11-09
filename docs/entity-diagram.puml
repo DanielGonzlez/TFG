@@ -78,6 +78,7 @@ database mariadb {
             - fullName: STRING
             - billingAddress: STRING
             - email: STRING
+            - isWholesaler: BOOLEAN (DEFAULT 0)
             + createdAt: DATE
             + updatedAt: DATE
         }
