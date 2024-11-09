@@ -4,13 +4,13 @@ build
 tmp
 
 # Secrets
-.env
+# .env  //Se supone que no se debe subir, pero me viene bien por si acaso
 .env.local
 .env.production.local
 .env.development.local
 
 # Frontend assets compiled code
-public/assets
+# public/assets
 
 # Build tools specific
 npm-debug.log
