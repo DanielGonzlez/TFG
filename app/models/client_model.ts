@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
-import type{ HasOne } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type{ BelongsTo } from '@adonisjs/lucid/types/relations'
 
 import User from './user_model.js'
+import Organization from './organization_model.js'
 
 export default class Client extends BaseModel {
   @column({ isPrimary: true })
@@ -23,6 +24,9 @@ export default class Client extends BaseModel {
   @column()
   declare isWholesaler: boolean
 
+  @column()
+  declare organizationId: string | null  // Clave foránea a Organization (puede ser null si no pertenece a ninguna)
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -30,8 +34,12 @@ export default class Client extends BaseModel {
   declare updatedAt: DateTime | null
 
   // Relación con User
-  @hasOne(() => User, { foreignKey: 'userId' })
-  declare user: HasOne<typeof User>
+  @belongsTo(() => User, { foreignKey: 'userId' })
+  declare user: BelongsTo<typeof User>
+
+  // Relación con Organization (un cliente puede pertenecer a una organización)
+  @belongsTo(() => Organization, { foreignKey: 'organizationId' })
+  declare organization: BelongsTo<typeof Organization>
 
   // Getter y Setter para clientId
   get getClientId(): string {
