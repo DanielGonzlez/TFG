@@ -1,0 +1,146 @@
+@startuml
+
+' Dirección vertical (de arriba a abajo)
+top to bottom direction
+
+skinparam entityPadding 20
+skinparam entityFontSize 14
+
+
+' Paquete bussiness
+package bussiness {
+    together {
+        class Administrator {
+            - adminId: String
+            - userId: String
+            - fullName: String
+            + createdAt: DateTime
+            + updatedAt: DateTime
+            + createProduct(): void
+            + updateProduct(): void
+            + deleteProduct(): void
+        }
+
+        class Product {
+            - productId: String
+            - adminId: String
+            - name: String
+            - unit: String
+            - price: number
+            - discount: String
+            - discountType: enum [FIXED, PERCENTAGE]
+            + createdAt: DateTime
+            + updatedAt: DateTime
+            + applyDiscount(): void
+            + calculatePrice(): number
+            + updateStock(): void
+        }
+    }
+    
+    class User {
+        - userId: String
+        - name: String
+        - firstName: String
+        - lastName: String
+        - email: String
+        - password: String
+        - status: enum [ACTIVE, SUSPENDED]
+        + createdAt: DateTime
+        + updatedAt: DateTime
+        + register(): User
+        + login(): boolean
+        + logout(): void
+        + resetPassword(): void
+    }
+    together {
+        class OrganizationAddresses {
+            - organizationId: String
+            - country: String
+            - address: String
+            - province: String
+            - town: String
+            - postalCode: String
+            - type: String
+            + createdAt: DateTime
+            + updatedAt: DateTime
+            + updateAddress(): void
+        }
+
+        class Organization {
+            - organizationId: String
+            - clientId: String
+            - name: String
+            - fiscalId: String
+            - logo: String
+            + createdAt: DateTime
+            + updatedAt: DateTime
+            + registerOrganization(): void
+            + updateOrganization(): void
+        }
+
+        class Client {
+            - clientId: String
+            - userId: String
+            - fullName: String
+            - billingAddress: String
+            - email: String
+            + createdAt: DateTime
+            + updatedAt: DateTime
+            + addProductToCart(): void
+            + removeProductToCart(): void
+            + createInvoice(): void
+            + updateProfile(): void
+        }
+    }
+}
+
+' Paquete invoices
+package invoices {
+
+    class InvoiceProduct {
+        - invoiceProductId: String
+        - invoiceId: String
+        - productId: String
+        - quantity: number
+        + createdAt: DateTime
+        + updatedAt: DateTime
+        + updateQuantity(): void
+    }
+
+    class Invoice {
+        - invoiceId: String
+        - organizationId: String
+        - invoiceSerieId: String
+        - clientId: String
+        - currentId: String
+        - currency: String
+        - discount: float
+        - discountType: enum [FIXED, PERCENTAGE]
+        - oneOffProducts: String
+        - taxPercent: number
+        - taxName: String
+        - status: enum [CREATED, PAID, CANCELLED, RECURRING]
+        - nextRecurringAt: EveryTimePattern
+        + createdAt: DateTime
+        + updatedAt: DateTime
+        + generateInvoice(): void
+        + applyDiscount(): void
+        + markAsPaid(): void
+        + cancelInvoice(): void
+    }
+}
+
+' Relaciones
+User o-- Client
+User o-- Administrator
+Administrator o-- Product
+
+Client o-- Organization
+Client o-l- Invoice
+
+Organization o-- OrganizationAddresses
+
+Invoice *-- InvoiceProduct
+InvoiceProduct *-- Product
+
+@enduml
