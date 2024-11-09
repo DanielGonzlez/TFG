@@ -45,6 +45,7 @@ package bussiness {
         - email: String
         - password: String
         - status: enum [ACTIVE, SUSPENDED]
+        - rol: enum[CLIENT, ADMINISTRATOR]
         + createdAt: DateTime
         + updatedAt: DateTime
         + register(): User
