@@ -128,6 +128,6 @@ Client ||--|{ Invoice : "clientId (FK)"
 Organization }|--|| OrganizationAddresses : "organizationId (FK)"
 
 Invoice ||--|{ InvoiceProduct : "invoiceId (FK)"
-InvoiceProduct }|--|| Product : "productId (FK)"
+InvoiceProduct }|--|| Product : "productId (FK)" 
 
 @enduml

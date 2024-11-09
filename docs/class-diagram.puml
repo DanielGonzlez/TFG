@@ -141,6 +141,6 @@ Client o-l- Invoice
 Organization o-- OrganizationAddresses
 
 Invoice *-- InvoiceProduct
-InvoiceProduct *-- Product
+InvoiceProduct *-- Product 
 
 @enduml
