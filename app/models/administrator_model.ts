@@ -1,8 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import type{ HasOne } from '@adonisjs/lucid/types/relations'
+import type{ HasMany } from '@adonisjs/lucid/types/relations'
 
 import User from './user_model.js'
+import Product from './product_model.js'
 
 export default class Administrator extends BaseModel {
     @column({ isPrimary: true })
@@ -23,6 +25,10 @@ export default class Administrator extends BaseModel {
     // Relación con User
     @hasOne(() => User, { foreignKey: 'userId' })
     declare user: HasOne<typeof User>
+
+    // Relación con Product (un administrador puede crear muchos productos)
+    @hasMany(() => Product, { foreignKey: 'adminId' })
+    declare products: HasMany<typeof Product>
   
     // Métodos de negocio
     public createProduct(): void {
