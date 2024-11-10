@@ -1,9 +1,12 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+
 import type{ BelongsTo } from '@adonisjs/lucid/types/relations'
+import type{ HasMany } from '@adonisjs/lucid/types/relations'
 
 import User from './user_model.js'
 import Organization from './organization_model.js'
+import Invoice from './invoice_model.js'
 
 export default class Client extends BaseModel {
   @column({ isPrimary: true })
@@ -40,6 +43,9 @@ export default class Client extends BaseModel {
   // Relación con Organization (un cliente puede pertenecer a una organización)
   @belongsTo(() => Organization, { foreignKey: 'organizationId' })
   declare organization: BelongsTo<typeof Organization>
+
+  @hasMany(() => Invoice, { foreignKey: 'clientId' })
+  declare invoices: HasMany<typeof Invoice>
 
   // Getter y Setter para clientId
   get getClientId(): string {
