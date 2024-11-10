@@ -4,12 +4,13 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 
-import { USER_STATUS } from '#types/user_type'
-import { USER_ROL } from '#types/user_type'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
 
 import Administrator from './administrator_model.js'
 import Client from './client_model.js'
+
+import { USER_STATUS } from '#types/user_type'
+import { USER_ROL } from '#types/user_type'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
