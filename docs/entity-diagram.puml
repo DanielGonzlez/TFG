@@ -41,6 +41,7 @@ database mariadb {
         - email: STRING
         - password: STRING
         - status: ENUM [ACTIVE, SUSPENDED]
+        - rol: ENUM [CLIENT, ADMINISTRATOR]
         + createdAt: DATE
         + updatedAt: DATE
     }
@@ -75,6 +76,7 @@ database mariadb {
             * clientId: STRING  // PK
             --
             - userId: STRING  // FK -> User(userId)
+            - organizationId: STRING  // FK -> Organization(organizationId)
             - fullName: STRING
             - billingAddress: STRING
             - email: STRING
@@ -87,7 +89,6 @@ database mariadb {
 
 ' Paquete invoices (Base de datos PostgreSQL)
 database postgresql {
-
     entity InvoiceProduct {
         * invoiceProductId: STRING  // PK
         --
@@ -129,6 +130,6 @@ Client ||--|{ Invoice : "clientId (FK)"
 Organization }|--|| OrganizationAddresses : "organizationId (FK)"
 
 Invoice ||--|{ InvoiceProduct : "invoiceId (FK)"
-InvoiceProduct }|--|| Product : "productId (FK)" 
+InvoiceProduct }|--|| Product : "productId (FK)"
 
 @enduml

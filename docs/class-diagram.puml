@@ -25,9 +25,9 @@ package bussiness {
             - productId: String
             - adminId: String
             - name: String
-            - unit: String
+            - unit: number
             - price: number
-            - discount: String
+            - discount: number
             - discountType: enum [FIXED, PERCENTAGE]
             + createdAt: DateTime
             + updatedAt: DateTime
@@ -60,7 +60,7 @@ package bussiness {
             - address: String
             - province: String
             - town: String
-            - postalCode: String
+            - postalCode: number
             - type: String
             + createdAt: DateTime
             + updatedAt: DateTime
@@ -69,7 +69,6 @@ package bussiness {
 
         class Organization {
             - organizationId: String
-            - clientId: String
             - name: String
             - fiscalId: String
             - logo: String
@@ -82,6 +81,7 @@ package bussiness {
         class Client {
             - clientId: String
             - userId: String
+            - organizationId: String
             - fullName: String
             - billingAddress: String
             - email: String
