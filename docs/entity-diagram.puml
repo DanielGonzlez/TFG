@@ -1,0 +1,134 @@
+@startuml
+
+' Dirección vertical (de arriba a abajo)
+top to bottom direction
+
+skinparam entityPadding 20
+skinparam entityFontSize 14
+
+' Paquete bussiness (Base de datos MariaDB)
+database mariadb {
+    together {
+        entity Administrator {
+        * adminId: STRING  // PK
+        --
+        - userId: STRING  // FK -> User(userId)
+        - fullName: STRING
+        + createdAt: DATE
+        + updatedAt: DATE
+        }
+
+        entity Product {
+            * productId: STRING  // PK
+            --
+            - adminId: STRING  // FK -> Administrator(adminId)
+            - name: STRING
+            - unit: STRING
+            - price: DECIMAL
+            - discount: STRING
+            - discountType: ENUM [FIXED, PERCENTAGE]
+            + createdAt: DATE
+            + updatedAt: DATE
+        }
+    }
+
+    entity User {
+        * userId: STRING  // PK
+        --
+        - name: STRING
+        - firstName: STRING
+        - lastName: STRING
+        - email: STRING
+        - password: STRING
+        - status: ENUM [ACTIVE, SUSPENDED]
+        - rol: ENUM [CLIENT, ADMINISTRATOR]
+        + createdAt: DATE
+        + updatedAt: DATE
+    }
+
+    together {
+        entity OrganizationAddresses {
+            * addressId: STRING  // PK
+            --
+            - organizationId: STRING  // FK -> Organization(organizationId)
+            - country: STRING
+            - address: STRING
+            - province: STRING
+            - town: STRING
+            - postalCode: STRING
+            - type: STRING
+            + createdAt: DATE
+            + updatedAt: DATE
+        }
+
+        entity Organization {
+            * organizationId: STRING  // PK
+            --
+            - clientId: STRING  // FK -> Client(clientId)
+            - name: STRING
+            - fiscalId: STRING
+            - logo: STRING
+            + createdAt: DATE
+            + updatedAt: DATE
+        }
+
+        entity Client {
+            * clientId: STRING  // PK
+            --
+            - userId: STRING  // FK -> User(userId)
+            - organizationId: STRING  // FK -> Organization(organizationId)
+            - fullName: STRING
+            - billingAddress: STRING
+            - email: STRING
+            - isWholesaler: BOOLEAN (DEFAULT 0)
+            + createdAt: DATE
+            + updatedAt: DATE
+        }
+    }
+}
+
+' Paquete invoices (Base de datos PostgreSQL)
+database postgresql {
+    entity InvoiceProduct {
+        * invoiceProductId: STRING  // PK
+        --
+        - invoiceId: STRING  // FK -> Invoice(invoiceId)
+        - productId: STRING  // FK -> Product(productId)
+        - quantity: INT
+        + createdAt: DATE
+        + updatedAt: DATE
+    }
+
+    entity Invoice {
+        * invoiceId: STRING  // PK
+        --
+        - organizationId: STRING  // FK -> Organization(organizationId)
+        - clientId: STRING  // FK -> Client(clientId)
+        - currentId: STRING
+        - currency: STRING
+        - discount: FLOAT
+        - discountType: ENUM [FIXED, PERCENTAGE]
+        - oneOffProducts: STRING
+        - taxPercent: INT
+        - taxName: STRING
+        - status: ENUM [CREATED, PAID, CANCELLED, RECURRING]
+        - nextRecurringAt: EveryTimePattern
+        + createdAt: DATE
+        + updatedAt: DATE
+    }
+}
+
+' Relaciones de base de datos entre tablas
+User }|--|| Client : "userId (FK)"
+User }|--|| Administrator : "userId (FK)"
+Administrator }|--|| Product : "adminId (FK)"
+
+Client }|--|| Organization : "clientId (FK)"
+Client ||--|{ Invoice : "clientId (FK)"
+
+Organization }|--|| OrganizationAddresses : "organizationId (FK)"
+
+Invoice ||--|{ InvoiceProduct : "invoiceId (FK)"
+InvoiceProduct }|--|| Product : "productId (FK)"
+
+@enduml
