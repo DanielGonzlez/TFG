@@ -112,7 +112,7 @@ package invoices {
     class Invoice {
         - invoiceId: String
         - organizationId: String
-        - invoiceSerieId: String
+        - invoiceId: String
         - clientId: String
         - currentId: String
         - currency: String

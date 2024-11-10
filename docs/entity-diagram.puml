@@ -103,7 +103,6 @@ database postgresql {
         * invoiceId: STRING  // PK
         --
         - organizationId: STRING  // FK -> Organization(organizationId)
-        - invoiceSerieId: STRING
         - clientId: STRING  // FK -> Client(clientId)
         - currentId: STRING
         - currency: STRING
