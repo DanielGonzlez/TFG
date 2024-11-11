@@ -1,35 +1,38 @@
 import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
 
+import { DB_NAMES } from '#utils/dictionaries/databases_conections'
+import { DB_CONNECTIONS } from '#utils/dictionaries/databases_conections'
+
 const dbConfig = defineConfig({
-  connection: 'mysql', // o 'postgres' como predeterminado
+  connection: DB_CONNECTIONS.MYSQL,  // MariaDB es la conexión predeterminada
   connections: {
     mysql: {
-      client: 'mysql2',
+      client: DB_NAMES.MYSQL2,
       connection: {
-        host: env.get('DB_MYSQL_HOST'),
-        port: Number(env.get('DB_MYSQL_PORT')), // Convertir a número
-        user: env.get('DB_MYSQL_USER'),
-        password: env.get('DB_MYSQL_PASSWORD'),
-        database: env.get('DB_MYSQL_DATABASE'),
+        host: env.get('DB_HOST'),
+        port: Number(env.get('DB_PORT')),
+        user: env.get('DB_USER'),
+        password: env.get('DB_PASSWORD'),
+        database: env.get('DB_DATABASE'),
       },
       migrations: {
         naturalSort: true,
-        paths: ['database/migrations/mysql'],
+        paths: ['database/migrations/mariadb'],  // Rutas específicas para MariaDB
       },
     },
-    postgres: {
-      client: 'pg',
+    postgresql: {  // Asegúrate de usar 'postgresql' aquí
+      client: DB_NAMES.POSTGRESQL,
       connection: {
-        host: env.get('DB_POSTGRES_HOST'),
-        port: Number(env.get('DB_POSTGRES_PORT')), // Convertir a número
-        user: env.get('DB_POSTGRES_USER'),
-        password: env.get('DB_POSTGRES_PASSWORD'),
-        database: env.get('DB_POSTGRES_DATABASE'),
+        host: env.get('PG_HOST'),
+        port: Number(env.get('PG_PORT')),
+        user: env.get('PG_USER'),
+        password: env.get('PG_PASSWORD'),
+        database: env.get('PG_DATABASE'),
       },
       migrations: {
         naturalSort: true,
-        paths: ['database/migrations/postgres'],
+        paths: ['database/migrations/postgresql'],  // Rutas específicas para PostgreSQL
       },
     },
   },
