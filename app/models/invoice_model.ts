@@ -23,6 +23,9 @@ export default class Invoice extends BaseModel {
   declare currentId: string
 
   @column()
+  declare clientName: string
+
+  @column()
   declare currency: string
 
   @column()
