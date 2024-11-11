@@ -114,6 +114,7 @@ package invoices {
         - organizationId: String
         - invoiceId: String
         - clientId: String
+        - clientName: String
         - currentId: String
         - currency: String
         - discount: float

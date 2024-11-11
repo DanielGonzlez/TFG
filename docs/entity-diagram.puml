@@ -92,8 +92,8 @@ database postgresql {
     entity InvoiceProduct {
         * invoiceProductId: STRING  // PK
         --
-        - invoiceId: STRING  // FK -> Invoice(invoiceId)
-        - productId: STRING  // FK -> Product(productId)
+        - invoiceId: STRING 
+        - productId: STRING  
         - quantity: INT
         + createdAt: DATE
         + updatedAt: DATE
@@ -103,7 +103,8 @@ database postgresql {
         * invoiceId: STRING  // PK
         --
         - organizationId: STRING  // FK -> Organization(organizationId)
-        - clientId: STRING  // FK -> Client(clientId)
+        - clientId: STRING  
+        - clientIName: STRING  
         - currentId: STRING
         - currency: STRING
         - discount: FLOAT
