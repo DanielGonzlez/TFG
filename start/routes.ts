@@ -8,5 +8,130 @@
 */
 
 import router from '@adonisjs/core/services/router'
+const AuthController = () => import('#controllers/auth.controller');
 
 router.on('/').render('pages/home')
+
+router
+	.group(() => {
+		router.post('/login', [AuthController, 'login']);
+		router.post('/register', [AuthController, 'register']);
+		router.post('/logout', [AuthController, 'logout']);
+	})
+	.prefix('/auth');
+
+
+/*
+|--------------------------------------------------------------------------
+| Routes file
+|--------------------------------------------------------------------------
+|
+| The routes file is used for defining the HTTP routes.
+|
+*/
+/*
+import { middleware } from '#start/kernel';
+import router from '@adonisjs/core/services/router';
+
+const AuthController = () => import('#controllers/auth.controller');
+const HealthChecksController = () => import('#controllers/health_checks.controller');
+const InvoicesController = () => import('#controllers/invoices.controller');
+const OrganizationsController = () => import('#controllers/organizations.controller');
+const UsersController = () => import('#controllers/users.controller');
+const OrganizationAddressesController = () => import('#controllers/organization_addresses.controller');
+const ProductsController = () => import('#controllers/products.controller');
+const ClientsController = () => import('#controllers/clients.controller');
+const InvoiceSeriesController = () => import('#controllers/invoice_series.controller');
+
+router
+	.group(() => {
+		router.post('/login', [AuthController, 'login']);
+		router.post('/register', [AuthController, 'register']);
+		router.post('/logout', [AuthController, 'logout']);
+	})
+	.prefix('/auth');
+
+router
+	.group(() => {
+		router.get('/me', [UsersController, 'details']);
+		router.get('/statistics', [UsersController, 'statistics']).use(middleware.userHasOrganization());
+	})
+	.prefix('/user')
+	.use(middleware.auth());
+
+router
+	.group(() => {
+		router.post('/', [ClientsController, 'store']);
+		router.get('/', [ClientsController, 'list']);
+
+		router.delete('/:client_id', [ClientsController, 'destroy']).use([middleware.userHasClient(), middleware.userOwnershipClient()]);
+	})
+	.prefix('/client')
+	.use(middleware.auth());
+
+router
+	.group(() => {
+		router.post('/', [ProductsController, 'store']);
+		router.delete('/:product_id', [ProductsController, 'destroy']);
+	})
+	.prefix('/product')
+	.use(middleware.auth());
+
+router
+	.group(() => {
+		router.post('/', [OrganizationsController, 'store']);
+		router.get('/', [OrganizationsController, 'list']);
+
+		router.group(() => {
+			router.group(() => {
+				router.post('/', [OrganizationAddressesController, 'store']);
+				router.delete('/:organization_address_id', [OrganizationAddressesController, 'destroy']).use(middleware.userOwnershipOrganizationAddress());;
+			}).prefix('/address');
+
+			router.get('/:organization_id', [OrganizationsController, 'details']).use(middleware.userOwnershipOrganization());
+			// router.put('/:organization_id', [OrganizationsController, 'edit']).use(middleware.userOwnershipOrganizationMiddleware());
+			router.delete('/:organization_id', [OrganizationsController, 'destroy']).use(middleware.userOwnershipOrganization());
+		}).use(middleware.userHasOrganization());
+	})
+	.prefix('/organization')
+	.use(middleware.auth());
+
+router
+	.group(() => {
+		router.get('/', [InvoicesController, 'list']);
+		router.post('/', [InvoicesController, 'store']);
+
+		// Nueva ruta para mostrar facturas actuales del usuario
+        router.get('/current/sim/:id', [InvoicesController, 'showCurrentInvoices']).use(middleware.auth());
+		router.get('/current/com/:id', [InvoicesController, 'showCurrentInvoices']).use(middleware.auth());
+		router.get('/invoices', [InvoicesController, 'showInvoices']).use(middleware.auth());
+		//router.get('/invoice/pdf', [InvoicesController, 'showInvoicePdf']).use(middleware.auth());
+
+		router.group(() => {
+			router.get('/', [InvoiceSeriesController, 'list']);
+			router.post('/', [InvoiceSeriesController, 'store']);
+			router.get('/:invoice_serie', [InvoiceSeriesController, 'details']);
+		}).prefix('/serie');
+
+		// router.group(() => {
+		// 	router.post('/', [InvoicesController, 'import']);
+		// }).prefix('/import');
+
+		router.get('/:invoice_id', [InvoicesController, 'details']).use(middleware.userOwnershipInvoice());
+		router.get('/:invoice_id/product', [InvoicesController, 'details']).use(middleware.userOwnershipInvoice());
+		router.post('/:invoice_id/product', [InvoicesController, 'addProduct']).use(middleware.userOwnershipInvoice());
+
+	})
+	.prefix('/invoice')
+	.use(middleware.auth());
+
+router
+	.get('/health', [HealthChecksController])
+	.use(({ request, response }, next) => {
+		if (request.header('x-monitoring-secret') === 'some_secret_value') {
+			return next();
+		}
+		response.unauthorized({ message: 'Unauthorized access' });
+	});
+
+    */
