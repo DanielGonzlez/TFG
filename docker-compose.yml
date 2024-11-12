@@ -34,7 +34,8 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.18.0.3  # Dirección IP estática para MariaDB
 
   postgresql:
     image: postgres:latest
@@ -46,8 +47,12 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.18.0.2  # Dirección IP estática para PostgreSQL
 
 networks:
   backend:
     driver: bridge
+    ipam:
+      config:
+        - subnet: "172.18.0.0/16"  # Definir la subred para la red backend
