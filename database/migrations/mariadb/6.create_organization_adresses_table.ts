@@ -8,12 +8,13 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.string('address_id').primary()
+      table.uuid('address_id').primary().defaultTo(this.db.raw('UUID()'));
       table.string('organization_id').notNullable()
         .references('organization_id')
         .inTable(MIGRATIONS_TABLE_NAME.ORGANIZATION)
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
+        
       table.string('country').nullable()
       table.string('address').nullable()
       table.string('province').nullable()
