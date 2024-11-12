@@ -1,10 +1,10 @@
 export const enum MIGRATIONS_TABLE_NAME {
     USER = 'users',
-    ADMINISTRATOR = 'admins',
+    ADMINISTRATOR = 'administrators',
     PRODUCT = 'products',
     CLIENT = 'clients',
     ORGANIZATION = 'organizations',
-    ORGANIZATION_ADDRESS = 'organizations_addresses',
+    ORGANIZATION_ADDRESS = 'organization_addresses',
     INVOICES = 'invoices',
-    INVOICES_PRODUCTS = 'invoices_products'
+    INVOICES_PRODUCTS = 'invoice_products'
 }
