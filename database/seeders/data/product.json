@@ -1,0 +1,83 @@
+[
+    {
+      "product_id": "1",
+      "admin_id": "10",
+      "name": "Laptop Pro",
+      "unit": 1,
+      "price": 1200.00,
+      "discount": 100
+    },
+    {
+      "product_id": "2",
+      "admin_id": "10",
+      "name": "Wireless Mouse",
+      "unit": 1,
+      "price": 20.99,
+      "discount": 5
+    },
+    {
+      "product_id": "3",
+      "admin_id": "20",
+      "name": "Mechanical Keyboard",
+      "unit": 1,
+      "price": 85.75,
+      "discount": 10
+    },
+    {
+      "product_id": "4",
+      "admin_id": "10",
+      "name": "Gaming Monitor",
+      "unit": 1,
+      "price": 299.99,
+      "discount": 50
+    },
+    {
+      "product_id": "5",
+      "admin_id": "20",
+      "name": "Smartphone",
+      "unit": 1,
+      "price": 650.00,
+      "discount": 75
+    },
+    {
+      "product_id": "6",
+      "admin_id": "20",
+      "name": "Smartwatch",
+      "unit": 1,
+      "price": 199.99,
+      "discount": 15
+    },
+    {
+      "product_id": "7",
+      "admin_id": "10",
+      "name": "Bluetooth Speaker",
+      "unit": 1,
+      "price": 55.00,
+      "discount": 5
+    },
+    {
+      "product_id": "8",
+      "admin_id": "20",
+      "name": "External Hard Drive",
+      "unit": 1,
+      "price": 89.99,
+      "discount": 10
+    },
+    {
+      "product_id": "9",
+      "admin_id": "10",
+      "name": "Wireless Earbuds",
+      "unit": 1,
+      "price": 45.50,
+      "discount": 5
+    },
+    {
+      "product_id": "10",
+      "admin_id": "10",
+      "name": "Portable Charger",
+      "unit": 1,
+      "price": 29.99,
+      "discount": 3
+    }
+  ]
+  

@@ -1,0 +1,47 @@
+[
+  {
+    "user_id": "1",
+    "name": "Juan Pérez",
+    "first_name": "Juan",
+    "last_name": "Pérez",
+    "email": "juan.perez@example.com",
+    "password": "ok",
+    "status": "ACTIVE"
+  },
+  {
+    "user_id": "2",
+    "name": "María López",
+    "first_name": "María",
+    "last_name": "López",
+    "email": "maria.lopez@example.com",
+    "password": "ok",
+    "status": "ACTIVE"
+  },
+  {
+    "user_id": "3",
+    "name": "Carlos Gómez",
+    "first_name": "Carlos",
+    "last_name": "Gómez",
+    "email": "carlos.gomez@example.com",
+    "password": "ok",
+    "status": "ACTIVE"
+  },
+  {
+    "user_id": "4",
+    "name": "Ana Martínez",
+    "first_name": "Ana",
+    "last_name": "Martínez",
+    "email": "ana.martinez@example.com",
+    "password": "ok",
+    "status": "SUSPENDED"
+  },
+  {
+    "user_id": "5",
+    "name": "Luis Rodríguez",
+    "first_name": "Luis",
+    "last_name": "Rodríguez",
+    "email": "luis.rodriguez@example.com",
+    "password": "ok",
+    "status": "ACTIVE"
+  }
+]

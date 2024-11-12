@@ -9,11 +9,12 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.string('product_id').primary()
+      table.uuid('product_id').primary().defaultTo(this.db.raw('UUID()'));
       table.string('admin_id').notNullable()
         .references('admin_id')
         .inTable(MIGRATIONS_TABLE_NAME.ADMINISTRATOR)
         .onUpdate('CASCADE')
+        
       table.string('name').notNullable()
       table.string('unit').notNullable()
       table.decimal('price', 10, 2).notNullable()

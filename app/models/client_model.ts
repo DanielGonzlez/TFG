@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany ,beforeSave} from '@adonisjs/lucid/orm'
+import { v4 as uuidv4 } from 'uuid';
 
 import type{ BelongsTo } from '@adonisjs/lucid/types/relations'
 import type{ HasMany } from '@adonisjs/lucid/types/relations'
@@ -11,6 +12,13 @@ import Invoice from './invoice_model.js'
 export default class Client extends BaseModel {
   @column({ isPrimary: true })
   declare clientId: string
+
+  @beforeSave()
+  public static async generateUuid(cli: Client) {
+    if (!cli.clientId) {
+      cli.clientId = uuidv4();  // Generar UUID antes de guardar
+    }
+  }
 
   @column()
   declare userId: string
@@ -46,74 +54,4 @@ export default class Client extends BaseModel {
 
   @hasMany(() => Invoice, { foreignKey: 'clientId' })
   declare invoices: HasMany<typeof Invoice>
-
-  // Getter y Setter para clientId
-  get getClientId(): string {
-    return this.clientId;
-  }
-
-  // Getter y Setter para fullName
-  get getFullName(): string {
-    return this.fullName;
-  }
-  set setFullName(value: string) {
-    this.fullName = value;
-  }
-
-  // Getter y Setter para billingAddress
-  get getBillingAddress(): string {
-    return this.billingAddress;
-  }
-  set setBillingAddress(value: string) {
-    this.billingAddress = value;
-  }
-
-  // Getter y Setter para email
-  get getEmail(): string {
-    return this.email;
-  }
-  set setEmail(value: string) {
-    this.email = value;
-  }
-
-  // Getter y Setter para isWholesaler
-  get getIsWholesaler(): boolean {
-    return this.isWholesaler;
-  }
-  set setIsWholesaler(value: boolean) {
-    this.isWholesaler = value;
-  }
-
-  // Getter y Setter para createdAt
-  get getCreatedAt(): DateTime {
-    return this.createdAt;
-  }
-  set setCreatedAt(value: DateTime) {
-    this.createdAt = value;
-  }
-
-  // Getter y Setter para updatedAt
-  get getUpdatedAt(): DateTime | null {
-    return this.updatedAt;
-  }
-  set setUpdatedAt(value: DateTime | null) {
-    this.updatedAt = value;
-  }
-
-  // Métodos de la clase
-  addProductToCart(): void {
-    console.log(`Producto agregado al carrito por el cliente ${this.fullName}`)
-  }
-
-  removeProductToCart(): void {
-    console.log(`Producto removido del carrito por el cliente ${this.fullName}`)
-  }
-
-  createInvoice(): void {
-    console.log(`Factura creada para el cliente ${this.fullName}`)
-  }
-
-  updateProfile(): void {
-    console.log(`Perfil actualizado para el cliente ${this.fullName}`)
-  }
 }

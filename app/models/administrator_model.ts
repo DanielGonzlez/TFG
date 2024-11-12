@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, hasOne, beforeSave } from '@adonisjs/lucid/orm'
+import { v4 as uuidv4 } from 'uuid';
 
 import type{ HasOne } from '@adonisjs/lucid/types/relations'
 import type{ HasMany } from '@adonisjs/lucid/types/relations'
@@ -10,6 +11,13 @@ import Product from './product_model.js'
 export default class Administrator extends BaseModel {
     @column({ isPrimary: true })
     declare adminId: string
+
+    @beforeSave()
+    public static async generateUuid(adm: Administrator) {
+      if (!adm.userId) {
+        adm.userId = uuidv4();  // Generar UUID antes de guardar
+      }
+    }
   
     @column()
     declare userId: string
@@ -30,46 +38,4 @@ export default class Administrator extends BaseModel {
     // Relación con Product (un administrador puede crear muchos productos)
     @hasMany(() => Product, { foreignKey: 'adminId' })
     declare products: HasMany<typeof Product>
-  
-    // Métodos de negocio
-    public createProduct(): void {
-      console.log('Producto creado');
-    }
-  
-    public updateProduct(): void {
-      console.log('Producto actualizado');
-    }
-  
-    public deleteProduct(): void {
-      console.log('Producto eliminado');
-    }
-  
-    // Getter y Setter para adminId
-    get getAdminId(): string {
-      return this.adminId;
-    }
-  
-    // Getter y Setter para fullName
-    get getFullName(): string {
-      return this.fullName;
-    }
-    set setFullName(value: string) {
-      this.fullName = value;
-    }
-  
-    // Getter y Setter para createdAt
-    get getCreatedAt(): DateTime {
-      return this.createdAt;
-    }
-    set setCreatedAt(value: DateTime) {
-      this.createdAt = value;
-    }
-  
-    // Getter y Setter para updatedAt
-    get getUpdatedAt(): DateTime | null {
-      return this.updatedAt;
-    }
-    set setUpdatedAt(value: DateTime | null) {
-      this.updatedAt = value;
-    }
   }
