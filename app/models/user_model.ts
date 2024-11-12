@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasOne, beforeSave } from '@adonisjs/lucid/orm'
+import { v4 as uuidv4 } from 'uuid';
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 
 import type { HasOne } from '@adonisjs/lucid/types/relations'
@@ -20,6 +21,13 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
   declare userId: string
+
+  @beforeSave()
+  public static async generateUuid(user: User) {
+    if (!user.userId) {
+      user.userId = uuidv4();  // Generar UUID antes de guardar
+    }
+  }
 
   @column()
   declare name: string | null
@@ -54,80 +62,4 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @hasOne(() => Administrator, { foreignKey: 'userId'})
   declare administrator: HasOne<typeof Administrator>;
 
-  // Getter para userId
-  get getUserId(): string {
-    return this.userId;
-  }
-
-  // Getter y Setter para name
-  get getName(): string | null {
-    return this.name;
-  }
-  set setName(value: string | null) {
-    this.name = value;
-  }
-
-  // Getter y Setter para firstName
-  get getFirstName(): string | null {
-    return this.firstName;
-  }
-  set setFirstName(value: string | null) {
-    this.firstName = value;
-  }
-
-  // Getter y Setter para lastName
-  get getLastName(): string | null {
-    return this.lastName;
-  }
-  set setLastName(value: string | null) {
-    this.lastName = value;
-  }
-
-  // Getter y Setter para email
-  get getEmail(): string {
-    return this.email;
-  }
-  set setEmail(value: string) {
-    this.email = value;
-  }
-
-  // Getter y Setter para password
-  get getPassword(): string {
-    return this.password;
-  }
-  set setPassword(value: string) {
-    this.password = value;
-  }
-
-  // Getter y Setter para status
-  get getStatus(): USER_STATUS {
-    return this.status;
-  }
-  set setStatus(value: USER_STATUS) {
-    this.status = value;
-  }
-
-  // Getter y Setter para rol
-  get getRol(): USER_ROL {
-    return this.rol;
-  }
-  set setRol(value: USER_ROL) {
-    this.rol = value;
-  }
-
-  // Getter y Setter para createdAt
-  get getCreatedAt(): DateTime {
-    return this.createdAt;
-  }
-  set setCreatedAt(value: DateTime) {
-    this.createdAt = value;
-  }
-
-  // Getter y Setter para updatedAt
-  get getUpdatedAt(): DateTime | null {
-    return this.updatedAt;
-  }
-  set setUpdatedAt(value: DateTime | null) {
-    this.updatedAt = value;
-  }
 }
