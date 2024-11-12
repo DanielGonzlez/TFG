@@ -1,0 +1,21 @@
+[
+    {
+      "organization_id": "5",
+      "name": "Copymsa",
+      "fiscal_id": "01",
+      "logo": "COP"
+    },
+    {
+      "organization_id": "15",
+      "name": "TintoXprés",
+      "fiscal_id": "02",
+      "logo": "TIN"
+    },
+    {
+      "organization_id": "25",
+      "name": "Asistencias",
+      "fiscal_id": "03",
+      "logo": "ASI"
+    }
+  ]
+  
