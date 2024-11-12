@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany, beforeSave } from '@adonisjs/lucid/orm'
+import { v4 as uuidv4 } from 'uuid';
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
@@ -10,8 +11,16 @@ import { DISCOUNT_TYPE } from '#types/invoice_type'
 import { STATUS } from '#types/invoice_type'
 
 export default class Invoice extends BaseModel {
+  public static connection = 'postgresql'
   @column({ isPrimary: true })
   declare invoiceId: string
+
+  @beforeSave()
+  public static async generateUuid(inv: Invoice) {
+    if (!inv.invoiceId) {
+      inv.invoiceId = uuidv4();  // Generar UUID antes de guardar
+    }
+  }
 
   @column()
   declare organizationId: string
@@ -32,7 +41,7 @@ export default class Invoice extends BaseModel {
   declare discount: number
 
   @column()
-  declare discountType: DISCOUNT_TYPE
+  declare discountType?: DISCOUNT_TYPE
 
   @column()
   declare oneOffProducts: string
@@ -61,31 +70,4 @@ export default class Invoice extends BaseModel {
 
   @belongsTo(() => Client, { foreignKey: 'clientId' })
   declare client: BelongsTo<typeof Client>
-
-  // Métodos de la clase
-  generateInvoice(): void {
-    console.log(`Factura generada: ${this.invoiceId}`)
-    this.createdAt = DateTime.local()
-    this.updatedAt = DateTime.local()
-  }
-
-  applyDiscount(): void {
-    if (this.discountType === DISCOUNT_TYPE.PERCENTAGE) {
-      console.log(`Aplicando descuento del ${this.discount}% a la factura ${this.invoiceId}`)
-    } else {
-      console.log(`Aplicando descuento fijo de ${this.discount} a la factura ${this.invoiceId}`)
-    }
-  }
-
-  markAsPaid(): void {
-    console.log(`Factura ${this.invoiceId} marcada como PAGADA`)
-    this.status = STATUS.PAID
-    this.updatedAt = DateTime.local()
-  }
-
-  cancelInvoice(): void {
-    console.log(`Factura ${this.invoiceId} cancelada`)
-    this.status = STATUS.CANCELLED
-    this.updatedAt = DateTime.local()
-  }
 }
