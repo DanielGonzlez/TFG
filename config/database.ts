@@ -20,6 +20,9 @@ const dbConfig = defineConfig({
         naturalSort: true,
         paths: ['database/migrations/mariadb'],  // Rutas específicas para MariaDB
       },
+      seeders: {
+        paths: ['database/seeders/mariadb'],  // Rutas específicas para los seeders de MariaDB
+      },
     },
     postgresql: {  // Asegúrate de usar 'postgresql' aquí
       client: DB_NAMES.POSTGRESQL,
@@ -33,6 +36,9 @@ const dbConfig = defineConfig({
       migrations: {
         naturalSort: true,
         paths: ['database/migrations/postgresql'],  // Rutas específicas para PostgreSQL
+      },
+      seeders: {
+        paths: ['database/seeders/postgresql'],  // Rutas específicas para los seeders de Postgresql
       },
     },
   },
