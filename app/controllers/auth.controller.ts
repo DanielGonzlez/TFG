@@ -1,57 +1,61 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import User from '#models/user_model'
+import { HttpContext } from '@adonisjs/core/http'
+import UserService from '#services/user.service'
+import ClientService from '#services/client.service'
+import { RegisterValidator } from '#validators/user_validator'
+
+const userService = new UserService()
+const clientService = new ClientService()
 
 export default class AuthController {
+  // Mostrar formulario de registro
+  public async showRegisterForm({ view }: HttpContext) {
+    return view.render('pages/register')
+  }
 
-  // Método para registrar un nuevo usuario
-  public async register({ request, response }: HttpContext) {
-    const userData = request.only(['email', 'password', 'name', 'firstName', 'lastName'])
+  // Registrar usuario y cliente
+  public async register({ request, response, session }: HttpContext) {
+    const data = request.only([
+      'name',
+      'firstName',
+      'lastName',
+      'email',
+      'password',
+      'billingAddress',
+      'isWholesaler',
+      'organizationId',
+    ])
 
     try {
-      // Crear un nuevo usuario en la base de datos
-      const user = await User.create(userData)
+      // Realizar validación utilizando el esquema de RegisterValidator
+      const validatedData = await RegisterValidator.validate(data)
 
-      return response.created({ message: 'Usuario registrado exitosamente', user })
+      // Ajustar el valor de `lastName` para evitar incompatibilidades de tipo
+      const userPayload = {
+        ...validatedData,
+        lastName: validatedData.lastName || '', // Asignar cadena vacía si `lastName` es `undefined`
+      }
+
+      // Crear el usuario
+      const user = await userService.createUser(userPayload)
+
+      // Crear cliente asociado al usuario
+      await clientService.createClient({
+        userId: user.userId,
+        fullName: `${validatedData.firstName} ${validatedData.lastName || ''}`,
+        billingAddress: validatedData.billingAddress,
+        email: validatedData.email,
+        isWholesaler: validatedData.isWholesaler || false,
+        organizationId: validatedData.organizationId || null,
+      })
+
+      return response.redirect().toRoute('/')
     } catch (error) {
-      return response.badRequest({ message: 'Error al registrar usuario', error })
-    }
-  }
-
-  // Método para iniciar sesión
-  public async login({ request, session, response }: HttpContext) {
-    const email = request.input('email')
-    const password = request.input('password')
-
-    try {
-      const user = await User.verifyCredentials(email, password)
-
-      // Almacenar el ID del usuario en la sesión
-      session.put('user_id', user.userId)
-
-      return response.ok({ message: 'Inicio de sesión exitoso' })
-    } catch {
-      session.flash('error', 'Credenciales no válidas')
-      return response.badRequest({ message: 'Credenciales incorrectas' })
-    }
-  }
-
-  // Método para cerrar sesión
-  public async logout({ session, response }: HttpContext) {
-    // Eliminar el ID de usuario de la sesión
-    session.forget('user_id')
-
-    return response.ok({ message: 'Cierre de sesión exitoso' })
-  }
-
-  // Método para verificar si el usuario está autenticado
-  public async check({ session, response }: HttpContext) {
-    const userId = session.get('user_id')
-
-    if (userId) {
-      const user = await User.find(userId)
-      return response.ok({ authenticated: true, user })
-    } else {
-      return response.unauthorized({ authenticated: false, message: 'No autenticado' })
+      if (error.errors) {
+        // Si hay errores de validación, los almacenamos en la sesión
+        session.flash('errors', error.errors)
+        return response.redirect().back()
+      }
+      return response.badRequest({ error: error.message })
     }
   }
 }

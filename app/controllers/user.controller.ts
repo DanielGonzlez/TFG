@@ -1,23 +1,14 @@
-import UserService from '#services/user.service';
-import { Result } from '#utils/result_utils';
-import { inject } from '@adonisjs/core';
-import type { HttpContext } from '@adonisjs/core/http';
+// app/Services/user.service.ts
+import { v4 as uuidv4 } from 'uuid';
+import User from '#models/user_model';
 
-@inject()
-export default class UsersController {
+export default class UserService {
+  public async register(data: { name: string; firstName: string; lastName: string; email: string; password: string }) {
+    const user = await User.create({
+      userId: uuidv4(),
+      ...data,
+    });
 
-	constructor(
-		private userService: UserService
-	) { }
-
-	public async details({ response, auth }: HttpContext) {
-
-		const _user = auth.getUserOrFail();
-		const user = await this.userService.details(_user);
-
-		return response.ok(Result.ok(user));
-
-	}
-
-
+    return user;
+  }
 }
