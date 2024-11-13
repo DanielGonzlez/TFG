@@ -1,0 +1,17 @@
+<!-- resources/views/userInfo.edge -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Usuario</title>
+</head>
+<body>
+    <h1>Información del Usuario</h1>
+    
+    <p><strong>Nombre:</strong> {{ auth.user.name }} {{ auth.user.firstName }} {{ auth.user.lastName }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ auth.user.email }}</p>
+
+    <a href="{{ route('logout') }}">Cerrar Sesión</a>
+</body>
+</html>
