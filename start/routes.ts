@@ -8,17 +8,25 @@
 */
 
 import router from '@adonisjs/core/services/router'
-const AuthController = () => import('#controllers/auth.controller');
+//import UserController from '#controllers/user.controller'
+import AuthController from '#controllers/auth.controller'
+
+//import { middleware } from './kernel.js'
+//const AuthController = () => import('#controllers/auth.controller');
 
 router.on('/').render('pages/home')
 
-router
-	.group(() => {
-		router.post('/login', [AuthController, 'login']);
-		router.post('/register', [AuthController, 'register']);
-		router.post('/logout', [AuthController, 'logout']);
-	})
-	.prefix('/auth');
+router.get('/register', [AuthController, 'showRegisterForm'])  // Mostrar formulario de registro
+router.post('/register', [AuthController, 'register']).as('register')  // Registrar un usuario
+
+/*
+router.get('/login', 'UserController.showLoginForm')  // Mostrar formulario de login
+router.post('/login', 'UserController.login').as('login')  // Iniciar sesión
+
+// Aplicar el middleware de autenticación correctamente
+router.get('/user-info', 'UserController.showUserInfo') // Mostrar información del usuario
+
+router.post('/logout', 'UserController.logout').as('logout')  // Cerrar sesión
 
 
 /*
