@@ -8,17 +8,33 @@
 */
 
 import router from '@adonisjs/core/services/router'
-const AuthController = () => import('#controllers/auth.controller');
+import AuthController from '#controllers/auth.controller'
 
-router.on('/').render('pages/home')
+router.get('/', [AuthController, 'home']).as('home') 
+  
+router.get('/register', [AuthController, 'showRegisterForm'])  // Mostrar formulario de registro
+router.post('/register', [AuthController, 'register']).as('register')  // Registrar un usuario
 
-router
-	.group(() => {
-		router.post('/login', [AuthController, 'login']);
-		router.post('/register', [AuthController, 'register']);
-		router.post('/logout', [AuthController, 'logout']);
-	})
-	.prefix('/auth');
+//Rutas para autenticación
+router.get('/login', [AuthController, 'showLoginForm'])  // Mostrar formulario de login
+router.post('/login', [AuthController, 'login']).as('login')  // Iniciar sesión
+
+router.get('/logout', [AuthController, 'logout'])
+
+//! Ruta con la informacion del usuario
+// TODO		AÚN NO IMPLEMENTADO
+router.get('/user-info', 'AuthController.showUserInformation')
+
+
+
+/*
+router.get('/login', 'UserController.showLoginForm')  // Mostrar formulario de login
+router.post('/login', 'UserController.login').as('login')  // Iniciar sesión
+
+// Aplicar el middleware de autenticación correctamente
+router.get('/user-info', 'UserController.showUserInfo') // Mostrar información del usuario
+
+router.post('/logout', 'UserController.logout').as('logout')  // Cerrar sesión
 
 
 /*

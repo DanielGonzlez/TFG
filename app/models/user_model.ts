@@ -1,31 +1,20 @@
 import { DateTime } from 'luxon'
-import hash from '@adonisjs/core/services/hash'
-import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column, hasOne, beforeSave } from '@adonisjs/lucid/orm'
-import { v4 as uuidv4 } from 'uuid';
-import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { BaseModel, column, beforeSave, hasOne } from '@adonisjs/lucid/orm'
+import { v4 as uuidv4 } from 'uuid'
 
 import type { HasOne } from '@adonisjs/lucid/types/relations'
+import Client from '#models/client_model'
+import Administrator from '#models/administrator_model'
+import { USER_STATUS, USER_ROL } from '#types/user_type'
 
-import Administrator from './administrator_model.js'
-import Client from './client_model.js'
-
-import { USER_STATUS } from '#types/user_type'
-import { USER_ROL } from '#types/user_type'
-
-const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
-  uids: ['email'],
-  passwordColumnName: 'password',
-})
-
-export default class User extends compose(BaseModel, AuthFinder) {
+export default class User extends BaseModel {
   @column({ isPrimary: true })
   declare userId: string
 
   @beforeSave()
   public static async generateUuid(user: User) {
     if (!user.userId) {
-      user.userId = uuidv4();  // Generar UUID antes de guardar
+      user.userId = uuidv4()  // Generar UUID antes de guardar
     }
   }
 
@@ -41,7 +30,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare email: string
 
-  @column({ serializeAs: null })
+  @column()
   declare password: string
 
   @column()
@@ -56,10 +45,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  @hasOne(() => Client, { foreignKey: 'userId'})
-  declare client: HasOne<typeof Client>;
+  @hasOne(() => Client, { foreignKey: 'userId' })
+  declare client: HasOne<typeof Client>
 
-  @hasOne(() => Administrator, { foreignKey: 'userId'})
-  declare administrator: HasOne<typeof Administrator>;
+  @hasOne(() => Administrator, { foreignKey: 'userId' })
+  declare administrator: HasOne<typeof Administrator>
 
 }

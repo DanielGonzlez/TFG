@@ -1,0 +1,30 @@
+<!-- resources/views/userInfo.edge -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Usuario</title>
+</head>
+<body>
+    <h1>Información del Usuario</h1>
+
+    @if (auth()->check())
+        <p>Nombre: {{ auth()->user()->name }}</p>
+        <p>Apellido: {{ auth()->user()->lastName }}</p>
+        <p>Email: {{ auth()->user()->email }}</p>
+        <p>Dirección de Facturación: {{ auth()->user()->billingAddress }}</p>
+        <p>Es Mayorista: {{ auth()->user()->isWholesaler ? 'Sí' : 'No' }}</p>
+        <p>ID de Organización: {{ auth()->user()->organizationId }}</p>
+        
+        <p><strong>Nombre:</strong> {{ auth.user.name }} {{ auth.user.firstName }} {{ auth.user.lastName }}</p>
+        <p><strong>Correo Electrónico:</strong> {{ auth.user.email }}</p>
+
+        <a href="{{ route('logout') }}">Cerrar Sesión</a>
+    @else
+        <p>No hay información disponible.</p>
+        <p><a href="{{ route('login') }}">Iniciar sesión</a></p>
+    @endif
+</body>
+</html>
+

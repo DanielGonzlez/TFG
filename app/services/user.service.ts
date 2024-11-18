@@ -1,74 +1,41 @@
 import User from '#models/user_model';
-import type { createUserSchema } from '#validators/user_validator';
-import { createError } from '@adonisjs/core/exceptions';
-import type { Infer } from '@vinejs/vine/types';
-import { randomUUID } from 'crypto';
+import Hash from '@adonisjs/core/services/hash';
+
+import { USER_ROL } from '#types/user_type';
+import { USER_STATUS } from '#types/user_type';
+
 
 export default class UserService {
+  // Crear un usuario
 
-  // Cargar detalles del usuario
-  public async details(user: User) {
-    await user.load('products');
-    await user.load('invoiceSeries');
-    await user.load('client');
-    await user.load('administrator');
-    
-    return user;
+  public async createUser(data: { name: string; firstName: string; lastName: string; email: string; password: string }) {
+
+    const user = await User.create({
+      name: data.name,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+      status: USER_STATUS.ACTIVE,
+      rol: USER_ROL.CLIENT,
+    })
+
+    return user
   }
 
-  // Registro de un nuevo usuario
-  public async register(data: Infer<typeof createUserSchema>) {
-
-    const {
-      name,
-      firstName,
-      lastName,
-      email,
-      password,
-    } = data;
-
-    const _user = await User.findBy('email', email);
-
-    if (_user) {
-      throw createError('El correo no es válido.', 'API_USER_EMAIL_NOT_VALID');
+  public async validateUser(data: { email: string; password: string }) {
+    const user = await User.query().where('email', data.email).firstOrFail()
+    const storedPassword = user.password
+    const isValid = await Hash.verify(storedPassword, data.password)
+    if (isValid) {
+      return user
     }
-
-    const user = new User();
-
-    await user.fill({
-      user_id: randomUUID(),
-      email,
-      name,
-      firstName,
-      lastName,
-      password,
-    }).save();
-
-    return user;
+    throw new Error('Invalid credentials')
   }
 
-  // Autenticación de usuario mediante sesión
-  public async login(data: Record<string, string>, session: any) {
-
-    const {
-      email,
-      password
-    } = data;
-
-    const user = await User.verifyCredentials(email, password);
-
-    // Almacenar el ID del usuario en la sesión
-    session.put('user_id', user.userId);
-
-    return user;  // Devolvemos el usuario autenticado
-  }
-
-  // Cerrar sesión
-  public async logout(session: any) {
-
-    // Eliminar el ID de usuario de la sesión
-    session.forget('user_id');
-
-    return { message: 'Sesión cerrada exitosamente.' };
+  //enseñar informacion del usuario sacandola de la base de datos
+  public async showUserInfo(userId: string) {
+    const user = await User.query().where('userId', userId).first()
+    return user
   }
 }
