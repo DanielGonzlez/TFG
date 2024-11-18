@@ -8,16 +8,24 @@
 */
 
 import router from '@adonisjs/core/services/router'
-//import UserController from '#controllers/user.controller'
 import AuthController from '#controllers/auth.controller'
 
-//import { middleware } from './kernel.js'
-//const AuthController = () => import('#controllers/auth.controller');
-
-router.on('/').render('pages/home')
-
+router.get('/', [AuthController, 'home']).as('home') 
+  
 router.get('/register', [AuthController, 'showRegisterForm'])  // Mostrar formulario de registro
 router.post('/register', [AuthController, 'register']).as('register')  // Registrar un usuario
+
+//Rutas para autenticación
+router.get('/login', [AuthController, 'showLoginForm'])  // Mostrar formulario de login
+router.post('/login', [AuthController, 'login']).as('login')  // Iniciar sesión
+
+router.get('/logout', [AuthController, 'logout'])
+
+//! Ruta con la informacion del usuario
+// TODO		AÚN NO IMPLEMENTADO
+router.get('/user-info', 'AuthController.showUserInformation')
+
+
 
 /*
 router.get('/login', 'UserController.showLoginForm')  // Mostrar formulario de login
