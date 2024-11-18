@@ -4,6 +4,7 @@ import { USER_STATUS } from '#types/user_type'
 import fs from 'fs'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import hash from '@adonisjs/core/services/hash'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,7 +32,7 @@ export default class UserSeeder extends BaseSeeder {
         firstName: userData.first_name,  // Cambiado de 'first_name' a 'firstName'
         lastName: userData.last_name,    // Cambiado de 'last_name' a 'lastName'
         email: userData.email,
-        password: userData.password,
+        password: await hash.make(userData.password),
         status: USER_STATUS.ACTIVE, // Asegúrate de que 'status' se maneje correctamente
       })
     }
