@@ -1,0 +1,19 @@
+<!-- resources/views/pages/productos.edge -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <title>Productos</title>
+</head>
+<body>
+       
+        @include('partials/header')
+
+        @component('components/form-product', { producto: producto, categories: categories, discounts: discounts, DISCOUNT_TYPE: DISCOUNT_TYPE,  modoCreacion, rutaAction, user })
+        @endcomponent
+
+</body>
+</html>
