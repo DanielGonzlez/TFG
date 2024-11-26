@@ -9,21 +9,31 @@
 
 import router from '@adonisjs/core/services/router'
 import AuthController from '#controllers/auth.controller'
+import ProductController from '#controllers/product.controller'
+import { middleware } from './kernel.js'
 
-router.get('/', [AuthController, 'home']).as('home') 
+router.get('/', [AuthController, 'home']).as('home')
   
-router.get('/register', [AuthController, 'showRegisterForm'])  // Mostrar formulario de registro
-router.post('/register', [AuthController, 'register']).as('register')  // Registrar un usuario
+router.get('/register', [AuthController, 'showRegisterForm'])  //! Mostrar formulario de registro
+router.post('/register', [AuthController, 'register']).as('register')  //! Registrar un usuario
 
-//Rutas para autenticación
-router.get('/login', [AuthController, 'showLoginForm'])  // Mostrar formulario de login
-router.post('/login', [AuthController, 'login']).as('login')  // Iniciar sesión
+//*Rutas para autenticación
+router.get('/login', [AuthController, 'showLoginForm'])  //! Mostrar formulario de login
+router.post('/login', [AuthController, 'login']).as('login')  //! Iniciar sesión
 
-router.get('/logout', [AuthController, 'logout'])
+router.get('/logout', [AuthController, 'logout']).as('logout')  //! Cerrar sesión
+
+//* Ruta para el manejo del producto
+router.get('/products/create', [ProductController, 'showForm']).as('products.create').use(middleware.auth()) //! Mostrar el formulario de creación de productos
+router.post('/products', [ProductController, 'store']).as('products.store') //! Crear un producto
+
+router.get('/products/:productId/edit', [ProductController, 'showForm']).as('products.edit').use(middleware.auth()) //! Mostrar el formulario de edición de productos
+router.put('/products/:productId', [ProductController, 'update']).as('products.update') //! Actualizar un producto
+
 
 //! Ruta con la informacion del usuario
 // TODO		AÚN NO IMPLEMENTADO
-router.get('/user-info', 'AuthController.showUserInformation')
+router.get('/user-info', 'AuthController.showUserInformation').use(middleware.auth())
 
 
 
