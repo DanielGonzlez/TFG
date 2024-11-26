@@ -1,25 +1,16 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import type { NextFn } from '@adonisjs/core/types/http'
-import type { Authenticators } from '@adonisjs/auth/types'
+import { HttpContext } from "@adonisjs/core/http"
+import User from "#models/user_model"
 
-/**
- * Auth middleware is used authenticate HTTP requests and deny
- * access to unauthenticated users.
- */
 export default class AuthMiddleware {
-  /**
-   * The URL to redirect to, when authentication fails
-   */
-  redirectTo = '/login'
+  public async handle({ session, response }: HttpContext, next: () => Promise<void>) {
+    //* Verifica si el usuario está autenticado
+    const user = session.get('user')
 
-  async handle(
-    ctx: HttpContext,
-    next: NextFn,
-    options: {
-      guards?: (keyof Authenticators)[]
-    } = {}
-  ) {
-    await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
-    return next()
+    if (!user || !(await User.find(user.userId))) {
+      //* Si no hay usuario en la sesión o no existe un usuario con esa id, redirige al login
+      return response.redirect('/login')
+    }
+
+    await next()
   }
 }
