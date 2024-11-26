@@ -1,0 +1,91 @@
+
+      /* Contenedor de todos los productos */
+      .products-list {
+        display: flex;
+        flex-wrap: wrap; /* Permite que los productos se ajusten a nuevas filas */
+        gap: 20px; /* Espaciado entre los productos */
+        justify-content: flex-start; /* Alinea los productos a la izquierda */
+        margin-left: 150px;
+        max-width: 1579px; /* Establece el ancho máximo */
+        padding: 20px;
+        margin-top: 30px; /* Añadir un poco de margen superior */
+        margin-bottom: 20px; /* Espaciado inferior */
+      }
+    
+      /* Estilos de cada producto */
+      .libros {
+        height: calc(100vw * 720 / 1920);
+        max-height: 520px;
+        min-height: 360px;
+        width: 260px; /* Reducimos la altura del producto */
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        padding: 10px;
+        margin-bottom: 20px; /* Añadir espacio entre las filas */
+        display: flex;
+        flex-direction: column;
+      }
+    
+      /* Efecto hover cuando el ratón pasa sobre el producto */
+      .libros:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    
+      /* Imagen del producto */
+      .product-card__image {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+    
+      /* Detalles del producto */
+      .product-card__details {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    
+      /* Nombre del producto */
+      .nombreLibro {
+        font-size: 13px;
+        font-weight: bold;
+        font-family: "Roboto";
+        text-align: left;
+      }
+    
+      /* Autor del producto */
+      .autor {
+        font-size: 12px;
+        font-family: "Roboto";
+        margin-top: -10px;
+        text-align: left;
+      }
+    
+      /* Precio del producto */
+      .precio {
+        font-size: 16px;
+        font-family: "Roboto";
+        font-weight: bold;
+        color: #1E88E5;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-align: left;
+      }
+    
+      /* Media query para hacer los productos más pequeños en pantallas más grandes */
+      @media (max-width: 1024px) {
+        .libros {
+          width: calc(50% - 20px); /* 2 productos por fila */
+        }
+      }
+    
+      @media (max-width: 768px) {
+        .libros {
+          width: 100%; /* 1 producto por fila */
+        }
+      }

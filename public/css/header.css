@@ -1,0 +1,120 @@
+header {
+    background-color: #ffff;
+    color: #fff;
+    padding: 10px;
+    width: 1519px;
+    height: 160px;
+    align-items: center;
+  }
+  
+  #logo {
+    position: relative;
+    width: 100px;
+    height: 120px;
+    left: 20px;
+    margin-right: 10px;
+  }
+  
+  #nombre {
+    width: 230px;
+    height: 110px;
+    margin-right: 10px;
+  }
+  
+  nav {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 370px;
+    border: 2px solid #000;
+    padding: 5px;
+    position: absolute;
+    margin-top: -130px;
+  }
+  
+  nav a {
+    color: #333;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 12px;
+  
+    /* Estilos originales */
+    transition: transform 0.3s, box-shadow 0.3s; /* Agregamos transiciones para un cambio suave */
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1)
+  }
+  
+  nav a:hover {
+    /* Estilos al pasar el ratón sobre el elemento */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  nav a:last-child {
+    margin-right: 420px;
+  }
+  
+  .search-bar {
+    height: 30px;
+    width: 250px;
+    margin: 10px 0;
+    position: absolute;
+    margin-top: -130px;
+    margin-left: 1070px;
+    border-radius: 10px;
+    border: 2px solid #000;
+    display: flex;
+  }
+  
+  input[type="text"] {
+    width: calc(100% - 10px);
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+  }
+  
+  #search-icon {
+    width: 15px;
+    height: 15px;
+    margin: 5px;
+  }
+  
+  #imagenUsuario {
+    position: relative;
+    top: -75px;
+    left: 1010px;
+    width: 30px;
+    height: auto;
+  
+    /* Estilos originales */
+    transition: transform 0.3s, box-shadow 0.3s; /* Agregamos transiciones para un cambio suave */
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1)
+  }
+  
+  #imagenUsuario:hover {
+    /* Estilos al pasar el ratón sobre el elemento */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  #imagenComprar {
+    position: relative;
+    top: -75px;
+    left: 1040px;
+    width: 30px;
+    height: auto;
+  
+    /* Estilos originales */
+    transition: transform 0.3s, box-shadow 0.3s; /* Agregamos transiciones para un cambio suave */
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1)
+  }
+  
+  #imagenComprar:hover {
+    /* Estilos al pasar el ratón sobre el elemento */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
