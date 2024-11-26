@@ -9,10 +9,8 @@ import hash from '@adonisjs/core/services/hash'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Utiliza import.meta.url para obtener la ruta al directorio actual
 export default class UserSeeder extends BaseSeeder {
   public async run() {
-    // Obtén la ruta del archivo usando import.meta.url
     const filePath = path.join(__dirname,
       '..', 
       '..', 
@@ -20,20 +18,20 @@ export default class UserSeeder extends BaseSeeder {
       'data', 
       'users.json');
     
-    // Lee el archivo JSON
+    // * Lee el archivo JSON
     const rawData = fs.readFileSync(filePath, 'utf-8');
     const users = JSON.parse(rawData);
 
-    // Procesa cada usuario y lo inserta en la base de datos
+    // * Procesa cada usuario y lo inserta en la base de datos
     for (const userData of users) {
       await User.create({
-        userId: userData.user_id,  // Cambiado de 'user_id' a 'userId'
+        userId: userData.user_id,
         name: userData.name,
-        firstName: userData.first_name,  // Cambiado de 'first_name' a 'firstName'
-        lastName: userData.last_name,    // Cambiado de 'last_name' a 'lastName'
+        firstName: userData.first_name,
+        lastName: userData.last_name,
         email: userData.email,
         password: await hash.make(userData.password),
-        status: USER_STATUS.ACTIVE, // Asegúrate de que 'status' se maneje correctamente
+        status: USER_STATUS.ACTIVE, 
       })
     }
   }
