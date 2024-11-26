@@ -3,81 +3,131 @@
       "product_id": "1",
       "admin_id": "10",
       "name": "Laptop Pro",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 1200.00,
-      "discount": 100
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "FANTASIA"
     },
     {
       "product_id": "2",
       "admin_id": "10",
       "name": "Wireless Mouse",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 20.99,
-      "discount": 5
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "DRAMA"
     },
     {
       "product_id": "3",
       "admin_id": "20",
       "name": "Mechanical Keyboard",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 85.75,
-      "discount": 10
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "DRAMA"
     },
     {
       "product_id": "4",
       "admin_id": "10",
       "name": "Gaming Monitor",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 299.99,
-      "discount": 50
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "FANTASIA"
     },
     {
       "product_id": "5",
       "admin_id": "20",
       "name": "Smartphone",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 650.00,
-      "discount": 75
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "DRAMA"
     },
     {
       "product_id": "6",
       "admin_id": "20",
       "name": "Smartwatch",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 199.99,
-      "discount": 15
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "FANTASIA"
     },
     {
       "product_id": "7",
       "admin_id": "10",
       "name": "Bluetooth Speaker",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 55.00,
-      "discount": 5
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "AVENTURA"
     },
     {
       "product_id": "8",
       "admin_id": "20",
       "name": "External Hard Drive",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 89.99,
-      "discount": 10
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "AVENTURA"
     },
     {
       "product_id": "9",
       "admin_id": "10",
       "name": "Wireless Earbuds",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 45.50,
-      "discount": 5
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "FANTASIA"
     },
     {
       "product_id": "10",
       "admin_id": "10",
       "name": "Portable Charger",
+      "author": "John Doe",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "unit": 1,
       "price": 29.99,
-      "discount": 3
+      "discount": 10,
+      "discount_type": "PERCENTAGE",
+      "image": "http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg",
+      "category": "AVENTURA"
     }
   ]
   
