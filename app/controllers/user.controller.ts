@@ -1,4 +1,5 @@
 // app/Services/user.service.ts
+/*
 import { v4 as uuidv4 } from 'uuid';
 import User from '#models/user_model';
 
@@ -12,3 +13,4 @@ export default class UserService {
     return user;
   }
 }
+  */
