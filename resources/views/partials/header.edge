@@ -1,0 +1,25 @@
+<header>
+    <img id="logo" src="{{ asset('assets/img/logo.png') }}">
+    <img id="nombre" src="{{ asset('assets/img/nombre.png') }}">
+
+    {{ csrfField() }}
+    
+    <nav>
+        @if(user)
+            <a href="{{ route('home') }}">Inicio</a>
+            @if(user?.rol === USER_ROL.ADMIN)
+                <a href="{{ route('products.create') }}">Crear productos</a>
+            @endif
+                <a href="{{ route('logout') }}">Cerrar sesión</a>
+            @else
+                <a href="{{ route('login') }}">Iniciar sesión</a><br>
+                <a href="{{ route('register') }}">Registrarse</a>
+        @endif
+    </nav>
+
+    <!-- Barra de búsqueda en productos.index -->
+    
+    <img id="imagenUsuario" src="{{ asset('assets/img/usuario.png') }}">
+    <img id="imagenComprar" src="{{ asset('assets/img/carrito-de-compras.png') }}" onclick="mostrarColumna()" id="mostrarCarrito">
+    <div id="mensaje"></div>
+</header>
