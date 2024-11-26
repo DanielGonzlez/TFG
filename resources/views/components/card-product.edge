@@ -1,0 +1,12 @@
+<!-- resources/views/components/product-card.edge -->
+
+<div class="libros">
+  <img src="{{ product.image }}" alt="Imagen del producto" class="product-card__image" id="libro1">
+  <div class="product-card__details">
+    <h3 class="nombreLibro">{{ product.name }}</h3>
+    <p class="autor">{{ product.author }}</p>
+    <p class="precio">{{ product.price }}€</p>
+    <!-- Enlace para editar el producto con su ID -->
+    <a href="{{ route('products.edit', { productId: product.productId }) }}" class="btn-editar">Editar</a>
+  </div>
+</div>

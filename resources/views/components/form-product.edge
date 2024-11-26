@@ -1,0 +1,219 @@
+<!-- resources/views/components/form-product.edge -->
+
+<form id="productoForm" 
+      action="{{ modoCreacion ? route('products.store') : route('products.update', { productId: producto.productId }) }}{{ modoCreacion ? '' : '?_method=PUT' }}" 
+      method="POST" 
+      enctype="multipart/form-data">
+    
+    {{ csrfField() }}
+    
+    <!-- Si estamos en modo edición, añadimos el campo _method para PUT -->
+    @if(!modoCreacion)
+        <input type="hidden" name="id" value="{{ producto.productId }}">
+    @endif
+    
+    <div class="container">
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__title">
+                    {{ modoCreacion ? 'Estamos creando un producto' : 'Estamos actualizando un producto' }}
+                </span>
+            </div>
+
+            <div class="modal__body">
+                <!-- Nombre -->
+                <div class="input">
+                    <label class="input__label">Nombre</label>
+                    <input class="input__field" type="text" id="name" name="name" value="{{ old('name', producto?.name || '') }}" placeholder="Nombre del producto">
+                    <div id="nameError" class="error-message"></div>
+                </div>
+
+                <!-- Autor -->
+                <div class="input">
+                    <label class="input__label">Autor</label>
+                    <input class="input__field" type="text" id="author" name="author" value="{{ old('author', producto?.author || '') }}" placeholder="Autor del producto">
+                    <div id="authorError" class="error-message"></div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="input">
+                    <label class="input__label">Descripción</label>
+                    <textarea id="description" name="description" placeholder="Descripción del producto">{{ old('description', producto?.description || '') }}</textarea>
+                    <div id="descriptionError" class="error-message"></div>
+                </div>
+
+                <!-- Precio -->
+                <div class="input">
+                    <label class="input__label">Precio</label>
+                    <input class="input__field" type="number" id="price" name="price" value="{{ old('price', producto?.price) }}" placeholder="Precio del producto">
+                    <div id="priceError" class="error-message"></div>
+                </div>
+
+                <!-- Unidades -->
+                <div class="input">
+                    <label class="input__label">Unidades</label>
+                    <input class="input__field" type="number" id="unit" name="unit" value="{{ old('unit', producto?.unit || '') }}" placeholder="Unidades disponibles">
+                    <div id="unitError" class="error-message"></div>
+                </div>                
+
+                <!-- Categoría -->
+                <div class="input">
+                    <label class="input__label">Categoría</label>
+                    <select class="input__field" name="category">
+                    @each(category in categories)
+                        <option 
+                        value="{{ category }}" 
+                        {{ old('category', producto?.category) === category ? 'selected' : '' }}>
+                        {{ category }}
+                        </option>
+                    @endeach
+                    </select>
+                </div>
+
+                <!-- Descuento -->
+                <div class="input">
+                    <label class="input__label">Descuento</label>
+                    <input class="input__field" type="number" id="discount" name="discount" value="{{ old('discount', producto?.discount || '') }}" placeholder="Ingrese el descuento" min="0" step="0.01">
+                    <div id="discountError" class="error-message"></div>
+                </div>
+
+                <!-- Tipo de descuento -->
+                <div class="input">
+                    <label class="input__label">Tipo de descuento</label>
+                    <select class="input__field" name="discountType">
+                        <option 
+                            value="PERCENTAGE" 
+                            {{ old('discountType', producto?.discountType) === DISCOUNT_TYPE.PERCENTAGE ? 'selected' : '' }}>
+                            Porcentaje
+                        </option>
+                        <option 
+                            value="FIXED" 
+                            {{ old('discountType', producto?.discountType) === DISCOUNT_TYPE.FIXED ? 'selected' : '' }}>
+                            Valor fijo
+                        </option>
+                    </select>                    
+                </div>
+
+
+                <!-- Disponible -->
+                <div class="input">
+                    <label class="input__label">Disponible</label>
+                    <input type="checkbox" id="available" name="available" value="1" {{ old('available', producto?.available) ? 'checked' : '' }}>
+                </div>
+
+                <!-- Imagen -->
+                <div class="input">
+                    <label class="input__label">Imagen</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                    <div id="imageError" class="error-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit">Guardar</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById('productoForm');
+
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Limpiar mensajes de error previos
+            document.querySelectorAll('.error-message').forEach((el) => el.textContent = '');
+
+            // Validación del nombre
+            const name = document.getElementById('name');
+            if (!name.value.trim()) {
+                document.getElementById('nameError').textContent = 'El nombre es obligatorio.';
+                isValid = false;
+            } else if (name.value.trim().length > 150) {
+                document.getElementById('nameError').textContent = 'El nombre no puede exceder los 150 caracteres.';
+                isValid = false;
+            }
+
+            // Validación del autor
+            const author = document.getElementById('author');
+            if (!author.value.trim()) {
+                document.getElementById('authorError').textContent = 'El autor es obligatorio.';
+                isValid = false;
+            } else if (author.value.trim().length < 10) {
+                document.getElementById('authorError').textContent = 'El autor debe tener al menos 10 caracteres.';
+                isValid = false;
+            } else if (author.value.trim().length > 50) {
+                document.getElementById('authorError').textContent = 'El autor no puede exceder los 50 caracteres.';
+                isValid = false;
+            }
+
+            // Validación de descripción
+            const description = document.getElementById('description');
+            if (!description.value.trim()) {
+                document.getElementById('descriptionError').textContent = 'La descripción es obligatoria.';
+                isValid = false;
+            } else if (description.value.trim().length < 10) {
+                document.getElementById('descriptionError').textContent = 'La descripción debe tener al menos 10 caracteres.';
+                isValid = false;
+            } else if (description.value.trim().length > 2500) {
+                document.getElementById('descriptionError').textContent = 'La descripción no puede exceder los 2500 caracteres.';
+                isValid = false;
+            }
+
+            // Validación del precio
+            const price = document.getElementById('price');
+            if (!price.value || price.value <= 0) {
+                document.getElementById('priceError').textContent = 'El precio debe ser mayor a 0.';
+                isValid = false;
+            }
+
+            // Validación de unidades
+            const unit = document.getElementById('unit');
+            if (!unit.value || unit.value <= 0) {
+                document.getElementById('unitError').textContent = 'Las unidades deben ser mayores a 0.';
+                isValid = false;
+            }
+
+            // Validación de descuento según tipo
+            const discount = document.getElementById('discount');
+            const discountType = document.querySelector('select[name="discountType"]').value;
+
+            // Validación para "descuento fijo"
+            if (discountType === 'fixed') {
+                if (discount.value < 0 || discount.value > 250) {
+                    document.getElementById('discountError').textContent = 'El descuento fijo debe ser entre 0 y 250.';
+                    isValid = false;
+                }
+            }
+
+            // Validación para "descuento porcentual"
+            else if (discountType === 'percentage') {
+                if (discount.value < 0 || discount.value > 100) {
+                    document.getElementById('discountError').textContent = 'El descuento porcentual debe ser entre 0 y 100.';
+                    isValid = false;
+                }
+            }
+
+            // Validación de imagen
+            const image = document.getElementById('image');
+            if (image.files.length > 0) {
+                const file = image.files[0];
+                const validExtnames = ['jpg', 'jpeg', 'png'];
+                const fileExtname = file.name.split('.').pop().toLowerCase();
+                if (!validExtnames.includes(fileExtname)) {
+                    document.getElementById('imageError').textContent = 'La imagen debe ser de tipo JPG, JPEG o PNG.';
+                    isValid = false;
+                } else if (file.size > 2 * 1024 * 1024) { // 2MB
+                    document.getElementById('imageError').textContent = 'La imagen no debe exceder los 2MB.';
+                    isValid = false;
+                }
+            }
+
+            if (!isValid) {
+                event.preventDefault();  // Detener el envío del formulario si hay errores
+            }
+        });
+    });
+</script>
+
+
