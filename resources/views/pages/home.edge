@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/containers.products.css') }}">
+    <script src="{{ asset('js/carga-asincrona.js') }}"></script>
     <title>Home</title>
 </head>
 <body>
+  @include('partials/header')
+  <div class="products-list">
+    @each(product in products)
+      @component('components/card-product', { product: product })
+      @endcomponent
+    @endeach
+  </div>
   
-  @if (user)
-  <h1>Estás autenticado como usuario {{ user.name }}</h1>
-  <p>Tu correo electrónico es: {{ user.email }}</p>
-  <a href="/logout">Cerrar sesión</a>
-@else
-  <h1>Inicia sesión para continuar</h1>
-  <a href="/login">Ir al login</a>
-@endif
+  
 </body>
 </html>
