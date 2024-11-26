@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 import Administrator from './administrator_model.js'
-import { DISCOUNT_TYPE } from '#types/product_type'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -26,6 +25,12 @@ export default class Product extends BaseModel {
   declare name: string
 
   @column()
+  declare author: string
+
+  @column()
+  declare description: string
+
+  @column()
   declare unit: number
 
   @column()
@@ -35,7 +40,13 @@ export default class Product extends BaseModel {
   declare discount: number
 
   @column()
-  declare discountType: DISCOUNT_TYPE
+  declare category: string
+
+  @column()
+  declare image: string
+
+  @column()
+  declare discountType: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -43,7 +54,7 @@ export default class Product extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  // Relación con Administrator (un producto puede ser creado por un solo administrador)
+  //? Relación con Administrator (un producto puede ser creado por un solo administrador)
   @belongsTo(() => Administrator, { foreignKey: 'adminId' })
   declare admin: BelongsTo<typeof Administrator>
 
