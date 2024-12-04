@@ -63,6 +63,7 @@
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/validator": "^13.0.2",
     "@adonisjs/vite": "^3.0.0",
+    "@stripe/stripe-js": "^5.2.0",
     "@vinejs/vine": "^2.1.0",
     "edge.js": "^6.2.0",
     "luxon": "^3.5.0",
@@ -70,6 +71,7 @@
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
     "sharp": "^0.33.5",
+    "stripe": "^17.4.0",
     "uuid": "^11.0.3"
   },
   "hotHook": {
