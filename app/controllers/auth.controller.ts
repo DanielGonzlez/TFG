@@ -4,8 +4,6 @@ import ClientService from '#services/client.service'
 import { RegisterValidator } from '#validators/user.validator'
 import hash from '@adonisjs/core/services/hash'
 import User from '#models/user_model'
-import { USER_ROL } from '#types/user_type'
-import Product from '#models/product_model'
 
 const userService = new UserService()
 const clientService = new ClientService()
@@ -115,23 +113,6 @@ export default class AuthController {
   
     // Redirige al login o página de inicio
     return response.redirect('/')
-  }
-  
-  //! Enseñar la informacion del usuario 
-  //TODO    AÚN NO IMPLEMENTADO
-  public async showUserInformation(userId: string) {
-    const user = await userService.showUserInfo(userId)
-    return user
-  }
-
-  //! Mostrar la página de inicio
-  //TODO    DE MOMENTO SOLO MUESTRA LOS PRODUCTOS UN POCO DE AQUELLA MANERA
-  public async home({ view, session }: HttpContext) {
-    const products = await Product.all()  //* Obtiene todos los productos de la base de datos
-
-    const user = session.get('user') //* Recupera el usuario de la sesión
-  
-    return view.render('pages/home', { user, USER_ROL, products }) //* Pasa el usuario a la vista
   }
    
 }
