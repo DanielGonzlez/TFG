@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrfToken }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <title>Carrito</title>
+    <style>
+        #card-element {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    @include('partials/header')
+
+    @component('components/shop-cart', { cart, totalPrice })
+    @endcomponent
+
+    <div id="card-element"></div>
+    <button onclick="pagar()">Simular pago</button>
+
+    @include('partials/footer')
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const stripe = Stripe('pk_test_51QRREIKiQDHrCXs1EuRc1IbxFjslbKvjTE517QrNfScNjdbLD3ckfxXs0SMPNsgGFOyKYz1ZEuOUSlfXx6fc8HmZ00RvItoZum');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+
+        window.pagar = async function() {
+          try {
+            // Llamar al endpoint para crear el PaymentIntent
+            const response = await fetch('/checkout', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+              },
+            });
+
+            const text = await response.text();
+            let clientSecret;
+            try {
+              const data = JSON.parse(text); 
+              clientSecret = data.clientSecret;
+            } catch (error) {
+              alert('Hubo un error al procesar la respuesta del servidor');
+              return;
+            }
+
+            // Confirmar el pago con Stripe
+            const { error } = await stripe.confirmCardPayment(clientSecret, {
+              payment_method: { card: card },
+            });
+
+            if (error) {
+              alert(`Error: ${error.message}`);
+            } else {
+              alert('Pago simulado completado con éxito');
+
+              const response = await fetch('/clear-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),  // Esto es el token
+                },
+                });
+
+              window.location.href = '/'; // Redirige al home
+            }
+          } catch (error) {
+            console.error('Error al realizar la acción:', error);
+            alert('Hubo un error al procesar la acción');
+          }
+        };
+      });
+    </script>
+
+</body>
+</html>
