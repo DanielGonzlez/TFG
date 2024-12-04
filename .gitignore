@@ -25,7 +25,7 @@ yarn-error.log
 .DS_Store
 
 # Ignorar lo que se sube a uploads
-public/uploads/*
+.public/uploads/*
 
 
 # Archivos creados de vite
