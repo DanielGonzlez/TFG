@@ -1,0 +1,77 @@
+/* Separador del footer */
+.separadorFooter {
+    position: relative;
+    top: 100px;
+    background-color: #0b0b46;
+    width: 100%;
+    height: 20px;
+}
+
+/* Estilos del footer */
+footer {
+    position: relative;
+    top: 100px;
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Estilos para las columnas del footer */
+.columnaFooter {
+    flex: 1 1 200px; /* Asegura que las columnas se expandan adecuadamente y se ajusten */
+    text-align: center;
+    font-size: 13px;
+    font-family: "Roboto";
+    padding: 10px;
+    box-sizing: border-box;
+    min-width: 200px; /* Evita que las columnas se hagan demasiado pequeñas */
+}
+
+/* Estilos de los enlaces dentro del footer */
+.columnaFooter ul {
+    list-style: none;
+    padding: 0;
+}
+
+.columnaFooter ul li {
+    margin-bottom: 8px;
+}
+
+.columnaFooter a {
+    text-decoration: none;
+    color: #000;
+}
+
+.columnaFooter a:hover {
+    text-decoration: underline;
+    color: #007bff;
+}
+
+/* Cabecera de las columnas */
+.cabecerasColumna {
+    font-weight: bold; /* Texto en negrita */
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #0b0b46; /* Color del título */
+}
+
+/* Estilo del texto de las columnas */
+footer .columnaFooter p {
+    font-size: 14px;
+    color: #666; /* Color del texto descriptivo */
+}
+
+/* Estilos de los enlaces del footer */
+footer .columnaFooter a {
+    color: #333; /* Color del enlace */
+}
+
+footer .columnaFooter a:hover {
+    color: #007bff;
+}

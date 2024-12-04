@@ -6,11 +6,16 @@
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #0b0b46;
-    display: flex; /* Cambiamos a flexbox, pero tiene que estar en none para lo de la carga asíncrona*/
+    background-color: #ffffff;
+    display: flex; /* Mantiene el layout como flexbox */
     flex-direction: column;
     align-items: center;
+    width: 100vw; /* Asegura que el ancho sea siempre el 100% de la ventana */
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
+    box-sizing: border-box; /* Incluye el padding y el borde dentro del tamaño total */
+    height: 100%; /* Asegura que el body ocupe toda la altura de la ventana */
   }
+  
   
   
   #frasePrincipal {
@@ -185,516 +190,147 @@
     background-color: #0b0b46;
     height: 600px;
   }
-  
-  /*
-  .libros img {
-    vertical-align: middle;
-  }
-  
-  .carrito {
-    margin-left: 120px;
-    margin-top: -37px;
-    height: 20px;
-    width: 20px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  #carritoColumna {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 300px;
-    background-color: #f1f1f1;
-    padding: 20px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    overflow-y: auto;
-    transition: transform 0.3s ease;
-    transform: translateX(0);
-  }
-  
-  #carritoColumna button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  
-  #carritoColumna img {
-    position: relative;
-    width: 100px;
-    height: 130px;
-    cursor: pointer;
-  }
-  
-  #carritoColumna.oculto {
-    transform: translateX(100%);
-  }
-  
-  .fav {
-    margin-left: 50px;
-    margin-top: -75px;
-    height: 20px;
-    width: 20px;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .subcontenedores {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-    margin-top: 10px;
-    margin-right: 20px;
-    background-color: #fff;
-    height: 450px;
-    width: 350px;
-  
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .subcontenedores:hover {
-    // Estilos al pasar el ratón sobre el elemento 
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  #figura1 {
-    width: 100%;
-    height: 50%;
-  }
-  
-  .subtexto1 {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: "Roboto";
-    position: relative;
-    top: -50px;
-  }
-  
-  .subtexto2 {
-    text-align: center;
-    font-size: 14px;
-    font-family: "Roboto";
-    position: relative;
-    top: -80px;
-  }
-  
-  .letreros {
-      margin-top: 40px;
-      text-align: left;
-      font-size: 18px; // Tamaño del texto, ajusta según sea necesario 
-      font-family: "Roboto"; // Cambia "Roboto" por la fuente que prefieras 
-      position: relative;
-      display: inline-block; // Asegura que el subrayado se extienda hasta el final del contenedor 
-      right: 580px;
-  }
-  
-  .letreros-recom{
-        top: 700px;
-        left: 30px;
-        margin-top: 50px;
-        text-align: left;
-        font-size: 18px; // Tamaño del texto, ajusta según sea necesario 
-        font-family: "Roboto"; // Cambia "Roboto" por la fuente que prefieras 
-        position: absolute;
-        display: inline-block; // Asegura que el subrayado se extienda hasta el final del contenedor 
-        right: 580px;
-   }
-  
-  .letreros::after, .letreros-recom::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -5px; // Ajusta según sea necesario para la posición del subrayado 
-      width: 1280px; // Ajusta la anchura para extender la línea de subrayado 
-      height: 2px;
-      background-color: #000; // Color del subrayado 
-  }
-  
-  
-  #fav.favorito-amarillo {
-      filter: hue-rotate(60deg); // Cambia el color a amarillo usando un filtro de rotación de tono 
-  }
-  
-  #contenedorPubli {
-    margin-top: 20px;
-    background-color: #0b0b46;
-    margin-left: 100px;
-    width: 1319px; // Esto hará que la imagen se ajuste a su tamaño original 
-    height: 620px;
-  }
-  
-  #imagenFooter {
-    margin-top: 20px;
-    position: absolute;
-    left: 128px;
-    width: auto; // Esto hará que la imagen se ajuste a su tamaño original 
-    height: 253px;
-  }
-  
-  .separadorFooter {
-    position: relative;
-    top: 100px;
-      background-color: #0b0b46;
-      width: 100%;
-      height: 20px;
-  }
-  
-  footer {
-    position: relative;
-    top: 100px;
-    height: 200px;
-    display: flex;
-    justify-content: space-between;
-    background-color: #fff;
-    color: #000;
-    padding: 20px;
-  }
-  
-  .columna {
-    flex: 1;
-    text-align: center;
-    font-size: 13px;
-    font-family: "Roboto";
-  }
-  
-  .cabecerasColumna {
-    font-weight: bold; // Texto en negrita
-  }
-  
-  #mensaje {
-  position: fixed;
-  font-family: "Roboto";
-  font-weight: bold;
-  font-size: 18px;
-  top: 10px;
-  right: 10px;
-  padding: 10px;
-  background-color: #8ff577;
-  color: black;
-  border: 2px solid black;
-  border-radius: 5px;
-  display: none;
-  z-index: 9999;
-  }
-  
-   ///////////////////////////////////////////////////////////////////////// 
-  
-  .btn-container {
-    position: relative;
-    display: flex;
-  }
-  
-    .btn-container button {
-        margin: 5px;
-    }
-  
-    #btn-mod .icon, #btn-list .icon {
-        margin-left: 5px; // Ajusta este valor según sea necesario 
-    }
-  
-    #btn-mod:hover .icon,  #btn-list:hover .icon{
-        width: 150px;
-        border-left: none;
-        transform: translateX(0px);
-       }
-  
-  
-  
-  
-  
-  #btn-elm {
-    background-color: #e62222;
-  
-    left: 20px; // Coloca el botón eliminar a la derecha del último botón 
-    top: 0; // Alinea el botón eliminar con la parte superior de los otros botones 
-  }
-  
-  #btn-mod {
-    background-color: #006489;
-  
-    left: 900px; // Coloca el botón eliminar a la derecha del último botón 
-    top: 0; // Alinea el botón eliminar con la parte superior de los otros botones 
-  }
-  
-  #btn-list {
-    background-color: #008900;
-  
-    left: 900px; // Coloca el botón eliminar a la derecha del último botón 
-    top: 0; // Alinea el botón eliminar con la parte superior de los otros botones 
-  }
-  
-  .boton {
-    background-color: blue;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    text-decoration: none;
-    cursor: pointer;
-    margin: 5px;
-  }
-  
-  .boton:hover {
-    background-color: darkblue;
-  }
-  
-  
-  #btn-mod a:focus,
-  #btn-mod a:active,
-  #btn-list a:focus,
-  #btn-list a:active {
-    outline: none; // Quitar el borde alrededor del enlace en estado de foco o activo 
-    color: inherit; // Mantener el color del texto 
-  }
-  
-  
-  #btn-elm, #btn-mod, #btn-list {
-    width: 150px;
-    height: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-   }
-  
-   button, button span {
-    transition: 200ms;
-   }
-  
-   button .text {
-    transform: translateX(35px);
-    color: white;
-    align-items: center;
-    font-weight: bold;
-   }
-  
-   button .icon {
-    position: relative;
-    border-left: 1px solid #ffffff;
-    transform: translateX(110px);
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    left: -60px;
-    justify-content: center;
-   }
-  
-   button svg {
-    width: 18px;
-    fill: #eee;
-   }
-  
-   button:hover {
-    background: #ff3636;
-   }
-  
-   button:hover .text {
-    color: transparent;
-   }
-  
-   button:hover .icon {
-    width: 150px;
-    border-left: none;
-    transform: translateX(35px);
-   }
-  
-   button:focus {
-    outline: none;
-   }
-  
-   button:active .icon svg {
-    transform: scale(0.8);
-   }
-  
-  
-  
-  */
-  
-  /* ESTA ES LA PARTE DEL DETALLE DE CADA PRODUCTO */
-  
-  .recuadro {
-    border: 1px solid #ccc; /* Establece el borde gris */
-    background-color: #f2f2f2; /* Establece el fondo gris */
-    padding: 10px; /* Añade un relleno para separar el contenido del borde */
-    margin-top: 0; /* Elimina cualquier margen superior */
-    margin-bottom: 100px;
-  }
-  
-  .detalle-producto {
-    display: flex;
-    align-items: flex-start; /* Ajusté la alineación para que la información esté más arriba */
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    min-height: 670px;
-    max-height: 670px;
-  }
-  
-  .detalle-producto #img-pro {
-    max-width: 300px;
-    min-width: 300px;
-    height: auto;
-    margin-right: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .detalle-info {
-    text-align: left;
-    margin-top: -10px;
-    flex-grow: 1;
-    font-size: 22px;
-    max-width: 750px;
-    position: relative;
-  }
-  
-  .detalle-info h2 {
-    font-size: 38px; /* Aumenté el tamaño del título */
-    margin-bottom: 15px; /* Aumenté el espacio inferior del título */
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .detalle-info p {
-    margin: 10px 0; /* Aumenté el espacio vertical entre los párrafos */
-    color: #666;
-    font-size: 30px;
-  }
-  
-  .detalle-info .precio-prod {
-    font-size: 40px;
-    font-weight: bold;
-    left: 820px;
-    position: absolute;
-    color: #000000;
-  }
-  
-  .detalle-info .sinopsis {
-    font-size: 24px;
-    font-weight: bold;
-    color: #000000;
-  }
-  
-  .detalle-info .descripcion {
-    font-size: 17px;
-    color: #000000;
-    white-space: pre-line;
-  }
-  
-  .detalle-info .categoria {
-    font-size: 16px;
-    font-style: italic;
-    color: #000000;
-    background-color: #7d9fbd; /* Azul claro */
-    padding: 10px; /* Espaciado interno para el contenido */
-    border-radius: 5px; /* Bordes redondeados */
-    display: inline-block; /* Para que el contenedor se ajuste al contenido */
-  }
-  
-  #categoria_id {
-    width: 100px;
-  }
-  
-  #separador {
-    width: 2px; /* Ancho completo */
-    height: 600px; /* Altura de la línea */
-    margin-left: 780px;
-    top: 10px;
-    margin-bottom: -130px;
-    position: absolute;
-    background-color: #666; /* Color gris */
-  }
-  
-  #recuadro {
-    position: fixed; /* Cambiado a posición fija para que el recuadro no se desplace con el desplazamiento de la página */
-    top: 0; /* Alineado con la parte superior */
-    left: 0; /* Alineado con la parte izquierda */
-    width: 100%; /* Ancho completo */
-    height: 100%; /* Altura completa */
-    background-color: #666; /* Color gris */
-    z-index: -1; /* Para enviar el recuadro detrás de otros elementos */
-  }
-  
-  
-  
-  
+
   /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////                      */
   
   
   
   .container {
-    position: absolute;
-    top: 700px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 60%;
+    position: relative;
+    margin: 0 auto;
+    width: 1600px; /* Ancho base del contenedor */
+    max-width: 100vw; /* El contenedor no puede exceder el 100% de la ventana */
+    height: auto;
+    padding: 1rem; /* Ajustamos el padding para hacer el contenedor más eficiente */
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
-  }
-  
-  .modal {
+    transform: scale(1); /* Por defecto no hay escala */
+    transform-origin: top center; /* El origen de la escala se ajusta al centro superior */
+}
+
+.modal {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 2000px;
-    min-height: 1000px;
+    max-width: 100%;
+    min-height: 80vh;
     background-color: #fff;
-    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
+    box-shadow: 0 15px 30px rgba(0, 125, 171, 0.25);
     border-radius: 10px;
-  }
-  
-  .modal__header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .modal__body {
-    padding: 1rem 1rem;
-  }
-  
-  .modal__footer {
-    padding: 0 1.5rem 1.5rem;
-  }
-  
-  .modal__title {
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.modal__body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    font-size: calc(3rem + 1.275vw);
+}
+
+.modal__footer {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.modal__title {
     font-weight: 700;
-    font-size: 1.25rem;
-  }
+    font-size: calc(2rem + 1.125vw);
+    margin: 0;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 1280px) {
+    .container {
+        width: 95%;
+        padding: 3rem;
+    }
+
+    .modal {
+        max-width: 100%;
+        min-height: 75vh;
+    }
+
+    .modal__title {
+        font-size: calc(1.75rem + 1.125vw);
+    }
+}
+
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+        max-width: 75vw; /* Reduce el tamaño aún más en pantallas más pequeñas */
+        padding: 2rem;
+        transform: scale(0.95); /* Reduce un 5% en tamaños más pequeños */
+    }
+
+    .modal {
+        max-width: 100%;
+        min-height: 70vh;
+    }
+
+    .modal__title {
+        font-size: calc(1.5rem + 1.125vw);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        max-width: 100%;
+        padding: 2rem;
+        transform: scale(0.90); /* Reduce un 10% en pantallas más pequeñas */
+    }
+
+    .modal {
+        max-width: 100%;
+        min-height: 65vh;
+    }
+
+    .modal__title {
+        font-size: calc(1.25rem + 1.025vw);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        max-width: 98%;
+        padding: 2rem;
+        transform: scale(0.85); /* Reduce un 15% en pantallas muy pequeñas */
+    }
+
+    .modal {
+        border-radius: 0;
+        min-height: 60vh;
+    }
+
+    .modal__title {
+        font-size: calc(1.1rem + 1vw);
+    }
+}
+
   
-  
-  .button--primary {
-    background-color: #007dab;
+  button {
+    background-color: #00ab17;
     color: #FFF;
     padding: 0.75rem 1.25rem;
     border-radius: 0.25rem;
     font-weight: 500;
     font-size: 0.875rem;
+    position: relative;
+    align-self: flex-end; /* Coloca el botón al final */
+    margin-top: auto; /* Asegura que el botón se empuje al final */
   }
   
-  .button--primary:hover {
+  button:hover {
+    background-color: #006489;
+  }
+  
+  
+  button:hover {
     background-color: #006489;
   }
   
@@ -732,152 +368,13 @@
   }
   
   
-  .textarea {
-    min-height: 200px; /* Altura mínima */
+  textarea {
+    min-height: 300px; /* Altura mínima */
     max-height: 200px; /* Altura máxima */
     max-width: 100%; /* Evita que se expanda horizontalmente */
     resize: vertical; /* Permite redimensionar verticalmente */
   }
-  
-  
-  .input__description {
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    color: #8d8d8d;
-  }
-  
-  
-  /* ///////////////////////////////////////////////////////////////// */
-  
-  .switch {
-    --switch-width: 46px;
-    --switch-height: 24px;
-    --switch-bg: rgb(131, 131, 131);
-    --switch-checked-bg: rgb(0, 218, 80);
-    --switch-offset: calc((var(--switch-height) - var(--circle-diameter)) / 2);
-    --switch-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
-    --circle-diameter: 18px;
-    --circle-bg: #fff;
-    --circle-shadow: 1px 1px 2px rgba(146, 146, 146, 0.45);
-    --circle-checked-shadow: -1px 1px 2px rgba(163, 163, 163, 0.45);
-    --circle-transition: var(--switch-transition);
-    --icon-transition: all .2s cubic-bezier(0.27, 0.2, 0.25, 1.51);
-    --icon-cross-color: var(--switch-bg);
-    --icon-cross-size: 6px;
-    --icon-checkmark-color: var(--switch-checked-bg);
-    --icon-checkmark-size: 10px;
-    --effect-width: calc(var(--circle-diameter) / 2);
-    --effect-height: calc(var(--effect-width) / 2 - 1px);
-    --effect-bg: var(--circle-bg);
-    --effect-border-radius: 1px;
-    --effect-transition: all .2s ease-in-out;
-  }
-  
-  .switch input {
-    display: none;
-  }
-  
-  .switch {
-    display: inline-block;
-  }
-  
-  .slider {
-    width: var(--switch-width);
-    height: var(--switch-height);
-    background: var(--switch-bg);
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-  }
-  
-  .circle {
-    width: var(--circle-diameter);
-    height: var(--circle-diameter);
-    background: var(--circle-bg);
-    border-radius: inherit;
-    box-shadow: var(--circle-shadow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--circle-transition);
-    z-index: 1;
-    position: absolute;
-    left: var(--switch-offset);
-  }
-  
-  .slider::before {
-    content: "";
-    position: absolute;
-    width: var(--effect-width);
-    height: var(--effect-height);
-    left: calc(var(--switch-offset) + (var(--effect-width) / 2));
-    background: var(--effect-bg);
-    border-radius: var(--effect-border-radius);
-    transition: var(--effect-transition);
-  }
-  
-  .switch input:checked+.slider {
-    background: var(--switch-checked-bg);
-  }
-  
-  .switch input:checked+.slider .checkmark {
-    transform: scale(1);
-  }
-  
-  .switch input:checked+.slider .cross {
-    transform: scale(0);
-  }
-  
-  .switch input:checked+.slider::before {
-    left: calc(100% - var(--effect-width) - (var(--effect-width) / 2) - var(--switch-offset));
-  }
-  
-  .switch input:checked+.slider .circle {
-    left: calc(100% - var(--circle-diameter) - var(--switch-offset));
-    box-shadow: var(--circle-checked-shadow);
-  }
-  
-  .error {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 620px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    background: #EF665B;
-    border-radius: 8px;
-    box-shadow: 0 0 5px -3px #111;
-    margin: 6px;
-  }
-  
-  .error__icon,
-  .error__close {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .error__icon path,
-  .error__close path {
-    fill: #fff;
-  }
-  
-  .error__icon {
-    margin-right: 8px;
-    transform: translateY(-2px);
-  }
-  
-  .error__title {
-    font-weight: 500;
-    font-size: 14px;
-    color: #fff;
-  }
-  
-  .error__close {
-    cursor: pointer;
-    margin-left: auto;
-  }
-  
+
   .error-message {
     color: red;
     font-size: 12px;

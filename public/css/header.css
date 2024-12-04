@@ -1,120 +1,191 @@
 header {
-    background-color: #ffff;
-    color: #fff;
-    padding: 10px;
-    width: 1519px;
-    height: 160px;
-    align-items: center;
+  background-color: #ffff;
+  color: #fff;
+  padding: 10px;
+  width: 1519px; /* Mantiene la medida fija en pantallas grandes */
+  max-width: 100%; /* Ajusta al contenedor en pantallas más pequeñas */
+  height: 160px;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten si no hay espacio */
+  align-items: center;
+  justify-content: space-between; /* Distribuye los elementos uniformemente */
+  margin: 0 auto 20px; /* Centra el header y añade margen inferior */
+  position: sticky; /* Se pega a la parte superior a medida que se desplaza */
+  top: 0; /* Se queda en la parte superior de la página */
+  z-index: 100; /* Asegura que el header esté por encima de otros elementos */
+}
+
+
+#logo {
+  width: 330px; /* Mantiene el tamaño fijo en pantallas grandes */
+  max-width: 24%; /* Ajusta proporcionalmente en pantallas pequeñas */
+  height: 160px;
+  margin-right: 10px;
+}
+
+nav {
+  height: auto;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los enlaces se reorganicen si no caben */
+  justify-content: space-evenly; /* Distribuye uniformemente los elementos */
+  align-items: center;
+  width: calc(50% - 20px); /* Ocupa un 50% menos márgenes */
+  max-width: 600px; /* Máximo para pantallas grandes */
+  margin: 0; /* Elimina márgenes que empujen hacia abajo */
+  border: 2px solid #a5a5a5f6;
+  padding: 5px;
+  z-index: 10;
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 10px; /* Reduce el margen entre enlaces */
+  padding: 5px;
+  font-size: 16px;
+  white-space: nowrap; /* Evita que los textos se dividan en varias líneas */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+nav a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Aquí está el cambio para mover la barra de búsqueda */
+.search-bar {
+  height: 30px;
+  width: 600px; /* Medida fija en pantallas grandes */
+  max-width: 100%; /* Se adapta en pantallas pequeñas */
+  margin-top: 20px; /* Añade un margen superior para mover la barra hacia abajo */
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+}
+
+#search[type="text"] {
+  flex: 1; /* Se expande para ocupar el espacio disponible */
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  margin-left: 10px;
+  padding: 5px;
+}
+
+#imagenUsuario,
+#imagenComprar {
+  width: 30px; /* Tamaño fijo */
+  height: auto;
+  margin: 0 5px; /* Espaciado entre imágenes */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#imagenUsuario:hover,
+#imagenComprar:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Estilo del contador en el carrito dentro de un círculo rosa fuerte */
+.cart-count {
+  position: absolute;
+  top: -5px;  /* Ajusta la distancia superior para sobreponer */
+  right: -5px;  /* Ajusta la distancia derecha para sobreponer */
+  background-color: #ff007f; /* Rosa fuerte */
+  color: white;
+  font-size: 14px; /* Tamaño del texto */
+  font-weight: bold; /* Resalta el texto */
+  border-radius: 50%; /* Hace que el div sea circular */
+  width: 20px; /* Ancho del círculo */
+  height: 20px; /* Altura del círculo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para realce */
+  z-index: 100; /* Asegura que esté por encima del carrito */
+  transition: background-color 0.3s, transform 0.3s ease-in-out; /* Añadido para el hover */
+}
+
+.cart-count:hover {
+  background-color: #ff3385; /* Cambia a un rosa más claro */
+  transform: translateY(-8px); /* Levanta más el círculo al hacer hover */
+}
+
+#imagenComprar {
+  position: relative;
+}
+
+/* Aquí es donde se agrega la transformación para ambos elementos al hacer hover */
+a:hover #imagenComprar,
+a:hover #cart-count {
+  transform: translateY(-8px); /* Levanta tanto la imagen del carrito como el contador */
+}
+
+/* También puedes ajustar el tiempo de transición de la imagen del carrito y el contador al mismo tiempo */
+a:hover #imagenComprar,
+a:hover #cart-count {
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 1024px) {
+  header {
+    flex-wrap: wrap; /* Permite que los elementos se apilen si no caben */
+    height: auto; /* Ajusta la altura automáticamente */
   }
-  
-  #logo {
-    position: relative;
-    width: 100px;
-    height: 120px;
-    left: 20px;
-    margin-right: 10px;
-  }
-  
-  #nombre {
-    width: 230px;
-    height: 110px;
-    margin-right: 10px;
-  }
-  
+
   nav {
-    height: 30px;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    margin-left: 370px;
-    border: 2px solid #000;
-    padding: 5px;
-    position: absolute;
-    margin-top: -130px;
+    width: 80%; /* Ocupa un ancho mayor en pantallas medianas */
+    justify-content: center; /* Centra los elementos */
+    margin: 10px auto;
   }
-  
+
   nav a {
-    color: #333;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 12px;
-  
-    /* Estilos originales */
-    transition: transform 0.3s, box-shadow 0.3s; /* Agregamos transiciones para un cambio suave */
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1)
+    font-size: 14px; /* Reduce el tamaño del texto */
+    margin: 5px; /* Menos espacio entre enlaces */
   }
-  
-  nav a:hover {
-    /* Estilos al pasar el ratón sobre el elemento */
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-  }
-  
-  nav a:last-child {
-    margin-right: 420px;
-  }
-  
+
   .search-bar {
-    height: 30px;
-    width: 250px;
-    margin: 10px 0;
-    position: absolute;
-    margin-top: -130px;
-    margin-left: 1070px;
-    border-radius: 10px;
-    border: 2px solid #000;
-    display: flex;
+    width: 90%; /* Se adapta al ancho disponible */
   }
-  
-  input[type="text"] {
-    width: calc(100% - 10px);
-    padding: 5px;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-  }
-  
-  #search-icon {
-    width: 15px;
-    height: 15px;
-    margin: 5px;
-  }
-  
-  #imagenUsuario {
-    position: relative;
-    top: -75px;
-    left: 1010px;
-    width: 30px;
+
+  #logo {
+    width: 290px; /* Reduce el tamaño del logo */
     height: auto;
-  
-    /* Estilos originales */
-    transition: transform 0.3s, box-shadow 0.3s; /* Agregamos transiciones para un cambio suave */
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1)
   }
-  
-  #imagenUsuario:hover {
-    /* Estilos al pasar el ratón sobre el elemento */
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column; /* Apila todos los elementos verticalmente */
+    align-items: center; /* Centra los elementos */
   }
-  
-  #imagenComprar {
-    position: relative;
-    top: -75px;
-    left: 1040px;
-    width: 30px;
-    height: auto;
-  
-    /* Estilos originales */
-    transition: transform 0.3s, box-shadow 0.3s; /* Agregamos transiciones para un cambio suave */
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1)
+
+  nav {
+    width: 100%; /* El nav ocupa todo el ancho */
+    flex-direction: row; /* Enlaces en una fila */
+    justify-content: space-around; /* Espaciado uniforme */
   }
-  
-  #imagenComprar:hover {
-    /* Estilos al pasar el ratón sobre el elemento */
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+
+  nav a {
+    margin: 5px; /* Margen mínimo */
+    font-size: 12px; /* Reduce aún más el tamaño */
   }
+
+  .search-bar {
+    width: 100%; /* Ocupa todo el ancho */
+    margin: 10px 0; /* Espaciado uniforme */
+  }
+}

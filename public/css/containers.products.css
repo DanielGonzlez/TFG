@@ -1,91 +1,192 @@
+/* Contenedor de todos los productos */
+.products-list {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los productos se ajusten a nuevas filas */
+  justify-content: flex-start; /* Alinea los productos a la izquierda */
+  align-items: flex-start; /* Alinea los productos verticalmente al inicio */
+  width: 100%; /* Adapta el ancho al contenedor */
+  max-width: 1459px; /* Limita el ancho máximo a 1459px */
+  min-width: 468px; /* Define un ancho mínimo para evitar que se colapse demasiado */
+  padding: 20px; /* Espaciado interno */
+  background-color: #dfdede;
+}
 
-      /* Contenedor de todos los productos */
-      .products-list {
-        display: flex;
-        flex-wrap: wrap; /* Permite que los productos se ajusten a nuevas filas */
-        gap: 20px; /* Espaciado entre los productos */
-        justify-content: flex-start; /* Alinea los productos a la izquierda */
-        margin-left: 150px;
-        max-width: 1579px; /* Establece el ancho máximo */
-        padding: 20px;
-        margin-top: 30px; /* Añadir un poco de margen superior */
-        margin-bottom: 20px; /* Espaciado inferior */
-      }
-    
-      /* Estilos de cada producto */
-      .libros {
-        height: calc(100vw * 720 / 1920);
-        max-height: 520px;
-        min-height: 360px;
-        width: 260px; /* Reducimos la altura del producto */
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-        padding: 10px;
-        margin-bottom: 20px; /* Añadir espacio entre las filas */
-        display: flex;
-        flex-direction: column;
-      }
-    
-      /* Efecto hover cuando el ratón pasa sobre el producto */
-      .libros:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-    
-      /* Imagen del producto */
-      .product-card__image {
-        width: 100%;
-        height: 100%;
-        border-radius: 8px;
-        object-fit: cover;
-      }
-    
-      /* Detalles del producto */
-      .product-card__details {
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-    
-      /* Nombre del producto */
-      .nombreLibro {
-        font-size: 13px;
-        font-weight: bold;
-        font-family: "Roboto";
-        text-align: left;
-      }
-    
-      /* Autor del producto */
-      .autor {
-        font-size: 12px;
-        font-family: "Roboto";
-        margin-top: -10px;
-        text-align: left;
-      }
-    
-      /* Precio del producto */
-      .precio {
-        font-size: 16px;
-        font-family: "Roboto";
-        font-weight: bold;
-        color: #1E88E5;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        text-align: left;
-      }
-    
-      /* Media query para hacer los productos más pequeños en pantallas más grandes */
-      @media (max-width: 1024px) {
-        .libros {
-          width: calc(50% - 20px); /* 2 productos por fila */
-        }
-      }
-    
-      @media (max-width: 768px) {
-        .libros {
-          width: 100%; /* 1 producto por fila */
-        }
-      }
+/* Estilos de cada producto */
+.libros {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Mantiene la separación adecuada */
+  height: 100%; /* Altura uniforme para todos los productos */
+  max-height: 490px;
+  min-height: 390px;
+  width: calc(20% - 20px); /* 5 productos por fila, con un pequeño espacio entre ellos */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(124, 123, 123, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 10px;
+  margin-left: 17px;
+  margin-bottom: 25px;
+  position: relative; /* Necesario para colocar el formulario sobre el producto */
+}
+
+/* Para eliminar el margen derecho del último libro en cada fila */
+.products-list .libros:nth-child(5n) {
+  margin-right: 0 !important; /* Eliminar el margen derecho del último libro en cada fila */
+}
+
+/* Efecto hover cuando el ratón pasa sobre el producto */
+.libros:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Imagen del producto */
+.product-card__image {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 674px;
+  min-width: 130px;
+  height: 100%;
+  max-height: 370px;
+  min-height: 120px;
+  border-radius: 8px;
+  object-fit: cover; /* Ajusta la imagen sin distorsionarla */
+  margin-bottom: -15px;
+}
+
+/* Detalles del producto */
+.product-card__details {
+  flex-grow: 1; /* Ocupa el espacio restante */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea los elementos al inicio */
+  gap: 5px; /* Espaciado entre nombre, autor y precio */
+  margin-top: 20px;
+}
+
+/* Nombre del producto */
+.nombreLibro {
+  font-size: 13px;
+  font-weight: bold;
+  font-family: "Roboto";
+  text-align: left;
+  margin: 0; /* Elimina márgenes adicionales */
+  line-height: 1.2; /* Ajusta la altura de línea para mayor consistencia */
+}
+
+/* Autor del producto */
+.autor {
+  font-size: 12px;
+  font-family: "Roboto";
+  margin: 0; /* Elimina márgenes adicionales */
+  text-align: left;
+  line-height: 1.2;
+}
+
+/* Precio del producto */
+.precio {
+  font-size: 16px;
+  font-family: "Roboto";
+  font-weight: bold;
+  color: #1E88E5;
+  margin: 0; /* Elimina márgenes innecesarios */
+  text-align: left;
+  align-self: flex-start;
+}
+
+
+
+/*///////////////////////////////////////////////////////////////////7
+
+
+
+
+
+/* Estilo para el contenedor de producto */
+.libros {
+  position: relative; /* Necesario para posicionar el formulario dentro del contenedor */
+  overflow: hidden; /* Oculta cualquier contenido que se desborde fuera del contenedor */
+}
+
+/* Estilo para el formulario de añadir al carrito */
+.add-to-cart-form {
+  display: none; /* Inicialmente oculto */
+  position: absolute; /* Posicionamos el formulario sobre el producto */
+  bottom: -100%; /* Lo dejamos fuera de la vista al principio */
+  left: 0;
+  right: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  padding: 20px;
+  background-color: #f0f0f0; /* Fondo sólido (sin transparencia) */
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: bottom 0.1s ease-out; /* Transición más rápida y fluida */
+}
+
+/* Estilo cuando el producto es hover y el formulario se muestra */
+.libros:hover .add-to-cart-form {
+  display: block; /* Muestra el formulario cuando el ratón pasa por encima */
+  bottom: 0; /* Hace que el formulario suba y quede visible */
+  animation: slideUp 0.1s ease-out; /* Animación más rápida y fluida */
+}
+
+/* Animación de subida desde la parte inferior del contenedor */
+@keyframes slideUp {
+  0% {
+    bottom: -100%; /* Empieza fuera de la vista */
+  }
+  100% {
+    bottom: 0; /* Llega a la parte inferior del contenedor */
+  }
+}
+
+/* Estilo para el botón de añadir al carrito */
+.add-to-cart-form button {
+  background-color: #003f75;
+  color: white;
+  font-size: 20px;
+  padding: 14px 22px; /* Botón más grande */
+  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+}
+
+/* Efecto hover y clic en el botón */
+.add-to-cart-form button:hover {
+  background-color: #1565C0;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-form button:active {
+  background-color: #0D47A1;
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Media query para hacer los productos más pequeños en pantallas más grandes */
+@media (max-width: 1024px) {
+  .libros {
+    width: calc(50% - 20px); /* 2 productos por fila */
+  }
+
+  .nombreLibro, .autor, .precio {
+    font-size: 14px; /* Ajusta los tamaños de fuente */
+  }
+}
+
+@media (max-width: 768px) {
+  .libros {
+    width: 100%; /* 1 producto por fila */
+  }
+
+  .nombreLibro, .autor, .precio {
+    font-size: 12px; /* Reduce los tamaños de fuente en pantallas pequeñas */
+  }
+
+}

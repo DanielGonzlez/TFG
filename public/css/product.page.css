@@ -1,0 +1,441 @@
+/* Estilos para el contenedor principal que contiene los filtros y los productos */
+.products-container {
+  display: flex;
+  flex-wrap: wrap; /* Para permitir que los elementos se acomoden de manera flexible */
+  justify-content: space-between; /* Deja espacio entre los productos y el filtro */
+  padding: 20px;
+}
+
+
+
+
+/* Estilo para cada label de los filtros */
+.filters label {
+  font-size: 18px; /* Aumenta el tamaño de la letra */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo de los inputs dentro de los filtros */
+.filters input[type="checkbox"] {
+  margin-right: 15px; /* Aumenta el espacio entre el checkbox y el texto */
+  transform: scale(1.2); /* Aumenta ligeramente el tamaño del checkbox */
+}
+
+/* Aumenta el tamaño de los encabezados de los filtros */
+
+
+.products-list-5 {
+  margin: 0 auto; /* Centra el contenedor en la pantalla */
+  display: flex;
+  justify-content: center; /* Asegura que el contenido dentro de .products-list-5 esté centrado */
+  width: 100%; /* Asegura que ocupe el 100% del ancho disponible */
+}
+
+.products-list-5 .libros {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  max-height: 547px;
+  min-height: 365px;
+  width: calc(20% - 20px);  /* 5 productos por fila (20% de ancho, con un pequeño margen entre ellos) */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(124, 123, 123, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 10px;
+  margin-left: 18px;
+  margin-right: -2px;
+  margin-bottom: 25px;
+}
+
+.products-list-5 .products-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;  /* Esto asegura que los productos se alineen desde la izquierda */
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1459px;
+  min-width: 468px;
+  padding: 20px;
+  background-color: #dfdede;
+  box-sizing: border-box;
+  position: relative;
+  gap: 0px;  /* Añade un espacio entre las filas de productos */
+  top: -20px;
+}
+
+.products-list-5 .libros:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sub-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 20px auto;
+  max-width: 1200px;
+  gap: 20px;
+}
+
+.filters {
+  flex: 5;
+  max-width: 300px;
+  min-width: 150px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: -115px; /* Aumentado para empujar mucho más a la derecha */
+  transition: margin 0.3s ease; /* Animación suave al cambiar el margen */
+}
+
+@media (max-width: 1280px) {
+  .filters {
+    max-width: 250px;
+    margin-left: -20px; /* Aumentado para pantallas medianas */
+  }
+}
+
+@media (max-width: 1024px) {
+  .filters {
+    max-width: 200px;
+    margin-left: 75px; /* Aumentado para pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex: 1;
+    max-width: 100%;
+    margin-left: 30px; /* Ajustado aún más para pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .filters {
+    max-width: 100%;
+    margin-left: 5px; /* Menos desplazamiento en pantallas más pequeñas */
+    padding: 10px;
+  }
+}
+
+
+.filters h4 {
+  margin-bottom: 10px;
+}
+
+.products-grid {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 20px;
+  background-color: #dfdede;
+  padding: 15px;
+  margin-top: -40px;
+}
+
+
+
+/* Estilos para los productos dentro del contenedor */
+.products-grid .libros {
+  width: calc(24% - 20px);
+  min-width: 210px;  /* 4 productos por fila en pantallas grandes */
+  min-height: 470px;
+  max-height: 420px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(124, 123, 123, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-top: -10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Media query para pantallas de escritorio o tabletas */
+@media (max-width: 1024px) {
+  .products-grid .libros {
+    width: calc(32% - 20px);  /* 3 productos por fila en pantallas medianas */
+  }
+}
+
+/* Media query para pantallas más pequeñas (móviles) */
+@media (max-width: 768px) {
+  .products-grid .libros {
+    width: 100%;  /* 1 producto por fila en móviles */
+  }
+}
+
+/* Estilo para el hover de los productos */
+.products-grid .libros:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+
+/* Ajustes en la imagen de los productos */
+.product-card__image {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 674px;
+  min-width: 130px;
+  height: 100%;
+  max-height: 370px;
+  min-height: 120px;
+  border-radius: 8px;
+  object-fit: cover; /* Ajusta la imagen sin distorsionarla */
+  margin-bottom: -15px;
+}
+
+/* Detalles del producto */
+.product-card__details {
+  flex-grow: 1; /* Ocupa el espacio restante */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea los elementos al inicio */
+  gap: 5px; /* Espaciado entre nombre, autor y precio */
+  margin-top: 20px;
+  min-height: inherit;
+}
+
+.nombreLibro {
+  font-size: 13px;  /* Aumenta el tamaño de la letra */
+  font-weight: bold;
+  font-family: "Roboto";
+  text-align: left;
+}
+
+.autor {
+  font-size: 12px;  /* Aumenta el tamaño de la letra */
+  font-family: "Roboto";
+  margin-top: -10px;
+  text-align: left;
+}
+
+.precio {
+  font-size: 16px;  /* Aumenta el tamaño de la letra */
+  font-family: "Roboto";
+  font-weight: bold;
+  color: #1E88E5;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+/* Media query para hacer los productos más pequeños en pantallas más grandes */
+@media (max-width: 1024px) {
+    .products-list-5 .libros {
+        width: calc(50% - 20px);  /* 2 productos por fila en tablets */
+    }
+
+    .products-grid .libros {
+        width: calc(30% - 20px);  /* 2 productos por fila en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .products-list-5 .libros,
+    .products-grid .libros {
+        width: 100%;  /* 1 producto por fila en móviles */
+    }
+}
+
+
+
+/* Estilos para el contenedor del contador de cantidad */
+.cart-item__quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Estilo para el input del contador de cantidad */
+.cart-item__quantity .quantity-input {
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid #1E88E5;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* Estilos para los botones de aumentar y disminuir */
+.cart-item__quantity .quantity-btn {
+  background-color: #1E88E5;
+  color: white;
+  width: 36px;
+  height: 36px;
+  font-size: 22px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Efectos de hover y clic en los botones */
+.cart-item__quantity .quantity-btn:hover {
+  background-color: #1565C0;
+  transform: scale(1.1);
+}
+
+.cart-item__quantity .quantity-btn:active {
+  background-color: #0D47A1;
+  transform: scale(0.95);
+}
+
+
+
+
+
+
+/*//////////////////////////////////////////////////////
+
+/* Estilo para el contenedor de producto */
+.libros {
+  position: relative; /* Necesario para posicionar el formulario dentro del contenedor */
+  overflow: hidden; /* Oculta cualquier contenido que se desborde fuera del contenedor */
+}
+
+/* Estilo para el formulario de añadir al carrito */
+.add-to-cart-form {
+  display: none; /* Inicialmente oculto */
+  position: absolute; /* Posicionamos el formulario sobre el producto */
+  bottom: -100%; /* Lo dejamos fuera de la vista al principio */
+  left: 0;
+  right: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  padding: 20px;
+  background-color: #f0f0f0; /* Fondo sólido (sin transparencia) */
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: bottom 0.1s ease-out; /* Transición más rápida y fluida */
+}
+
+/* Estilo cuando el producto es hover y el formulario se muestra */
+.libros:hover .add-to-cart-form {
+  display: block; /* Muestra el formulario cuando el ratón pasa por encima */
+  bottom: 0; /* Hace que el formulario suba y quede visible */
+  animation: slideUp 0.1s ease-out; /* Animación más rápida y fluida */
+}
+
+/* Animación de subida desde la parte inferior del contenedor */
+@keyframes slideUp {
+  0% {
+    bottom: -100%; /* Empieza fuera de la vista */
+  }
+  100% {
+    bottom: 0; /* Llega a la parte inferior del contenedor */
+  }
+}
+
+/* Estilo para el botón de añadir al carrito */
+.add-to-cart-form button {
+  background-color: #003f75;
+  color: white;
+  font-size: 20px;
+  padding: 14px 22px; /* Botón más grande */
+  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+}
+
+/* Efecto hover y clic en el botón */
+.add-to-cart-form button:hover {
+  background-color: #1565C0;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-form button:active {
+  background-color: #0D47A1;
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Media query para hacer los productos más pequeños en pantallas más grandes */
+@media (max-width: 1024px) {
+  .libros {
+    width: calc(50% - 20px); /* 2 productos por fila */
+  }
+
+  .nombreLibro, .autor, .precio {
+    font-size: 14px; /* Ajusta los tamaños de fuente */
+  }
+}
+
+@media (max-width: 768px) {
+  .libros {
+    width: 100%; /* 1 producto por fila */
+  }
+
+  .nombreLibro, .autor, .precio {
+    font-size: 12px; /* Reduce los tamaños de fuente en pantallas pequeñas */
+  }
+}
+
+/* Estilos para la paginación */
+.pagination {
+  display: flex;
+  justify-content: center; /* Centra la paginación */
+  align-items: center;
+  margin-top: 20px;
+  width: 100%; /* Ocupa el máximo posible de ancho */
+  padding: 10px 0; /* Espaciado superior e inferior */
+  box-sizing: border-box; /* Incluye el padding dentro del ancho total */
+}
+
+.pagination a {
+  padding: 10px 15px;
+  margin: 16px;
+  background-color: #1E88E5;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+
+  text-align: center; /* Centra el texto dentro de los botones */
+  min-width: 40px; /* Garantiza un tamaño mínimo en los botones */
+}
+
+.pagination a:hover {
+  background-color: #1565C0;
+}
+
+.pagination a.active {
+  background-color: #0D47A1;
+}
+
+.pagination a.disabled {
+  background-color: #ccc;
+  pointer-events: none;
+}
+
+.pagination #currentPage {
+  font-weight: bold;
+  text-align: center; /* Centra el texto dentro de los botones */
+}
+
+
