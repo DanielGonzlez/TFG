@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrfToken }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/product.page.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <script src="{{ asset('js/carga-asincrona.js') }}"></script>
+    <title>Productos</title>
+</head>
+<body>
+  @include('partials/header')
+
+  <div class="products-container">
+
+    <!-- Productos de 5 en 5 -->
+    <div class="products-list-5">
+      <div class="products-list">
+        @include('partials/product-list')
+      </div>
+    </div>
+  
+    <div class="sub-container">
+      <div class="filters">
+        <form id="filterForm" method="GET" action="{{ route('products') }}">
+          <!-- Filtro de precios -->
+          <div>
+            <h4>Rango de precios</h4>
+            <label>
+              <input type="checkbox" name="priceRange[]" value="0-8" {{ selectedPriceRange.includes('0-8') ? 'checked' : '' }} />
+              De 0 a 8 €
+            </label>
+            <label>
+              <input type="checkbox" name="priceRange[]" value="8-15" {{ selectedPriceRange.includes('8-15') ? 'checked' : '' }} />
+              De 8 a 15 €
+            </label>
+            <label>
+              <input type="checkbox" name="priceRange[]" value="15-30" {{ selectedPriceRange.includes('15-30') ? 'checked' : '' }} />
+              De 15 a 30 €
+            </label>
+            <label>
+              <input type="checkbox" name="priceRange[]" value="30-45" {{ selectedPriceRange.includes('30-45') ? 'checked' : '' }} />
+              De 30 a 45 €
+            </label>
+            <label>
+              <input type="checkbox" name="priceRange[]" value="45+" {{ selectedPriceRange.includes('45+') ? 'checked' : '' }} />
+              Más de 45 €
+            </label>
+          </div>
+    
+          <!-- Filtro de categorías -->
+          <div>
+            <h4>Categorías</h4>
+            @each(category in categories)
+              <label>
+                <input type="checkbox" name="categories[]" value="{{ category }}" 
+                {{ selectedCategories.includes(category) ? 'checked' : '' }} />
+                {{ category }}
+              </label>
+            @endeach
+          </div>
+        </form>
+      </div>
+    
+      <div class="products-grid">
+        @include('partials/product-grid')
+      </div>
+    </div>
+    
+    <!-- Paginación -->
+  <div class="pagination">
+    @if (page > 1)
+      <a href="?page={{ page - 1 }}">Página anterior</a>
+    @endif
+
+    <p id="currentPage">Página {{ page }} de {{ totalPages }}</p>
+
+    @if (page < totalPages)
+      <a href="?page={{ page + 1 }}">Página siguiente</a>
+    @endif
+  </div>
+  
+
+  @include('partials/footer')
+
+  <script>
+    // Capturar todos los checkbox dentro del formulario de filtros
+    document.querySelectorAll('#filterForm input[type="checkbox"]').forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        // Enviar el formulario automáticamente cuando se cambia el estado de un checkbox
+        document.getElementById('filterForm').submit();
+      });
+    });
+  </script>
+</body>
+</html>
