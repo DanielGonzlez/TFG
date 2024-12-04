@@ -1,0 +1,31 @@
+<!-- resources/views/pages/user-profile.edge -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}">
+    <title>Perfil del Usuario</title>
+</head>
+<body>
+    @include('partials/header')
+
+    <div class="user-profile">
+        <div class="profile-header">
+            <h1>Información del Usuario</h1>
+            <img src="{{ user.profile_image }}" alt="Imagen de perfil" class="profile-image">
+        </div>
+
+        <div class="profile-info">
+            <p><strong>Nombre:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Rol:</strong> {{ user.rol }}</p>
+            <p><strong>Fecha de Registro:</strong> {{ formattedDate }}</p>
+        </div>
+
+        
+    </div>
+</body>
+</html>
