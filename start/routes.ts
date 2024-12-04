@@ -11,8 +11,8 @@ import router from '@adonisjs/core/services/router'
 import AuthController from '#controllers/auth.controller'
 import ProductController from '#controllers/product.controller'
 import { middleware } from './kernel.js'
-
-router.get('/', [AuthController, 'home']).as('home')
+import UserController from '#controllers/user.controller'
+import PaymentController from '#controllers/payment.controller'
   
 router.get('/register', [AuthController, 'showRegisterForm'])  //! Mostrar formulario de registro
 router.post('/register', [AuthController, 'register']).as('register')  //! Registrar un usuario
@@ -29,11 +29,31 @@ router.post('/products', [ProductController, 'store']).as('products.store') //! 
 
 router.get('/products/:productId/edit', [ProductController, 'showForm']).as('products.edit').use(middleware.auth()) //! Mostrar el formulario de edición de productos
 router.put('/products/:productId', [ProductController, 'update']).as('products.update') //! Actualizar un producto
+router.delete('/products/:productId', [ProductController, 'delete']).as('products.delete') //! Eliminar un producto
 
+router.get('/products/:productId', [ProductController, 'show']).as('products.show') //! Mostrar detalle de un producto
 
-//! Ruta con la informacion del usuario
-// TODO		AÚN NO IMPLEMENTADO
-router.get('/user-info', 'AuthController.showUserInformation').use(middleware.auth())
+router.get('/user/profile', [UserController, 'profile']).as('user.profile').use(middleware.auth()) //! Ruta con la informacion del usuario
+
+//* Rutas para las vistas
+
+router.get('/', [ProductController, 'home']).as('home')
+router.get('/products', [ProductController, 'products']).as('products')
+
+//* Rutas para el carrito
+
+router.post('/cart/add', [ProductController, 'addToCart']).as('cart.add')
+router.get('/cart', [ProductController, 'showCart']).as('cart.show')
+router.post('/cart/update-quantity/:productId', [ProductController, 'updateCartQuantity'])
+router.delete('/cart/remove/:productId', [ProductController, 'removeFromCart'])
+
+//* Rutas para el pago
+
+router.post('/checkout', [PaymentController, 'checkout']).as('checkout')
+router.post('/clear-cart', [PaymentController, 'clearCart']).as('clearCart')
+
+//Route.post('/clear-cart', 'PaymentController.clearCart'); // Para borrar el carrito
+
 
 
 
