@@ -1,0 +1,31 @@
+<!-- resources/views/pages/product-file.edge -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrfToken }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/details.product.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/product.page.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <title>Detalle del producto</title>
+</head>
+<body>
+    @include('partials/header')
+
+    @component('components/detail-product', { product, user, USER_ROL })
+    @endcomponent
+
+    <div class="products-container">
+        <div class="products-list-5">
+          <div class="products-list">
+            @include('partials/product-by-category')
+          </div>
+        </div>
+      </div>
+
+    @include('partials/footer')
+</body>
+</html>
