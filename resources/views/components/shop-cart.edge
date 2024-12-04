@@ -1,0 +1,112 @@
+<div class="cart-container" id="cart-container" name="cart-container">
+    <h2 id="cart-title" name="cart-title">Tu Carrito</h2>
+
+    @if (isCartEmpty)
+        <p id="empty-cart-message" name="empty-cart-message">Tu carrito está vacío. Agrega productos para continuar.</p>
+    @else
+        <div class="cart-items" id="cart-items" name="cart-items">
+            @each(CartItem in cart)
+                <div class="cart-item" id="cart-item-{{ CartItem.productId }}" name="cart-item-{{ CartItem.productId }}">
+                    <img src="{{ CartItem.image }}" alt="{{ CartItem.name }}" class="cart-item__image" id="cart-item-image-{{ CartItem.productId }}" name="cart-item-image-{{ CartItem.productId }}">
+                    <div class="cart-item__details" id="cart-item-details-{{ CartItem.productId }}" name="cart-item-details-{{ CartItem.productId }}">
+                        <h3 id="cart-item-name-{{ CartItem.productId }}" name="cart-item-name-{{ CartItem.productId }}">{{ CartItem.name }}</h3>
+                        <p id="cart-item-price-{{ CartItem.productId }}" name="cart-item-price-{{ CartItem.productId }}">
+                            @if(CartItem.discountedPrice > 0 && CartItem.discountedPrice < CartItem.price)
+                                <!-- Si el precio con descuento es mayor que 0 y menor que el precio original, mostrar ambos precios -->
+                                <span class="original-price">{{ CartItem.price }}€</span>
+                                <span class="discount-price">{{ CartItem.discountedPrice.toFixed(2) }}€</span>
+                            @else
+                                <!-- Si el descuento es igual al precio original o es 0 o menor, solo mostrar el precio original -->
+                                <span class="original-class-no-discount">{{ CartItem.price }}€</span>
+                            @endif
+                        </p>
+                        
+                        
+                        
+                        <p id="cart-item-quantity-{{ CartItem.productId }}" name="cart-item-quantity-{{ CartItem.productId }}">Cantidad: {{ CartItem.quantity }}</p>
+                        <p id="cart-item-subtotal-{{ CartItem.productId }}" name="cart-item-subtotal-{{ CartItem.productId }}">Subtotal: {{ (CartItem.discountedPrice * CartItem.quantity).toFixed(2) }}€</p>
+
+                        <!-- Botones de cantidad y eliminar -->
+                        <div class="buttons-container">
+                            <button 
+                                class="reduce-quantity" 
+                                onclick="updateQuantity('{{ CartItem.productId }}', -1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                                    <path d="M19 13H5v-2h14v2z"/>
+                                </svg>
+                            </button>
+                        
+                            <button 
+                                class="increase-quantity" 
+                                onclick="updateQuantity('{{ CartItem.productId }}', 1)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                                    <path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>
+                        
+                            <button 
+                                class="remove-item" 
+                                onclick="removeItem('{{ CartItem.productId }}')">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="20" height="20">
+                                    <path d="M 13 3 A 1.0001 1.0001 0 0 0 11.986328 4 L 6 4 A 1.0001 1.0001 0 1 0 6 6 L 24 6 A 1.0001 1.0001 0 1 0 24 4 L 18.013672 4 A 1.0001 1.0001 0 0 0 17 3 L 13 3 z M 6 8 L 6 24 C 6 25.105 6.895 26 8 26 L 22 26 C 23.105 26 24 25.105 24 24 L 24 8 L 6 8 z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endeach
+        </div>
+
+        <!-- Precio Total -->
+        <div class="cart-total" id="cart-total" name="cart-total">
+            <h3 id="cart-total-price" name="cart-total-price">Total: {{ totalPrice.toFixed(2) }}€</h3>
+        </div>
+    @endif
+
+    <script>
+        // Código JavaScript para manejar la actualización de la cantidad y eliminación de productos
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        window.updateQuantity = async function(productId, change) {
+            try {
+                const response = await fetch(`/cart/update-quantity/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({ change }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al actualizar la cantidad.');
+                }
+
+                const data = await response.json();
+                location.reload();  
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        window.removeItem = async function(productId) {
+            try {
+                const response = await fetch(`/cart/remove/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al eliminar el producto.');
+                }
+
+                const data = await response.json();
+                location.reload();  
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+    </script>
+</div>
