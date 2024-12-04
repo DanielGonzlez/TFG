@@ -6,14 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <title>Productos</title>
 </head>
 <body>
        
-        @include('partials/header')
+    @include('partials/header')
 
-        @component('components/form-product', { producto: producto, categories: categories, discounts: discounts, DISCOUNT_TYPE: DISCOUNT_TYPE,  modoCreacion, rutaAction, user })
-        @endcomponent
+    @component('components/form-product', { producto: producto, categories: categories, discounts: discounts, DISCOUNT_TYPE: DISCOUNT_TYPE,  modoCreacion, rutaAction, user })
+    @endcomponent
 
+    @include('partials/footer')
 </body>
 </html>
