@@ -1,12 +1,12 @@
 <header>
-    <img id="logo" src="{{ asset('assets/img/logo.png') }}">
-    <img id="nombre" src="{{ asset('assets/img/nombre.png') }}">
+    <img id="logo" src="{{ asset('assets/img/logo.jpg') }}">
 
     {{ csrfField() }}
     
     <nav>
+        <a href="{{ route('home') }}">Inicio</a>
+        <a href="{{ route('products') }}">Libros</a>
         @if(user)
-            <a href="{{ route('home') }}">Inicio</a>
             @if(user?.rol === USER_ROL.ADMIN)
                 <a href="{{ route('products.create') }}">Crear productos</a>
             @endif
@@ -17,9 +17,59 @@
         @endif
     </nav>
 
-    <!-- Barra de búsqueda en productos.index -->
+    <form class="form-inline" action="/products" method="GET">
+        <div class="form-group">
+            <input type="text" class="form-control" id="search" name="search" placeholder="Buscar por nombre, categoria, autor...">
+        </div>
+    </form>    
     
-    <img id="imagenUsuario" src="{{ asset('assets/img/usuario.png') }}">
-    <img id="imagenComprar" src="{{ asset('assets/img/carrito-de-compras.png') }}" onclick="mostrarColumna()" id="mostrarCarrito">
+    <a href="{{ route('user.profile') }}">
+        <img id="imagenUsuario" src="{{ asset('assets/img/usuario.png') }}" alt="Usuario">
+    </a>
+    <a href="{{ route('cart.show') }}" style="position: relative;">
+        <img id="imagenComprar" src="{{ asset('assets/img/carrito-de-compras.png') }}" alt="Carrito">
+        <div id="cart-count" class="cart-count">
+            @if (cart && cart.length > 0)
+                {{ cart.reduce((total, item) => total + (item.quantity || 0), 0) }}
+            @else
+                0
+            @endif
+        </div>
+    </a>
+    
+    <script>
+        // Función para actualizar el contador del carrito
+        async function updateCartCount() {
+            try {
+                // Consulta al servidor para obtener el carrito actualizado
+                const response = await fetch('/api/cart/count', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value
+                    }
+                });
+    
+                if (!response.ok) throw new Error('Error al obtener los datos del carrito');
+    
+                const data = await response.json();
+    
+                // Actualiza el contador del carrito en el DOM
+                const cartCountElement = document.getElementById('cart-count');
+                cartCountElement.textContent = data.totalQuantity || 0;
+    
+            } catch (error) {
+                console.error('Error al actualizar el contador del carrito:', error);
+            }
+        }
+    
+        // Llamada inicial para sincronizar el contador al cargar la página
+        updateCartCount();
+    
+        // Escucha cambios en el carrito (ejemplo de simular eventos, como un botón de agregar al carrito)
+        document.addEventListener('cartUpdated', updateCartCount);
+    </script>
+    
+
     <div id="mensaje"></div>
 </header>

@@ -1,0 +1,11 @@
+<!-- partials/product-list.edge -->
+<h2>¿Te atrapó esta historia? Encuentra más lecturas como esta</h2>
+<div class="products-list">
+  <!-- Mostrar los primeros 5 productos aleatorios -->
+  @if (categoryProducts)
+      @each(product in categoryProducts)
+          @component('components/card-product', { product: product })
+          @endcomponent
+      @endeach
+  @endif
+</div>
