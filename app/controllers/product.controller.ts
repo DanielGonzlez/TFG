@@ -8,7 +8,7 @@ import Administrator from '#models/administrator_model'
 import { DISCOUNT_TYPE, CATEGORY_TYPE } from '#types/product_type'
 
 //! ESTO HABRÍA QUE SACARLO FUERA DEL CONTROLADOR
-interface CartItem {
+export interface CartItem {
   productId: string;
   name: string;
   price: number;
@@ -21,142 +21,216 @@ export default class ProductController {
     
   //! Mostrar la página de inicio
   public async home({ view, session }: HttpContext) {
-
     //* Obtener 5 productos aleatorios (firstProducts)
-    // TODO  Cambiar logica para que coja los productos segun una logica de ventas
+    // TODO Cambiar lógica para que coja los productos según una lógica de ventas
     const firstProducts = await Product.query().orderByRaw('RAND()').limit(5);
-
+  
+    //* Calcular el discountedPrice para cada producto
+    const productsWithDiscount = firstProducts.map((product) => {
+      let discountedPrice: number | null = null;
+  
+      if (product.discount > 0) {
+        discountedPrice = product.discountType === 'PERCENTAGE'
+          ? product.price * (1 - product.discount / 100)
+          : product.price - product.discount;
+      }
+  
+      const productData: any = {
+        ...product.serialize(),
+        price: product.price, // Precio original redondeado
+      };
+  
+      // Solo agregar el discountedPrice si existe (es decir, si el descuento es mayor a 0)
+      if (discountedPrice !== null) {
+        productData.discountedPrice = discountedPrice.toFixed(2); // Redondeamos discountedPrice solo si existe
+      }
+  
+      return productData;
+    });
+  
     //* Obtener el usuario de la sesión
     const user = session.get('user');
     const cartData = session.get('cart');
-
     const cart: CartItem[] = cartData ? Object.values(cartData) : [];
-
+  
     return view.render('pages/home', {
-        user,
-        cart,
-        USER_ROL,
-        firstProducts,
+      user,
+      cart,
+      USER_ROL,
+      firstProducts: productsWithDiscount,
     });
-}
+  }
+  
   public async products({ view, session, request }: HttpContext) {
     const perPage = 16;
     const searchTerm = request.input('search', '').trim();
     const page = Number(request.input('page', 1));
     const offset = (page - 1) * perPage;
-
+  
     //* Filtros
-    const selectedPriceRange = request.input('priceRange', []);
-    const selectedCategories = request.input('categories', []);
-
+    // Asegurarse de que los inputs sean arreglos o normalizarlos
+    const selectedPriceRangeInput = request.input('priceRange', []);
+    const selectedPriceRange = Array.isArray(selectedPriceRangeInput)
+      ? selectedPriceRangeInput
+      : [selectedPriceRangeInput];
+  
+    const selectedCategoriesInput = request.input('categories', []);
+    const selectedCategories = Array.isArray(selectedCategoriesInput)
+      ? selectedCategoriesInput
+      : [selectedCategoriesInput];
+  
     //* Crear la consulta inicial para los productos de 15 en 15
     let productsQuery = Product.query().limit(perPage).offset(offset);
-
+  
     //* Si hay una palabra de búsqueda, agregar condiciones para buscar en nombre, autor y categoría
     if (searchTerm) {
-        productsQuery = productsQuery
-            .where('name', 'LIKE', `%${searchTerm}%`)
-            .orWhere('author', 'LIKE', `%${searchTerm}%`)
-            .orWhere('category', 'LIKE', `%${searchTerm}%`);
+      productsQuery = productsQuery
+        .where('name', 'LIKE', `%${searchTerm}%`)
+        .orWhere('author', 'LIKE', `%${searchTerm}%`)
+        .orWhere('category', 'LIKE', `%${searchTerm}%`);
     }
-
+  
     //* Filtros de precio
-    //  TODO  Cambiar esto para que sea una funcion aparte
     if (selectedPriceRange.length > 0) {
-        productsQuery = productsQuery.where((builder) => {
-            selectedPriceRange.forEach((range: string) => {
-                if (range === '0-8') {
-                    builder.where('price', '>=', 0).andWhere('price', '<=', 8);
-                }
-                if (range === '8-15') {
-                    builder.orWhere('price', '>=', 8).andWhere('price', '<=', 15);
-                }
-                if (range === '15-30') {
-                    builder.orWhere('price', '>=', 15).andWhere('price', '<=', 30);
-                }
-                if (range === '30-45') {
-                    builder.orWhere('price', '>=', 30).andWhere('price', '<=', 45);
-                }
-                if (range === '45+') {
-                    builder.orWhere('price', '>=', 45);
-                }
-            });
+      productsQuery = productsQuery.where((builder) => {
+        selectedPriceRange.forEach((range: string) => {
+          switch (range) {
+            case '0-8':
+              builder.where('price', '>=', 0).andWhere('price', '<=', 8);
+              break;
+            case '8-15':
+              builder.orWhere('price', '>=', 8).andWhere('price', '<=', 15);
+              break;
+            case '15-30':
+              builder.orWhere('price', '>=', 15).andWhere('price', '<=', 30);
+              break;
+            case '30-45':
+              builder.orWhere('price', '>=', 30).andWhere('price', '<=', 45);
+              break;
+            case '45+':
+              builder.orWhere('price', '>=', 45);
+              break;
+          }
         });
+      });
     }
-
+  
     //* Filtros de categorías
     if (selectedCategories.length > 0) {
-        productsQuery = productsQuery.whereIn('category', selectedCategories);
+      productsQuery = productsQuery.whereIn('category', selectedCategories);
     }
-
+  
     //* Obtener los productos filtrados
-    const products = await productsQuery.exec();
+    const productsRaw = await productsQuery.exec();
+  
+    //* Calcular el discountedPrice para cada producto
+    const products = productsRaw.map((product) => {
+      const discountedPrice =
+        product.discount > 0
+          ? product.discountType === 'PERCENTAGE'
+            ? product.price * (1 - product.discount / 100)
+            : product.price - product.discount
+          : null; // Si el descuento es 0, no asignamos discountedPrice
+  
+      // Solo incluir discountedPrice si es diferente de null
+      const productData: any = {
+        ...product.serialize(),
+        price: product.price, // Formato con dos decimales para el precio
+      };
 
+      if (discountedPrice !== null) {
+        productData.discountedPrice = discountedPrice.toFixed(2); // Formatear solo si hay descuento
+      }
+
+      return productData;
+    });
+  
     //* Obtener 5 productos aleatorios (firstProducts)
-    //TODO  Cambiar logica para que coja los productos segun una logica de ventas
-    const firstProducts = await Product.query().orderByRaw('RAND()').limit(5);
+    const firstProductsRaw = await Product.query().orderByRaw('RAND()').limit(5);
+  
+    const firstProducts = firstProductsRaw.map((product) => {
+      const discountedPrice =
+        product.discount > 0
+          ? product.discountType === 'PERCENTAGE'
+            ? product.price * (1 - product.discount / 100)
+            : product.price - product.discount
+          : null; // Si el descuento es 0, no asignamos discountedPrice
+  
+      const productData: any = {
+        ...product.serialize(),
+        price: product.price, // Formato con dos decimales para el precio
+      };
 
+      if (discountedPrice !== null) {
+        productData.discountedPrice = discountedPrice.toFixed(2); // Formatear solo si hay descuento
+      }
+
+      return productData;
+    });
+  
     //* Obtener el total de productos con el mismo filtro de búsqueda o sin filtro
     let totalQuery = Product.query();
     if (searchTerm) {
-        totalQuery = totalQuery
-            .where('name', 'LIKE', `%${searchTerm}%`)
-            .orWhere('author', 'LIKE', `%${searchTerm}%`)
-            .orWhere('category', 'LIKE', `%${searchTerm}%`);
+      totalQuery = totalQuery
+        .where('name', 'LIKE', `%${searchTerm}%`)
+        .orWhere('author', 'LIKE', `%${searchTerm}%`)
+        .orWhere('category', 'LIKE', `%${searchTerm}%`);
     }
-
+  
     if (selectedPriceRange.length > 0) {
-        totalQuery = totalQuery.where((builder) => {
-            selectedPriceRange.forEach((range: string) => {
-                if (range === '0-8') {
-                    builder.where('price', '>=', 0).andWhere('price', '<=', 8);
-                }
-                if (range === '8-15') {
-                    builder.orWhere('price', '>=', 8).andWhere('price', '<=', 15);
-                }
-                if (range === '15-30') {
-                    builder.orWhere('price', '>=', 15).andWhere('price', '<=', 30);
-                }
-                if (range === '30-45') {
-                    builder.orWhere('price', '>=', 30).andWhere('price', '<=', 45);
-                }
-                if (range === '45+') {
-                    builder.orWhere('price', '>=', 45);
-                }
-            });
+      totalQuery = totalQuery.where((builder) => {
+        selectedPriceRange.forEach((range: string) => {
+          switch (range) {
+            case '0-8':
+              builder.where('price', '>=', 0).andWhere('price', '<=', 8);
+              break;
+            case '8-15':
+              builder.orWhere('price', '>=', 8).andWhere('price', '<=', 15);
+              break;
+            case '15-30':
+              builder.orWhere('price', '>=', 15).andWhere('price', '<=', 30);
+              break;
+            case '30-45':
+              builder.orWhere('price', '>=', 30).andWhere('price', '<=', 45);
+              break;
+            case '45+':
+              builder.orWhere('price', '>=', 45);
+              break;
+          }
         });
+      });
     }
-
+  
     if (selectedCategories.length > 0) {
-        totalQuery = totalQuery.whereIn('category', selectedCategories);
+      totalQuery = totalQuery.whereIn('category', selectedCategories);
     }
-
+  
     const totalResult = await totalQuery.count('* as total');
     const total = totalResult[0].$extras.total;
     const totalPages = Math.ceil(total / perPage);
-
+  
     const user = session.get('user');
     const cartData = session.get('cart');
-
+  
     const cart: CartItem[] = cartData ? Object.values(cartData) : [];
-
+  
     //* Obtener las categorías disponibles para los filtros
     const categories = Object.values(CATEGORY_TYPE);
-
+  
     return view.render('pages/products-page', {
-        user,
-        USER_ROL,
-        products,
-        firstProducts,  //! Pasar los 5 productos aleatorios a la vista
-        page,
-        totalPages,
-        perPage,
-        total,
-        searchTerm,
-        categories,
-        selectedCategories,
-        selectedPriceRange,
-        cart,
+      user,
+      USER_ROL,
+      products,
+      firstProducts, // Pasar los 5 productos aleatorios con discountedPrice a la vista
+      page,
+      totalPages,
+      perPage,
+      total,
+      searchTerm,
+      categories,
+      selectedCategories,
+      selectedPriceRange,
+      cart,
     });
 }
 
@@ -393,36 +467,72 @@ export default class ProductController {
   }
 
   public async show({ params, view, session }: HttpContext) {
-    const user = session.get('user')
+    const user = session.get('user');
     const cartData = session.get('cart');
 
+    // Convertir los datos del carrito en un array
     const cart: CartItem[] = cartData ? Object.values(cartData) : [];
-    const product = await Product.findOrFail(params.productId);
-    const discountedPrice = product.getDiscountedPrice().toFixed(2);
-
-    //* Obtener 5 productos aleatorios (firstProducts)
-    // TODO  Cambiar por productos de la misma categoría
-    const categoryProducts = await Product.query()
-      .where('category', product.category)
-      .orderByRaw('RAND()')
-      .limit(5);
-
-    return view.render('pages/product-detail', {
-      product: {
-        productId: product.productId,
-        image: product.image,
-        name: product.name,
-        author: product.author,
-        description: product.description,
-        category: product.category,
-        price: product.price,
-        discount: product.discount,
-        discountType: product.discountType,
-        discountedPrice,
-      }, user, USER_ROL, categoryProducts, cart
-    });
     
-  }
+    // Obtener el producto por ID
+    const product = await Product.findOrFail(params.productId);
+
+    // Asegurarse de que product.price es un número
+    const price = parseFloat(product.price.toString()); // Convierte el precio a número
+    const discountedPrice = product.discount > 0
+        ? product.discountType === 'PERCENTAGE'
+            ? price * (1 - product.discount / 100)
+            : price - product.discount
+        : price;
+
+    // Obtener productos de la misma categoría (como sugerencia)
+    const categoryProducts = await Product.query()
+        .where('category', product.category)
+        .orderByRaw('RAND()')
+        .limit(5);
+
+    // Formatear todos los precios con dos decimales
+    const formattedPrice = price.toFixed(2);
+    const formattedDiscountedPrice = discountedPrice.toFixed(2);
+
+    const formattedCategoryProducts = categoryProducts.map((item) => ({
+        productId: item.productId,
+        image: item.image,
+        name: item.name,
+        author: item.author,
+        unit: item.unit,
+        price: parseFloat(item.price.toString()).toFixed(2), // Formateo el precio con dos decimales
+        discount: item.discount,
+        discountType: item.discountType,
+        discountedPrice: item.discount > 0
+            ? item.discountType === 'PERCENTAGE'
+                ? (parseFloat(item.price.toString()) * (1 - item.discount / 100)).toFixed(2) // Formateo el precio con descuento
+                : (parseFloat(item.price.toString()) - item.discount).toFixed(2) // Formateo el precio con descuento
+            : parseFloat(item.price.toString()).toFixed(2), // Si no tiene descuento, lo formateo igualmente
+    }));
+
+    // Renderizar la vista con todos los datos necesarios
+    return view.render('pages/product-detail', {
+        product: {
+            productId: product.productId,
+            image: product.image,
+            name: product.name,
+            author: product.author,
+            description: product.description,
+            category: product.category,
+            price: formattedPrice, // Precio original con dos decimales
+            discount: product.discount,
+            discountType: product.discountType,
+            discountedPrice: formattedDiscountedPrice, // Precio con descuento con dos decimales
+            unit: product.unit
+        },
+        user,
+        USER_ROL,
+        categoryProducts: formattedCategoryProducts, // Productos relacionados con precios formateados
+        cart,
+    });
+}
+
+
   
   public async delete({ params, response }: HttpContext) {
     try {
@@ -471,6 +581,7 @@ export default class ProductController {
             price: product.price,
             quantity: 1,
             image: product.image,
+            discountType: product.discountType,
             discountedPrice: product.getDiscountedPrice(),
         };
     }
@@ -488,7 +599,7 @@ export default class ProductController {
   }
 
   public async showCart({ view, session }: HttpContext) {
-
+    const user = session.get('user')
     const cartData = session.get('cart');
     console.log('Cart data from session:', cartData);
 
@@ -508,7 +619,9 @@ export default class ProductController {
 
     return view.render('pages/cart', {
         cart,
-        totalPrice
+        totalPrice,
+        user,
+        USER_ROL
     });
   }
 

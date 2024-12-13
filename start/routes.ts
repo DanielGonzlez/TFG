@@ -13,6 +13,7 @@ import ProductController from '#controllers/product.controller'
 import { middleware } from './kernel.js'
 import UserController from '#controllers/user.controller'
 import PaymentController from '#controllers/payment.controller'
+import InvoiceController from '#controllers/invoice.controller'
   
 router.get('/register', [AuthController, 'showRegisterForm'])  //! Mostrar formulario de registro
 router.post('/register', [AuthController, 'register']).as('register')  //! Registrar un usuario
@@ -49,8 +50,18 @@ router.delete('/cart/remove/:productId', [ProductController, 'removeFromCart'])
 
 //* Rutas para el pago
 
-router.post('/checkout', [PaymentController, 'checkout']).as('checkout')
+router.post('/checkout', [PaymentController, 'checkout']).as('checkout').use(middleware.client())
 router.post('/clear-cart', [PaymentController, 'clearCart']).as('clearCart')
+
+router.get('/buy-now/:productId', [PaymentController, 'buyNowPage']).as('buyNowPage').use(middleware.client())
+router.post('/create-payment-intent/:productId', [PaymentController, 'createPaymentIntent']).as('createPaymentIntent');
+
+//router.post('/buy-now', [PaymentController, 'buyNow']).as('buyNow');
+
+
+
+router.get('invoice/:invoiceId/html', [InvoiceController, 'showInvoiceHTML']).as('invoice.see').use(middleware.client())
+router.get('invoice/:invoiceId/pdf', [InvoiceController, 'downloadInvoicePDF']).as('invoice.download').use(middleware.client())
 
 //Route.post('/clear-cart', 'PaymentController.clearCart'); // Para borrar el carrito
 

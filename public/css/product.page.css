@@ -37,10 +37,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
-  max-height: 547px;
-  min-height: 365px;
-  width: calc(20% - 20px);  /* 5 productos por fila (20% de ancho, con un pequeño margen entre ellos) */
+  height: 530px; /* Altura fija para todos los productos */
+  width: calc(20% - 20px); /* 5 productos por fila (20% de ancho, con un pequeño margen entre ellos) */
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(124, 123, 123, 0.1);
@@ -144,7 +142,7 @@
 .products-grid .libros {
   width: calc(24% - 20px);
   min-width: 210px;  /* 4 productos por fila en pantallas grandes */
-  min-height: 470px;
+  min-height: 500px;
   max-height: 420px;
   background-color: #fff;
   border-radius: 8px;
@@ -184,15 +182,16 @@
 /* Ajustes en la imagen de los productos */
 .product-card__image {
   width: 100%; /* Ocupa todo el ancho disponible */
-  max-width: 674px;
-  min-width: 130px;
-  height: 100%;
-  max-height: 370px;
-  min-height: 120px;
+  max-width: 674px; /* Ancho máximo */
+  min-width: 130px; /* Ancho mínimo */
+  height: 360px; /* Altura fija */
+  max-height: 380px; /* Altura máxima */
+  min-height: 120px; /* Altura mínima */
   border-radius: 8px;
   object-fit: cover; /* Ajusta la imagen sin distorsionarla */
   margin-bottom: -15px;
 }
+
 
 /* Detalles del producto */
 .product-card__details {
@@ -216,14 +215,19 @@
   font-size: 12px;  /* Aumenta el tamaño de la letra */
   font-family: "Roboto";
   margin-top: -10px;
+  margin-bottom: inherit;
   text-align: left;
 }
 
+.products-list-5 .autor {
+  margin-bottom: auto;
+}
+
 .precio {
-  font-size: 16px;  /* Aumenta el tamaño de la letra */
+  font-size: 19px;  /* Aumenta el tamaño de la letra */
   font-family: "Roboto";
   font-weight: bold;
-  color: #1E88E5;
+  color: #b81313;
   margin-top: 5px;
   margin-bottom: 5px;
   text-align: left;
@@ -246,6 +250,19 @@
         width: 100%;  /* 1 producto por fila en móviles */
     }
 }
+
+.products-grid .libros .product-card__image {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 674px; /* Ancho máximo */
+  min-width: 130px; /* Ancho mínimo */
+  height: 330px; /* Altura fija */
+  max-height: 380px; /* Altura máxima */
+  min-height: 120px; /* Altura mínima */
+  border-radius: 8px;
+  object-fit: cover; /* Ajusta la imagen sin distorsionarla */
+  margin-bottom: -15px;
+}
+
 
 
 
@@ -316,7 +333,7 @@
 
 /* Estilo para el formulario de añadir al carrito */
 .add-to-cart-form {
-  display: none; /* Inicialmente oculto */
+  display: block; /* Inicialmente oculto */
   position: absolute; /* Posicionamos el formulario sobre el producto */
   bottom: -100%; /* Lo dejamos fuera de la vista al principio */
   left: 0;
@@ -348,10 +365,39 @@
 }
 
 /* Estilo para el botón de añadir al carrito */
-.add-to-cart-form button {
+.add-to-cart-btn {
   background-color: #003f75;
   color: white;
   font-size: 20px;
+  padding: 14px 22px; /* Botón más grande */
+  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  border-radius: 8px;
+  margin-bottom: 7px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+}
+
+/* Efecto hover y clic en el botón */
+.add-to-cart-btn:hover {
+  background-color: #1565C0;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-btn:active {
+  background-color: #0D47A1;
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el botón de comprar ahora */
+.buy-now-btn {
+  background-color: #D81B60; /* Rosa fuerte */
+  color: white;
+  font-size: 19x;
   padding: 14px 22px; /* Botón más grande */
   font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
   border-radius: 8px;
@@ -363,17 +409,46 @@
 }
 
 /* Efecto hover y clic en el botón */
-.add-to-cart-form button:hover {
-  background-color: #1565C0;
+.buy-now-btn:hover {
+  background-color: #C2185B; /* Rosa más oscuro */
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.add-to-cart-form button:active {
-  background-color: #0D47A1;
+.buy-now-btn:active {
+  background-color: #880E4F; /* Rosa más oscuro al hacer clic */
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+.buy-now-btn-disabled {
+  background-color: #5a5a5a; /* Rosa fuerte */
+  color: white;
+  font-size: 19x;
+  padding: 14px 22px; /* Botón más grande */
+  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+}
+
+/* Efecto hover y clic en el botón */
+.buy-now-btn-disabled:hover {
+  background-color: #4b4b4b; /* Rosa más oscuro */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.buy-now-btn-disabled:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
 
 /* Media query para hacer los productos más pequeños en pantallas más grandes */
 @media (max-width: 1024px) {
@@ -394,6 +469,73 @@
   .nombreLibro, .autor, .precio {
     font-size: 12px; /* Reduce los tamaños de fuente en pantallas pequeñas */
   }
+}
+
+.product-units-ex, .product-units-few, .product-units-many, .product-units-lot {
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: initial;
+  margin-bottom: 20px;
+}
+
+.product-units-ex {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  color: #808080; /* Gris */
+}
+
+.product-units-ex + svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.product-units-few {
+  color: #ff3737; /* Rojo */
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.product-units-few + svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.product-units-many {
+  color: #ff9900; /* Naranja */
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.product-units-many + svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.product-units-lot {
+  color: #33cc33; /* Verde */
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.product-units-lot + svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.text {
+	margin-left: 5px;
+	margin-top: 16px;
+	position: absolute;
 }
 
 /* Estilos para la paginación */

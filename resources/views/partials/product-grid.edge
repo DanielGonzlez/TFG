@@ -2,7 +2,7 @@
 
 <div class="products-grid">
     @each(product in products)
-      @component('components/card-product', { product: product })
+      @component('components/card-product', { product: product, user, USER_ROL })
       @endcomponent
     @endeach
 </div>

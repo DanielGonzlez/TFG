@@ -1,0 +1,67 @@
+<div class="user-profile">
+    <!-- Información del Usuario -->
+    <div class="profile-header">
+        @if(user.rol === USER_ROL.CLIENT)
+            <h1>Información del Usuario</h1>
+        @else
+            <h1>Información del Administrador</h1>
+        @endif
+    </div>
+
+    <div class="profile-info">
+        <table class="user-info-table">
+            <tr>
+                <th>Nombre</th>
+                <td>{{ user.name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            @if(user.rol === USER_ROL.CLIENT)
+                <tr>
+                    <th>Dirección</th>
+                    <td>{{ billAdd }}</td>
+                </tr>
+            @endif
+            <tr>
+                <th>Fecha de Registro</th>
+                <td>{{ formattedDate }}</td>
+            </tr>
+        </table>
+    </div>
+
+    @if(user.rol === USER_ROL.CLIENT)
+        <!-- Facturas Asociadas -->
+        <div class="invoice-summary">
+            <h2>Facturas Asociadas</h2>
+            @if(invoices.length > 0)
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Factura ID</th>
+                            <th>Total</th>
+                            <th>Fecha</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @each(invoice in invoices)
+                            <tr>
+                                <td>{{ invoice.invoiceId }}</td>
+                                <td>{{ invoice.total }}€</td>
+                                <td>{{ invoice.createdAt }}</td>
+                                <td>
+                                    <a href="{{ route('invoice.see', { invoiceId: invoice.invoiceId }) }}" target="_blank" class="btn-view">Ver factura</a>
+                                    <a href="{{ route('invoice.download', { invoiceId: invoice.invoiceId }) }}" target="_blank" class="btn-view">Descargar factura</a>
+                                </td>
+                            </tr>
+                        @endeach
+                    </tbody>
+                </table>
+            @else
+                <p>No tienes facturas.</p>
+            @endif
+        </div>
+    @endif
+</div>

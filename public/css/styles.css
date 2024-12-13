@@ -16,7 +16,11 @@
     height: 100%; /* Asegura que el body ocupe toda la altura de la ventana */
   }
   
-  
+  .price-lined {
+    text-decoration: line-through;
+    font-size: 80%;
+    color: gray; /* Puedes elegir el color que prefieras */
+  }
   
   #frasePrincipal {
     font-size: 34px;
@@ -163,6 +167,73 @@
     height: auto;
     margin-bottom: 20px;
   }
+
+  .product-units-ex, .product-units-few, .product-units-many, .product-units-lot {
+    font-size: 10px;
+    font-weight: bold;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: initial;
+  }
+  
+  .product-units-ex {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    color: #808080; /* Gris */
+  }
+  
+  .product-units-ex + svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .product-units-few {
+    color: #ff3737; /* Rojo */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .product-units-few + svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .product-units-many {
+    color: #ff9900; /* Naranja */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .product-units-many + svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .product-units-lot {
+    color: #33cc33; /* Verde */
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .product-units-lot + svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  
+  .text {
+    margin-left: 5px;
+    margin-top: 16px;
+    position: absolute;
+  }
+  
   
   #granImagen {
     width: 100%;

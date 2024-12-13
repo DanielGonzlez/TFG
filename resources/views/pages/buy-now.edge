@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrfToken }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <title>Pagar {{ product.name }}</title>
+</head>
+<body>
+    @include('partials/header')
+
+    <div class="payment-container">
+        <div class="product-preview">
+            <img src="{{ product.image }}" alt="Imagen del producto" class="product-image">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
+            <p class="price">Precio: {{ finalPrice.toFixed(2) }}€</p>
+        </div>
+        <div class="payment-form">
+            <h2>Introduce los datos de tu tarjeta</h2>
+            <div id="card-element"></div>
+            <button id="btn-pagar" onclick="pagar()">Pagar ahora</button>
+        </div>
+    </div>
+
+    @include('partials/footer')
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stripe = Stripe('pk_test_51QRREIKiQDHrCXs1EuRc1IbxFjslbKvjTE517QrNfScNjdbLD3ckfxXs0SMPNsgGFOyKYz1ZEuOUSlfXx6fc8HmZ00RvItoZum');
+            const elements = stripe.elements();
+            const card = elements.create('card');
+            card.mount('#card-element');
+
+            window.pagar = async function() {
+                try {
+                    // Llamar al endpoint para crear el PaymentIntent
+                    const response = await fetch('{{ route('createPaymentIntent', { productId: product.productId }) }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        },
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        alert(data.error || 'Error al iniciar el pago.');
+                        return;
+                    }
+
+                    // Confirmar el pago con Stripe
+                    const { error } = await stripe.confirmCardPayment(data.clientSecret, {
+                        payment_method: { card: card },
+                    });
+
+                    if (error) {
+                        alert(`Error: ${error.message}`);
+                    } else {
+                        alert('Pago completado con éxito');
+                        window.location.href = '/';
+                    }
+                } catch (error) {
+                    console.error('Error en el pago:', error);
+                    alert('Hubo un problema al procesar el pago.');
+                }
+            };
+        });
+    </script>
+</body>
+</html>

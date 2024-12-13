@@ -7,7 +7,7 @@
         <a href="{{ route('home') }}">Inicio</a>
         <a href="{{ route('products') }}">Libros</a>
         @if(user)
-            @if(user?.rol === USER_ROL.ADMIN)
+            @if(user.rol === USER_ROL.ADMIN)
                 <a href="{{ route('products.create') }}">Crear productos</a>
             @endif
                 <a href="{{ route('logout') }}">Cerrar sesión</a>
@@ -19,9 +19,18 @@
 
     <form class="form-inline" action="/products" method="GET">
         <div class="form-group">
-            <input type="text" class="form-control" id="search" name="search" placeholder="Buscar por nombre, categoria, autor...">
+            <input type="text" class="form-control" id="search" name="search" value="{{ searchTerm !== undefined ? searchTerm : '' }}" placeholder="Buscar por nombre, categoría, autor...">
         </div>
-    </form>    
+        
+        <!-- Incluye los filtros de precio y categoría en la URL -->
+        @if (selectedPriceRange && selectedPriceRange.length > 0)
+            <input type="hidden" name="priceRange" value="{{ selectedPriceRange }}">
+        @endif
+        @if (selectedCategories && selectedCategories.length > 0)
+            <input type="hidden" name="categories" value="{{ selectedCategories }}">
+        @endif
+    </form>
+       
     
     <a href="{{ route('user.profile') }}">
         <img id="imagenUsuario" src="{{ asset('assets/img/usuario.png') }}" alt="Usuario">

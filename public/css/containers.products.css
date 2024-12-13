@@ -17,8 +17,8 @@
   flex-direction: column;
   justify-content: space-between; /* Mantiene la separación adecuada */
   height: 100%; /* Altura uniforme para todos los productos */
-  max-height: 490px;
-  min-height: 390px;
+  max-height: 520px;
+  min-height: 520px;
   width: calc(20% - 20px); /* 5 productos por fila, con un pequeño espacio entre ellos */
   background-color: #fff;
   border-radius: 8px;
@@ -44,11 +44,11 @@
 /* Imagen del producto */
 .product-card__image {
   width: 100%; /* Ocupa todo el ancho disponible */
-  max-width: 674px;
-  min-width: 130px;
-  height: 100%;
-  max-height: 370px;
-  min-height: 120px;
+  max-width: 674px; /* Ancho máximo */
+  min-width: 130px; /* Ancho mínimo */
+  height: 360px; /* Altura fija */
+  max-height: 380px; /* Altura máxima */
+  min-height: 120px; /* Altura mínima */
   border-radius: 8px;
   object-fit: cover; /* Ajusta la imagen sin distorsionarla */
   margin-bottom: -15px;
@@ -85,13 +85,13 @@
 
 /* Precio del producto */
 .precio {
-  font-size: 16px;
+  font-size: 19px;  /* Aumenta el tamaño de la letra */
   font-family: "Roboto";
   font-weight: bold;
-  color: #1E88E5;
-  margin: 0; /* Elimina márgenes innecesarios */
+  color: #b81313;
+  margin-top: 5px;
+  margin-bottom: 5px;
   text-align: left;
-  align-self: flex-start;
 }
 
 
@@ -142,10 +142,39 @@
 }
 
 /* Estilo para el botón de añadir al carrito */
-.add-to-cart-form button {
+.add-to-cart-btn {
   background-color: #003f75;
   color: white;
   font-size: 20px;
+  padding: 14px 22px; /* Botón más grande */
+  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  border-radius: 8px;
+  margin-bottom: 7px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+}
+
+/* Efecto hover y clic en el botón */
+.add-to-cart-btn:hover {
+  background-color: #1565C0;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-btn:active {
+  background-color: #0D47A1;
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el botón de comprar ahora */
+.buy-now-btn {
+  background-color: #D81B60; /* Rosa fuerte */
+  color: white;
+  font-size: 19x;
   padding: 14px 22px; /* Botón más grande */
   font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
   border-radius: 8px;
@@ -157,14 +186,40 @@
 }
 
 /* Efecto hover y clic en el botón */
-.add-to-cart-form button:hover {
-  background-color: #1565C0;
+.buy-now-btn:hover {
+  background-color: #C2185B; /* Rosa más oscuro */
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.add-to-cart-form button:active {
-  background-color: #0D47A1;
+.buy-now-btn:active {
+  background-color: #880E4F; /* Rosa más oscuro al hacer clic */
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.buy-now-btn-disabled {
+  background-color: #5a5a5a; /* Rosa fuerte */
+  color: white;
+  font-size: 19x;
+  padding: 14px 22px; /* Botón más grande */
+  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+}
+
+/* Efecto hover y clic en el botón */
+.buy-now-btn-disabled:hover {
+  background-color: #4b4b4b; /* Rosa más oscuro */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.buy-now-btn-disabled:active {
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -190,3 +245,28 @@
   }
 
 }
+
+.product-units-ex, .product-units-few, .product-units-many, .product-units-lot {
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: initial;
+}
+
+.product-units-ex {
+    color: #808080; /* Gris */
+}
+
+.product-units-few {
+    color: #ff3737; /* Rojo */
+}
+
+.product-units-many {
+    color: #ff9900; /* Naranja */
+}
+
+.product-units-lot {
+    color: #33cc33; /* Verde */
+}
+

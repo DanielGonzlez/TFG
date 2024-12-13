@@ -22,12 +22,9 @@ export default class extends BaseSchema {
       table.string('unit').notNullable()
       table.decimal('price', 10, 2).notNullable()
       table.integer('discount').nullable()
-      table.enu('discount_type', [DISCOUNT_TYPE.FIXED, DISCOUNT_TYPE.PERCENTAGE]).notNullable()
+      table.enu('discount_type', Object.values(DISCOUNT_TYPE)).notNullable()
       table.string('image').nullable()
-      table.enu('category', [CATEGORY_TYPE.AVENTURA, CATEGORY_TYPE.DRAMA, 
-        CATEGORY_TYPE.CIEN_FICCION, CATEGORY_TYPE.FANTASIA]).notNullable()
-
-      
+      table.enu('category', Object.values(CATEGORY_TYPE)).notNullable()
 
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()

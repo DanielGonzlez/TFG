@@ -32,6 +32,7 @@ export default class UserSeeder extends BaseSeeder {
         email: userData.email,
         password: await hash.make(userData.password),
         status: USER_STATUS.ACTIVE, 
+        rol: userData.rol
       })
     }
   }

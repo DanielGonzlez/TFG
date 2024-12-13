@@ -4,14 +4,18 @@ import ClientService from '#services/client.service'
 import { RegisterValidator } from '#validators/user.validator'
 import hash from '@adonisjs/core/services/hash'
 import User from '#models/user_model'
+import { CartItem } from './product.controller.js'
 
 const userService = new UserService()
 const clientService = new ClientService()
 
 export default class AuthController {
   //! Mostrar formulario de registro
-  public async showRegisterForm({ view }: HttpContext) {
-    return view.render('pages/register')
+  public async showRegisterForm({ view, session }: HttpContext) {
+    const cartData = session.get('cart');
+  
+    const cart: CartItem[] = cartData ? Object.values(cartData) : [];
+    return view.render('pages/register', { cart })
   }
 
   //! Registrar usuario y cliente
@@ -23,8 +27,6 @@ export default class AuthController {
       'email',
       'password',
       'billingAddress',
-      'isWholesaler',
-      'organizationId',
     ])
   
     try {
@@ -67,8 +69,11 @@ export default class AuthController {
   }
 
   //! Mostrar el formulario de login
-  public async showLoginForm({ view }: HttpContext) {
-    return view.render('pages/login')
+  public async showLoginForm({ view, session }: HttpContext) {
+    const cartData = session.get('cart');
+  
+    const cart: CartItem[] = cartData ? Object.values(cartData) : [];
+    return view.render('pages/login', { cart })
   }
 
   //! Iniciar sesion

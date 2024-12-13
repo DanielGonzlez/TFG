@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    
     <title>Register</title>
 </head>
 <body>
@@ -106,5 +108,7 @@
             return isValid; // Solo enviar si todos los campos son válidos
         }
     </script>
+
+    @include('partials/footer')
 </body>
 </html>

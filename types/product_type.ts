@@ -8,6 +8,8 @@ export enum CATEGORY_TYPE {
     CIEN_FICCION = 'CIENCIA FICCIÓN',
     DRAMA = 'DRAMA',
     AVENTURA = 'AVENTURA',
+    TERROR = 'TERROR',
+    MISTERIO = 'MISTERIO',
 }
 
 export const DEFAULT_IMAGE_PATH = 'http://localhost:3333/assets/imagenes_producto/imagen-no-disponible.jpg'

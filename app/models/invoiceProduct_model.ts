@@ -7,15 +7,18 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Invoice from './invoice_model.js'
 import Product from './product_model.js'
 
+import { DISCOUNT_TYPE } from '#types/invoice_type';
+
 export default class InvoiceProduct extends BaseModel {
   public static connection = 'postgresql'
+
   @column({ isPrimary: true })
   declare invoiceProductId: string
 
   @beforeSave()
   public static async generateUuid(invPro: InvoiceProduct) {
     if (!invPro.invoiceProductId) {
-      invPro.invoiceProductId = uuidv4();  // Generar UUID antes de guardar
+      invPro.invoiceProductId = uuidv4(); // Generar UUID antes de guardar
     }
   }
 
@@ -31,17 +34,32 @@ export default class InvoiceProduct extends BaseModel {
   @column()
   declare quantity: number
 
+  @column()
+  declare price: number // Precio original del producto
+
+  @column()
+  declare discountedPrice: number // Precio con descuento aplicado
+
+  @column()
+  declare discount?: number
+
+  @column()
+  declare discountType: DISCOUNT_TYPE
+
+  @column()
+  declare tax: number // IVA aplicado
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  // Relación con Invoice (un producto de factura pertenece a una sola factura)
+  // Relación con Invoice
   @belongsTo(() => Invoice, { foreignKey: 'invoiceId' })
   declare invoice: BelongsTo<typeof Invoice>
 
-  // Relación con Product (un producto de factura pertenece a un solo producto)
+  // Relación con Product
   @belongsTo(() => Product, { foreignKey: 'productId' })
   declare product: BelongsTo<typeof Product>
 }

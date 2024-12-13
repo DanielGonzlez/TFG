@@ -1,4 +1,3 @@
-<!-- resources/views/pages/user-profile.edge -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,25 +6,16 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <title>Perfil del Usuario</title>
 </head>
 <body>
     @include('partials/header')
 
-    <div class="user-profile">
-        <div class="profile-header">
-            <h1>Información del Usuario</h1>
-            <img src="{{ user.profile_image }}" alt="Imagen de perfil" class="profile-image">
-        </div>
+    @component('components/user-profile-details', { invoices, user, billAdd, formattedDate, USER_ROL })
+    @endcomponent
 
-        <div class="profile-info">
-            <p><strong>Nombre:</strong> {{ user.name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Rol:</strong> {{ user.rol }}</p>
-            <p><strong>Fecha de Registro:</strong> {{ formattedDate }}</p>
-        </div>
-
-        
-    </div>
+    @include('partials/footer')
+    
 </body>
 </html>

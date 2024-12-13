@@ -98,7 +98,6 @@ nav a:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
-
 /* Estilo del contador en el carrito dentro de un círculo rosa fuerte */
 .cart-count {
   position: absolute;
@@ -126,18 +125,13 @@ nav a:hover {
 
 #imagenComprar {
   position: relative;
+  transition: transform 0.3s ease-in-out;
 }
 
 /* Aquí es donde se agrega la transformación para ambos elementos al hacer hover */
 a:hover #imagenComprar,
 a:hover #cart-count {
   transform: translateY(-8px); /* Levanta tanto la imagen del carrito como el contador */
-}
-
-/* También puedes ajustar el tiempo de transición de la imagen del carrito y el contador al mismo tiempo */
-a:hover #imagenComprar,
-a:hover #cart-count {
-  transition: transform 0.3s ease-in-out;
 }
 
 @media (max-width: 1024px) {

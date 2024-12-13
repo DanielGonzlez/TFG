@@ -1,27 +1,29 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import InvoiceProduct from '#models/invoiceProduct_model'; 
 import { DateTime } from 'luxon';
+import { DISCOUNT_TYPE } from '#types/invoice_type';
 
 export default class InvoiceProductSeeder extends BaseSeeder {
   public async run() {
-    //* Aquí defino los productos con sus relaciones necesarias para invoice_products
     const invoiceProducts = [
-      { invoice_id: "e113bd85-6487-4d76-9eb6-c1d3fe630650", product_id: "1", product_name: "PRODUCTO1", quantity: 1, created_at: DateTime.fromISO('2024-11-12T00:00:00Z'), updated_at: DateTime.fromISO('2024-11-12T00:00:00Z') },
-      { invoice_id: "e113bd85-6487-4d76-9eb6-c1d3fe630650", product_id: "2", product_name: "PRODUCTO2", quantity: 2, created_at: DateTime.fromISO('2024-11-12T00:00:00Z'), updated_at: DateTime.fromISO('2024-11-12T00:00:00Z') },
-      { invoice_id: "e113bd85-6487-4d76-9eb6-c1d3fe630650", product_id: "3", product_name: "PRODUCTO3", quantity: 1, created_at: DateTime.fromISO('2024-11-12T00:00:00Z'), updated_at: DateTime.fromISO('2024-11-12T00:00:00Z') },
-      { invoice_id: "e113bd85-6487-4d76-9eb6-c1d3fe630650", product_id: "4", product_name: "PRODUCTO4", quantity: 3, created_at: DateTime.fromISO('2024-11-12T00:00:00Z'), updated_at: DateTime.fromISO('2024-11-12T00:00:00Z') },
+      {
+        invoice_id: "e113bd85-6487-4d76-9eb6-c1d3fe630650",
+        product_id: "1",
+        product_name: "PRODUCTO1",
+        quantity: 1,
+        price: 100, // Precio original
+        discounted_price: 95, // Precio con descuento (5%)
+        discount: 5,
+        discount_type: DISCOUNT_TYPE.PERCENTAGE,
+        tax: 3.8, // IVA 4% aplicado al precio con descuento
+        created_at: DateTime.fromISO('2024-11-12T00:00:00Z'),
+        updated_at: DateTime.fromISO('2024-11-12T00:00:00Z'),
+      },
+      // Más productos...
     ];
 
-    // * Procesa los datos de invoice_products en la base de datos
     for (const invoiceProductData of invoiceProducts) {
-      await InvoiceProduct.create({
-        invoiceId: invoiceProductData.invoice_id,
-        productId: invoiceProductData.product_id,
-        productName: invoiceProductData.product_name,
-        quantity: invoiceProductData.quantity,
-        createdAt: invoiceProductData.created_at,
-        updatedAt: invoiceProductData.updated_at,
-      });
+      await InvoiceProduct.create(invoiceProductData);
     }
   }
 }

@@ -7,7 +7,6 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import InvoiceProduct from './invoiceProduct_model.js'
 import Client from './client_model.js'
 
-import { DISCOUNT_TYPE } from '#types/invoice_type'
 import { STATUS } from '#types/invoice_type'
 
 export default class Invoice extends BaseModel {
@@ -29,9 +28,6 @@ export default class Invoice extends BaseModel {
   declare clientId: string
 
   @column()
-  declare currentId: string
-
-  @column()
   declare clientName: string
 
   @column()
@@ -41,12 +37,6 @@ export default class Invoice extends BaseModel {
   declare discount: number
 
   @column()
-  declare discountType?: DISCOUNT_TYPE
-
-  @column()
-  declare oneOffProducts: string
-
-  @column()
   declare taxPercent: number
 
   @column()
@@ -54,6 +44,15 @@ export default class Invoice extends BaseModel {
 
   @column()
   declare status: STATUS
+
+  @column()
+  declare subtotal: number
+
+  @column()
+  declare taxTotal: number
+
+  @column()
+  declare total: number
 
   @column.dateTime({ autoCreate: true })
   declare nextRecurringAt: DateTime

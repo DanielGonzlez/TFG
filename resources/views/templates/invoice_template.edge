@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      .invoice-header { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+      .invoice-details { margin-bottom: 20px; }
+      .invoice-details td { padding: 8px; }
+      .invoice-footer { margin-top: 20px; font-size: 14px; text-align: center; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+      th { background-color: #f2f2f2; }
+    </style>
+  </head>
+  <body>
+    <div class="invoice-header">Factura #{{invoiceId}}</div>
+
+    <table class="invoice-details">
+      <tr><td><strong>Fecha:</strong></td><td>{{createdAt}}</td></tr>
+      <tr><td><strong>Total:</strong></td><td>{{total}}€</td></tr>
+      <tr><td><strong>Subtotal:</strong></td><td>{{subtotal}}€</td></tr>
+      <tr><td><strong>Impuesto:</strong></td><td>{{taxTotal}}€</td></tr>
+      <tr><td><strong>Status:</strong></td><td>{{status}}</td></tr>
+    </table>
+
+    <div class="invoice-header">Detalles de los productos</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre del Producto</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{invoiceProducts}}
+      </tbody>
+    </table>
+
+    <div class="invoice-footer">Gracias por su compra!</div>
+  </body>
+</html>

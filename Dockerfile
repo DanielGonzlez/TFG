@@ -13,6 +13,10 @@ COPY . .
 # Instalar las dependencias del proyecto
 RUN npm install
 
+# Instala Playwright y sus navegadores
+RUN npm install @playwright/test
+RUN npx playwright install --with-deps
+
 # Exponer el puerto 3333 (puerto por defecto de AdonisJS)
 EXPOSE 3333
 

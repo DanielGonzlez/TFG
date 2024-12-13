@@ -33,7 +33,8 @@
     "last_name": "Martínez",
     "email": "ana.martinez@example.com",
     "password": "ok",
-    "status": "SUSPENDED"
+    "status": "SUSPENDED",
+    "rol": "CLIENT"
   },
   {
     "user_id": "5",
@@ -42,6 +43,7 @@
     "last_name": "Rodríguez",
     "email": "luis.rodriguez@example.com",
     "password": "ok",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "rol": "CLIENT"
   }
 ]

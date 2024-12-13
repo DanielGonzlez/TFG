@@ -3,7 +3,7 @@
       "client_id": "4",
       "user_id": "4",
       "organization_id": "5",
-      "full_name": "Copymsa",
+      "full_name": "Ana Martinez",
       "billing_address": "CALLE INVENTADA 1",
       "email": "ana.martinez@example.com",
       "is_wholesaler": true
@@ -11,7 +11,7 @@
     {
       "client_id": "5",
       "user_id": "5",
-      "full_name": "TintoXprés",
+      "full_name": "Luis Rodríguez",
       "billing_address": "CALLE INVENTADA 2",
       "email": "luis.rodriguez@example.com",
       "is_wholesaler": false

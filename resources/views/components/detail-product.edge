@@ -57,7 +57,51 @@
                     @endif
                 </p>
             @endif
-
+  
+  
         </div>
+        <!-- Formulario para añadir al carrito -->
+        <form id="add-to-cart-form-{{ product.productId }}" class="add-to-cart-form-detail" method="POST" action="{{ route('cart.add') }}">
+            {{ csrfField() }} 
+            <input type="hidden" name="productId" value="{{ product.productId }}">
+            <input type="hidden" name="quantity" value="1">  <!-- Siempre se añade 1 producto -->
+      
+
+
+
+
+            
+            @if ((user?.rol == USER_ROL.CLIENT || !user) && product.unit > 0)
+                <button type="submit" class="add-to-cart-btn-detail" data-id="{{ product.productId }}">
+                    AÑADIR A LA CESTA
+                </button>
+            @endif
+
+            @if (product.unit == 0)
+                <div class="product-units-ex">Agotado<p>
+            @elseif (product.unit < 10)
+                <div class="product-units-few">Solo quedan {{ product.unit }} unidad(es)<p>
+            @elseif (product.unit < 100)
+                <div class="product-units-many">Quedan pocas unidades<p>
+            @else
+                <div class="product-units-lot">Quedan muchas unidades<p>
+            @endif
+      
+             <!-- Botón para compra directa -->
+             @if ((user?.rol == USER_ROL.CLIENT || !user) && product.unit > 0)
+            <button id="buy-now-btn" class="buy-now-btn" 
+                type="button"
+                onclick="window.location.href='{{ route('buyNowPage', { productId: product.productId }) }}'" 
+                class="btn-directo">
+                COMPRAR AHORA
+            </button>
+            @elseif (user.rol == USER_ROL.ADMIN)
+            @else
+            <button id="buy-now-btn" class="buy-now-btn-disabled" type="button" disabled>
+                NO DISPONIBLE
+            </button>
+            @endif
+        </form>
     </div>
 </div>
+<script src="/js/add-to-cart.js"></script>

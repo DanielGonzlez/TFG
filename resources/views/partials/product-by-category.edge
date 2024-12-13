@@ -4,7 +4,7 @@
   <!-- Mostrar los primeros 5 productos aleatorios -->
   @if (categoryProducts)
       @each(product in categoryProducts)
-          @component('components/card-product', { product: product })
+          @component('components/card-product', { product: product , user, USER_ROL})
           @endcomponent
       @endeach
   @endif

@@ -5,8 +5,60 @@
   <div class="product-card__details">
       <h3 class="nombreLibro">{{ product.name }}</h3>
       <p class="autor">{{ product.author }}</p>
-      <p class="precio">{{ product.price }}€</p>
-  </div>
+      <p class="precio">
+        <!-- Muestra el precio original tachado solo si el descuento es mayor a 0 y discountedPrice es diferente de price -->
+        @if (product.discount > 0 && product.discountedPrice !== product.price)
+          <span class="price-lined">{{ product.price }}€</span>
+        @endif
+      
+        <!-- Muestra el precio con descuento solo si hay un descuento y discountedPrice es diferente de price -->
+        @if (product.discount > 0 && product.discountedPrice !== product.price)
+          {{ product.discountedPrice }}€
+        @else
+          {{ product.price }}€
+        @endif
+      </p>
+      @if (product.unit == 0)
+        <div class="product-units-ex">
+          <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_iconCarrier">
+              <path d="M18.5 5.5L5.50002 18.4998" stroke="#7d7d7d" stroke-width="1.5" stroke-linecap="round"></path>
+              <circle cx="12" cy="12" r="10" stroke="#7d7d7d" stroke-width="1.5"></circle>
+            </g>
+          </svg>
+          <span class="text">AGOTADO</span>
+        </div>
+      @elseif (product.unit < 10)
+        <div class="product-units-few">
+          <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000">
+            <path d="M12 9V14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12.0001 21.41H5.94005C2.47005 21.41 1.02005 18.93 2.70005 15.9L5.82006 10.28L8.76006 5.00003C10.5401 1.79003 13.4601 1.79003 15.2401 5.00003L18.1801 10.29L21.3001 15.91C22.9801 18.94 21.5201 21.42 18.0601 21.42H12.0001V21.41Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M11.9945 17H12.0035" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="text">CASI AGOTADO</span>
+        </div>
+      @elseif (product.unit < 100)
+      <div class="product-units-many">
+        <svg width="33px" height="33px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" 
+          stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+            <path d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
+            stroke="#d7771d" stroke-width="1.6799999999999997" stroke-linecap="round" stroke-linejoin="round"></path> <circle cx="12" cy="16.5" 
+            r="1" fill="#d7771d"></circle> </g>
+        </svg>
+        <span class="text">POCAS UNIDADES</span>
+      </div>
+      @else
+      <div class="product-units-lot">
+        <svg width="32px" height="32px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="circleOkIconTitle" 
+          stroke="#1fcf07" stroke-width="1.608" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#000000"><g 
+          id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g 
+          id="SVGRepo_iconCarrier"> <title id="circleOkIconTitle">OK</title> <polyline points="7 13 10 16 17 9"></polyline> <circle cx="12" 
+          cy="12" r="10"></circle> </g>
+        </svg>
+        <span class="text">QUEDAN MUCHAS UNIDADES</span>
+      </div>
+      @endif
+      </div>
   
   <!-- Formulario para añadir al carrito -->
   <form id="add-to-cart-form-{{ product.productId }}" class="add-to-cart-form" method="POST" action="{{ route('cart.add') }}">
@@ -14,92 +66,31 @@
       <input type="hidden" name="productId" value="{{ product.productId }}">
       <input type="hidden" name="quantity" value="1">  <!-- Siempre se añade 1 producto -->
 
-      <button type="submit" class="add-to-cart-btn" data-id="{{ product.productId }}">AÑADIR</button>
+      @if ((product.unit > 0 && (user?.rol == USER_ROL.CLIENT || !user)) || user?.rol == USER_ROL.ADMIN)
+        @if (user?.rol == USER_ROL.CLIENT || !user)
+          <button type="submit" class="add-to-cart-btn" data-id="{{ product.productId }}">AÑADIR</button>
+        @else
+          <a href="{{ route('products.show', { productId: product.productId }) }}">
+            <button class="buy-now-btn" type="button">VER FICHA</button>
+          </a>
+        @endif
+      @endif
+
+       <!-- Botón para compra directa -->
+      @if((user === undefined || user.rol == USER_ROL.CLIENT) && product.unit > 0)
+        <button id="buy-now-btn" class="buy-now-btn" 
+          type="button"
+          onclick="window.location.href='{{ route('buyNowPage', { productId: product.productId }) }}'" 
+          class="btn-directo">
+          COMPRAR AHORA
+        </button>
+      @elseif (product.unit < 0 && user.rol == USER_ROL.CLIENT)
+        <button id="buy-now-btn" class="buy-now-btn-disabled" type="button" disabled>
+          NO DISPONIBLE
+        </button>
+      @else
+      @endif
   </form>
 </div>
 
-<script>
-  // Función para actualizar el contador del carrito
-  async function updateCartCount(totalQuantity) {
-    const cartCountElement = document.getElementById('cart-count');
-    if (cartCountElement) {
-        cartCountElement.textContent = totalQuantity || 0;
-    }
-  }
-
-  // Función para mostrar un mensaje
-  function showMessage(message, type) {
-    const messageBox = document.createElement('div');
-    messageBox.textContent = message;
-    messageBox.style.position = 'fixed';
-    messageBox.style.bottom = '20px';
-    messageBox.style.right = '20px';
-    messageBox.style.padding = '10px';
-    messageBox.style.borderRadius = '5px';
-    messageBox.style.zIndex = '1000';
-    messageBox.style.color = 'white';
-    messageBox.style.fontWeight = 'bold';
-
-    if (type === 'success') {
-      messageBox.style.backgroundColor = '#28a745';
-    } else if (type === 'error') {
-      messageBox.style.backgroundColor = '#dc3545';
-    }
-
-    document.body.appendChild(messageBox);
-
-    setTimeout(() => {
-      messageBox.remove();
-    }, 3000);
-  }
-
-  // Manejo del evento de enviar el formulario de añadir al carrito
-  document.querySelectorAll('.add-to-cart-form').forEach((form) => {
-    form.addEventListener('submit', async function(event) {
-      event.preventDefault();  // Prevenir la acción predeterminada del formulario
-
-      const submitButton = this.querySelector('button[type="submit"]');
-
-      // Si el formulario ya se está enviando, evitamos que se vuelva a enviar
-      if (submitButton.disabled) return;
-
-      submitButton.disabled = true;  // Deshabilitar el botón temporalmente para evitar clics repetidos
-
-      const formData = new FormData(this);
-      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-      try {
-        // Enviar la solicitud al servidor usando fetch API
-        const response = await fetch(this.action, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-          },
-          body: formData,
-        });
-
-        if (response.ok) {
-          const data = await response.json();  // Obtenemos la respuesta que contiene `totalQuantity`
-
-          if (data.error) {
-            showMessage(data.error, 'error');
-          } else {
-            // Actualizamos el contador en el frontend de manera inmediata
-            updateCartCount(data.totalQuantity);
-            // Mostrar mensaje de éxito
-            showMessage('Producto añadido al carrito', 'success');
-          }
-        } else {
-          showMessage('Hubo un problema al añadir el producto al carrito. Inténtalo de nuevo.', 'error');
-        }
-      } catch (error) {
-        showMessage('Error de red al intentar añadir el producto. Verifica tu conexión.', 'error');
-      } finally {
-        // Habilitar el botón nuevamente después de procesar la solicitud
-        setTimeout(() => {
-          submitButton.disabled = false;  // Habilitar el botón
-        }, 0); 
-      }
-    });
-  });
-</script>
+<script src="/js/add-to-cart.js"></script>
