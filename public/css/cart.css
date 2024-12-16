@@ -1,15 +1,13 @@
-/* Contenedor principal */
 #cart-container {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     width: 100%;
-    max-width: 1200px;  /* Limita el ancho máximo */
+    max-width: 1200px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 0 10px;
 }
 
-/* Título principal */
 #cart-title {
     margin-bottom: 20px;
     color: #333;
@@ -17,38 +15,34 @@
     text-align: left;
 }
 
-/* Estilo para cuando el carrito está vacío */
 #empty-cart-message {
     font-size: 1.2em;
     color: #666;
     text-align: right;
 }
 
-/* Contenedor de los artículos del carrito */
 #cart-items {
     display: flex;
-    flex-direction: column;  /* Los productos se apilarán en una sola columna */
-    gap: 10px;  /* Espacio reducido entre los productos */
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 20px;
-    align-items: flex-end;  /* Alinea los productos a la derecha */
+    align-items: flex-end;
 }
 
-/* Estilo para cada artículo */
 .cart-item {
     display: flex;
-    flex-direction: row;  /* Los productos estarán en una fila horizontal */
+    flex-direction: row;
     align-items: center;
     background-color: #f9f9f9;
-    padding: 10px 15px;  /* Reduce el padding para disminuir la altura */
+    padding: 10px 15px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
-    width: 40%;  /* Mantiene el ancho uniforme */
-    margin-left: auto; /* Alinea a la derecha */
-    height: auto; /* Ajusta la altura dinámicamente */
+    width: 40%;
+    margin-left: auto;
+    height: auto;
 }
 
-/* Estilo para la imagen del producto */
 .cart-item__image {
     min-width: 73px;
     height: 67px;
@@ -59,25 +53,23 @@
 }
 
 .cart-item__details p {
-    font-size: 0.9em;  /* Reduce el tamaño de fuente */
+    font-size: 0.9em;
     color: #555;
-    margin: 2px 0; /* Reduce el margen vertical */
+    margin: 2px 0;
 }
 
-/* Detalles del producto */
 .cart-item__details h3 {
-    font-size: 1em;  /* Reduce el tamaño de fuente */
+    font-size: 1em;
     color: #333;
-    margin: 3px 0; /* Reduce el margen entre títulos */
+    margin: 3px 0;
 }
 
 .cart-item__details p {
-    font-size: 0.9em;  /* Reduce el tamaño de fuente */
+    font-size: 0.9em;
     color: #555;
-    margin: 2px 0; /* Reduce el margen vertical */
+    margin: 2px 0;
 }
 
-/* Estilo para el precio total */
 #cart-total {
     display: flex;
     justify-content: space-between;
@@ -89,37 +81,29 @@
     text-align: right;
 }
 
-/* Estilo para el precio original tachado */
 .original-price {
     text-decoration: line-through;
-    color: #888;  /* Color gris para el precio tachado */
-    margin-right: 10px;  /* Espacio entre el precio original y el precio con descuento */
-    font-size: 0.9em;  /* Hacer el precio original un poco más grande */
+    color: #888;
+    margin-right: 10px;
+    font-size: 0.9em;
 }
 
-/* Estilo para el precio con descuento */
 .discount-price {
-    color: #e60000;  /* Color rojo para el precio con descuento */
-    font-weight: bold;  /* Destacar el precio con descuento */
-    font-size: 1.2em;  /* Hacer el precio con descuento más pequeño */
+    color: #e60000;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 .original-class-no-discount {
     font-size: 1.2em;
 }
 
-
-
-
-
-/* Contenedor de los botones */
 .buttons-container {
-    display: flex; /* Usa flexbox para organizar los elementos en línea */
-    gap: 10px; /* Espacio entre los botones */
-    align-items: center; /* Alinea los botones verticalmente al centro */
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
-/* Estilos para los botones */
 button.reduce-quantity, 
 button.increase-quantity, 
 button.remove-item {
@@ -134,14 +118,11 @@ button.remove-item {
     align-items: center;
 }
 
-/* Estilo para los íconos */
 button svg {
-    width: 20px; /* Tamaño del ícono más grande */
-    height: 20px; /* Tamaño del ícono más grande */
+    width: 20px;
+    height: 20px;
 }
 
-
-/* Media queries para la responsividad */
 @media (max-width: 768px) {
     #cart-container {
         padding: 15px;
@@ -149,13 +130,13 @@ button svg {
 
     #cart-items {
         flex-direction: column;
-        gap: 8px;  /* Reducir espacio entre productos */
+        gap: 8px;
         align-items: flex-end; 
     }
 
     .cart-item {
-        flex-direction: column; /* Apilar detalles debajo de la imagen */
-        padding: 8px; /* Reduce el padding en pantallas pequeñas */
+        flex-direction: column;
+        padding: 8px;
         width: 90%; 
         margin-left: auto;
     }
@@ -189,12 +170,11 @@ button svg {
     }
 }
 
-/* Efecto hover para los botones */
 button.reduce-quantity:hover,
 button.increase-quantity:hover,
 button.remove-item:hover {
-    background-color: #d3d3d3; /* Color de fondo más oscuro */
-    border-color: #bbb; /* Borde más oscuro */
+    background-color: #d3d3d3;
+    border-color: #bbb;
 }
 
 /*! ESTO ES LA PARTE DE LA PASARELA DE PAGO */
@@ -220,4 +200,36 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+  
+.overlay-content {
+    text-align: center;
+    color: white;
+}
+  
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

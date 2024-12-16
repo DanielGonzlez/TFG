@@ -1,3 +1,4 @@
+
 <div class="libros">
   <a href="{{ route('products.show', { productId: product.productId }) }}">
       <img src="{{ product.image }}" alt="Imagen del producto" class="product-card__image" id="libro1">
@@ -6,12 +7,12 @@
       <h3 class="nombreLibro">{{ product.name }}</h3>
       <p class="autor">{{ product.author }}</p>
       <p class="precio">
-        <!-- Muestra el precio original tachado solo si el descuento es mayor a 0 y discountedPrice es diferente de price -->
+        
         @if (product.discount > 0 && product.discountedPrice !== product.price)
           <span class="price-lined">{{ product.price }}€</span>
         @endif
       
-        <!-- Muestra el precio con descuento solo si hay un descuento y discountedPrice es diferente de price -->
+        
         @if (product.discount > 0 && product.discountedPrice !== product.price)
           {{ product.discountedPrice }}€
         @else
@@ -60,14 +61,14 @@
       @endif
       </div>
   
-  <!-- Formulario para añadir al carrito -->
-  <form id="add-to-cart-form-{{ product.productId }}" class="add-to-cart-form" method="POST" action="{{ route('cart.add') }}">
+  
+  <form id="add-to-cart-form-{{ product.productId }}" class="add-to-cart-form" method="POST" action="{{ route('cart.add') }}" data-product-unit="{{ product.unit }}">
       {{ csrfField() }} 
       <input type="hidden" name="productId" value="{{ product.productId }}">
-      <input type="hidden" name="quantity" value="1">  <!-- Siempre se añade 1 producto -->
+      <input type="hidden" name="quantity" value="1">  
 
-      @if ((product.unit > 0 && (user?.rol == USER_ROL.CLIENT || !user)) || user?.rol == USER_ROL.ADMIN)
-        @if (user?.rol == USER_ROL.CLIENT || !user)
+      @if (((user?.rol == USER_ROL.CLIENT || !user)) || user?.rol == USER_ROL.ADMIN)
+        @if (product.unit > 0 && user?.rol == USER_ROL.CLIENT || !user)
           <button type="submit" class="add-to-cart-btn" data-id="{{ product.productId }}">AÑADIR</button>
         @else
           <a href="{{ route('products.show', { productId: product.productId }) }}">
@@ -76,7 +77,7 @@
         @endif
       @endif
 
-       <!-- Botón para compra directa -->
+       
       @if((user === undefined || user.rol == USER_ROL.CLIENT) && product.unit > 0)
         <button id="buy-now-btn" class="buy-now-btn" 
           type="button"

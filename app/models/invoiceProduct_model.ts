@@ -18,7 +18,7 @@ export default class InvoiceProduct extends BaseModel {
   @beforeSave()
   public static async generateUuid(invPro: InvoiceProduct) {
     if (!invPro.invoiceProductId) {
-      invPro.invoiceProductId = uuidv4(); // Generar UUID antes de guardar
+      invPro.invoiceProductId = uuidv4(); 
     }
   }
 
@@ -35,10 +35,10 @@ export default class InvoiceProduct extends BaseModel {
   declare quantity: number
 
   @column()
-  declare price: number // Precio original del producto
+  declare price: number 
 
   @column()
-  declare discountedPrice: number // Precio con descuento aplicado
+  declare discountedPrice: number 
 
   @column()
   declare discount?: number
@@ -47,7 +47,7 @@ export default class InvoiceProduct extends BaseModel {
   declare discountType: DISCOUNT_TYPE
 
   @column()
-  declare tax: number // IVA aplicado
+  declare tax: number //? IVA aplicado
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

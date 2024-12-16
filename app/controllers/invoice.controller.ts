@@ -3,12 +3,15 @@ import Invoice from "#models/invoice_model";
 import InvoiceProduct from "#models/invoiceProduct_model";
 import path from "path";
 import fs from "fs";
-import { chromium } from 'playwright'; // Importar Playwright
+import { chromium } from 'playwright';
 import { USER_ROL } from '#types/user_type'
+import transporter from "#start/nodemailer";
+import { Response } from "@adonisjs/core/http";
+import { Session } from "@adonisjs/session";
 
 export default class InvoiceController {
 
-  // Método para obtener las facturas de un cliente
+  //! Método para obtener las facturas de un cliente
   public async getClientInvoices(clientId: string) {
     const invoices = await Invoice.query()
       .where('client_id', clientId)
@@ -17,7 +20,7 @@ export default class InvoiceController {
     return invoices;
   }
 
-  // Método para mostrar los datos de la factura en HTML
+  //! Método para mostrar los datos de la factura en HTML
   public async showInvoiceHTML({ params, response, view, session }: HttpContext) {
     const { invoiceId } = params;
 
@@ -78,7 +81,7 @@ export default class InvoiceController {
     }; // Enviar el HTML combinado
   }
 
-  // Método para descargar el PDF de la factura
+  //! Método para descargar el PDF de la factura
   public async downloadInvoicePDF({ params, response }: HttpContext) {
     const { invoiceId } = params;
 
@@ -98,16 +101,16 @@ export default class InvoiceController {
 
     const htmlContent = await this.generateInvoiceHTML(invoice, invoiceProducts);
 
-    // Usar Playwright para generar el PDF
+    //* Usar Playwright para generar el PDF
     try {
-      const browser = await chromium.launch({ args: ['--no-sandbox'] }); // Lanzar el navegador
+      const browser = await chromium.launch({ args: ['--no-sandbox'] }); //* Lanzar el navegador
       const context = await browser.newContext();
       const page = await context.newPage();
 
-      // Cargar el contenido HTML
+      //* Cargar el contenido HTML
       await page.setContent(htmlContent, { waitUntil: 'load' });
 
-      // Generar el PDF
+      //* Generar el PDF
       const pdfBuffer = await page.pdf({
         format: 'A4',
         printBackground: true,
@@ -115,28 +118,27 @@ export default class InvoiceController {
 
       await browser.close();
 
-      // Configurar los headers de la respuesta
+      //* Configurar los headers de la respuesta
       response.header('Content-Type', 'application/pdf');
       response.header('Content-Disposition', `attachment; filename=invoice_${invoiceId}.pdf`);
-      return response.send(pdfBuffer); // Enviar el archivo PDF
+      return response.send(pdfBuffer); //* Enviar el archivo PDF
     } catch (error) {
       console.error('Error generating PDF with Playwright:', error);
       return response.status(500).send('Error al generar el PDF');
     }
   }
 
-  // Función para generar el HTML de la factura
   private async generateInvoiceHTML(invoice: Invoice, invoiceProducts: InvoiceProduct[]) {
     try {
-      // Obtener la ruta de la plantilla HTML
+      //* Obtener la ruta de la plantilla HTML
       const __dirname = path.dirname(new URL(import.meta.url).pathname);
       const templatePath = path.join(__dirname, '..', '..', 'resources', 'views', 'templates', 'invoice_template.edge');
       console.log("Ruta de la plantilla:", templatePath);
 
-      // Leer el archivo de plantilla
+      //* Leer el archivo de plantilla
       const template = await fs.promises.readFile(templatePath, 'utf-8');
 
-      // Generar las filas de productos en la tabla
+      //* Generar las filas de productos en la tabla
       const productRows = invoiceProducts.map(product => `
         <tr>
           <td>${product.productName}</td>
@@ -146,7 +148,7 @@ export default class InvoiceController {
         </tr>
       `).join('');
 
-      // Reemplazar las variables de la plantilla con los datos de la factura
+      //* Reemplazar las variables de la plantilla con los datos de la factura
       const content = template
         .replace('{{invoiceId}}', invoice.invoiceId.toString())
         .replace('{{createdAt}}', invoice.createdAt.toLocaleString( { year: 'numeric', month: 'long', day: 'numeric' }))
@@ -160,6 +162,77 @@ export default class InvoiceController {
     } catch (error) {
       console.error("Error al generar el HTML:", error);
       throw error;
+    }
+  }
+
+  //! Método enviar al email la factura PDF
+  public async sendInvoiceEmail({ params, response, session }: { params: { invoiceId: string }, response: Response, session: Session }) {
+    const { invoiceId } = params
+    //* Obtener el correo electrónico del usuario autenticado (remitente)
+    const userEmail = (await session.get('user'))?.email
+
+    //* Obtener la factura y productos asociados
+    const invoice = await Invoice.query().where('invoice_id', invoiceId).first()
+
+    if (!invoice) {
+      console.log(`Invoice with ID ${invoiceId} not found.`)
+      return response.status(404).send('Factura no encontrada')
+    }
+
+    const invoiceProducts = await InvoiceProduct.query().where('invoice_id', invoiceId)
+
+    if (invoiceProducts.length === 0) {
+      console.log('No products found for this invoice.')
+      return response.status(404).send('No hay productos en esta factura')
+    }
+
+    //* Generar el contenido HTML de la factura
+    const htmlContent = await this.generateInvoiceHTML(invoice, invoiceProducts)
+
+    //* Generar el PDF de la factura
+    let pdfBuffer: Buffer
+    try {
+      const browser = await chromium.launch({ args: ['--no-sandbox'] })
+      const context = await browser.newContext()
+      const page = await context.newPage()
+
+      await page.setContent(htmlContent, { waitUntil: 'load' })
+      pdfBuffer = await page.pdf({ format: 'A4', printBackground: true })
+
+      await browser.close()
+    } catch (error) {
+      console.error('Error generating PDF with Playwright:', error)
+      return response.status(500).send('Error al generar el PDF')
+    }
+
+    if (!userEmail) {
+      return response.status(400).send('No se encontró el correo del usuario autenticado.')
+    }
+
+    //* Configuración del correo electrónico
+    const emailOptions = {
+      from: `"Luminaria" <${userEmail}>`, 
+      to: userEmail,
+      subject: `Factura N° ${invoice.invoiceId}`,
+      html: `<p>Estimado/a ${invoice.clientName},</p>
+             <p>Adjuntamos la factura N° ${invoice.invoiceId} correspondiente a su compra.</p>
+             <p>Gracias por su preferencia.</p>`,
+      attachments: [
+        {
+          filename: `invoice_${invoice.invoiceId}.pdf`,
+          content: pdfBuffer,
+        },
+      ],
+    }
+
+    //* Enviar el correo electrónico con el PDF adjunto
+    try {
+      await transporter.sendMail(emailOptions)
+      console.log('Correo enviado con éxito.')
+      return response.json({ message: 'Factura enviada por correo con éxito.' })
+    } catch (error) {
+      console.error('Error sending email:', error)
+      return response.status(500).json({ error: 'Error al enviar el correo con la factura.' })
     }
   }
 }

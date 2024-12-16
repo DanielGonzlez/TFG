@@ -22,6 +22,10 @@
     @if(user && user.rol === USER_ROL.CLIENT)
       <script src="https://js.stripe.com/v3/"></script>
     @endif
+
+    @component('components/loading-frame')
+    @endcomponent
+
     
     <script src="/js/stripe-pay.js"></script>
 

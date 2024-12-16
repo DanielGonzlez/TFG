@@ -24,7 +24,9 @@ export default class ProductController {
     //* Obtener 5 productos aleatorios (firstProducts)
     // TODO Cambiar lógica para que coja los productos según una lógica de ventas
     const firstProducts = await Product.query().orderByRaw('RAND()').limit(5);
-  
+
+    const recommendedProducts = await Product.query().orderByRaw('RAND()').limit(3);
+    
     //* Calcular el discountedPrice para cada producto
     const productsWithDiscount = firstProducts.map((product) => {
       let discountedPrice: number | null = null;
@@ -37,12 +39,35 @@ export default class ProductController {
   
       const productData: any = {
         ...product.serialize(),
-        price: product.price, // Precio original redondeado
+        price: product.price, //* Precio original redondeado
       };
   
-      // Solo agregar el discountedPrice si existe (es decir, si el descuento es mayor a 0)
+      //* Solo agregar el discountedPrice si existe (es decir, si el descuento es mayor a 0)
       if (discountedPrice !== null) {
-        productData.discountedPrice = discountedPrice.toFixed(2); // Redondeamos discountedPrice solo si existe
+        productData.discountedPrice = discountedPrice.toFixed(2); //* Redondeamos discountedPrice solo si existe
+      }
+  
+      return productData;
+    });
+
+    //* Calcular el discountedPrice para cada producto
+    const productsWithDiscountRecommended = recommendedProducts.map((product) => {
+      let discountedPrice: number | null = null;
+  
+      if (product.discount > 0) {
+        discountedPrice = product.discountType === 'PERCENTAGE'
+          ? product.price * (1 - product.discount / 100)
+          : product.price - product.discount;
+      }
+  
+      const productData: any = {
+        ...product.serialize(),
+        price: product.price, //* Precio original redondeado
+      };
+  
+      //* Solo agregar el discountedPrice si existe (es decir, si el descuento es mayor a 0)
+      if (discountedPrice !== null) {
+        productData.discountedPrice = discountedPrice.toFixed(2);
       }
   
       return productData;
@@ -58,6 +83,7 @@ export default class ProductController {
       cart,
       USER_ROL,
       firstProducts: productsWithDiscount,
+      recommendedProducts: productsWithDiscountRecommended,
     });
   }
   
@@ -68,7 +94,6 @@ export default class ProductController {
     const offset = (page - 1) * perPage;
   
     //* Filtros
-    // Asegurarse de que los inputs sean arreglos o normalizarlos
     const selectedPriceRangeInput = request.input('priceRange', []);
     const selectedPriceRange = Array.isArray(selectedPriceRangeInput)
       ? selectedPriceRangeInput
@@ -130,16 +155,16 @@ export default class ProductController {
           ? product.discountType === 'PERCENTAGE'
             ? product.price * (1 - product.discount / 100)
             : product.price - product.discount
-          : null; // Si el descuento es 0, no asignamos discountedPrice
+          : null; //* Si el descuento es 0, no asignamos discountedPrice
   
-      // Solo incluir discountedPrice si es diferente de null
+      //* Solo incluir discountedPrice si es diferente de null
       const productData: any = {
         ...product.serialize(),
-        price: product.price, // Formato con dos decimales para el precio
+        price: product.price, //* Formato con dos decimales para el precio
       };
 
       if (discountedPrice !== null) {
-        productData.discountedPrice = discountedPrice.toFixed(2); // Formatear solo si hay descuento
+        productData.discountedPrice = discountedPrice.toFixed(2);
       }
 
       return productData;
@@ -154,15 +179,15 @@ export default class ProductController {
           ? product.discountType === 'PERCENTAGE'
             ? product.price * (1 - product.discount / 100)
             : product.price - product.discount
-          : null; // Si el descuento es 0, no asignamos discountedPrice
+          : null; //* Si el descuento es 0, no asignamos discountedPrice
   
       const productData: any = {
         ...product.serialize(),
-        price: product.price, // Formato con dos decimales para el precio
+        price: product.price, 
       };
 
       if (discountedPrice !== null) {
-        productData.discountedPrice = discountedPrice.toFixed(2); // Formatear solo si hay descuento
+        productData.discountedPrice = discountedPrice.toFixed(2); 
       }
 
       return productData;
@@ -221,7 +246,7 @@ export default class ProductController {
       user,
       USER_ROL,
       products,
-      firstProducts, // Pasar los 5 productos aleatorios con discountedPrice a la vista
+      firstProducts, //* Pasar los 5 productos aleatorios con discountedPrice a la vista
       page,
       totalPages,
       perPage,
@@ -470,13 +495,11 @@ export default class ProductController {
     const user = session.get('user');
     const cartData = session.get('cart');
 
-    // Convertir los datos del carrito en un array
+    //* Convertir los datos del carrito en un array
     const cart: CartItem[] = cartData ? Object.values(cartData) : [];
     
-    // Obtener el producto por ID
     const product = await Product.findOrFail(params.productId);
 
-    // Asegurarse de que product.price es un número
     const price = parseFloat(product.price.toString()); // Convierte el precio a número
     const discountedPrice = product.discount > 0
         ? product.discountType === 'PERCENTAGE'
@@ -484,13 +507,13 @@ export default class ProductController {
             : price - product.discount
         : price;
 
-    // Obtener productos de la misma categoría (como sugerencia)
+    //* Obtener productos de la misma categoría (como sugerencia)
     const categoryProducts = await Product.query()
         .where('category', product.category)
         .orderByRaw('RAND()')
         .limit(5);
 
-    // Formatear todos los precios con dos decimales
+    //* Formatear todos los precios con dos decimales
     const formattedPrice = price.toFixed(2);
     const formattedDiscountedPrice = discountedPrice.toFixed(2);
 
@@ -500,17 +523,16 @@ export default class ProductController {
         name: item.name,
         author: item.author,
         unit: item.unit,
-        price: parseFloat(item.price.toString()).toFixed(2), // Formateo el precio con dos decimales
+        price: parseFloat(item.price.toString()).toFixed(2), 
         discount: item.discount,
         discountType: item.discountType,
         discountedPrice: item.discount > 0
             ? item.discountType === 'PERCENTAGE'
-                ? (parseFloat(item.price.toString()) * (1 - item.discount / 100)).toFixed(2) // Formateo el precio con descuento
-                : (parseFloat(item.price.toString()) - item.discount).toFixed(2) // Formateo el precio con descuento
-            : parseFloat(item.price.toString()).toFixed(2), // Si no tiene descuento, lo formateo igualmente
+                ? (parseFloat(item.price.toString()) * (1 - item.discount / 100)).toFixed(2) 
+                : (parseFloat(item.price.toString()) - item.discount).toFixed(2) 
+            : parseFloat(item.price.toString()).toFixed(2), 
     }));
 
-    // Renderizar la vista con todos los datos necesarios
     return view.render('pages/product-detail', {
         product: {
             productId: product.productId,
@@ -519,21 +541,19 @@ export default class ProductController {
             author: product.author,
             description: product.description,
             category: product.category,
-            price: formattedPrice, // Precio original con dos decimales
+            price: formattedPrice,
             discount: product.discount,
             discountType: product.discountType,
-            discountedPrice: formattedDiscountedPrice, // Precio con descuento con dos decimales
+            discountedPrice: formattedDiscountedPrice,
             unit: product.unit
         },
         user,
         USER_ROL,
-        categoryProducts: formattedCategoryProducts, // Productos relacionados con precios formateados
+        categoryProducts: formattedCategoryProducts,
         cart,
     });
 }
-
-
-  
+ 
   public async delete({ params, response }: HttpContext) {
     try {
       const product = await Product.find(params.productId);

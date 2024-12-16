@@ -1,4 +1,3 @@
-<!-- resources/views/pages/register.edge -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-    
+    <script src="/js/validate-register.js"></script>
     <title>Register</title>
 </head>
 <body>
@@ -17,17 +16,12 @@
     <form id="registerForm" action="{{ route('register') }}" method="POST" onsubmit="return validateForm()">
         {{ csrfField() }}
 
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" required>
-        <span class="error-message" id="nameError" style="color: red;"></span>
-        <br>
-
-        <label for="firstName">First Name:</label>
+        <label for="firstName">Nombre:</label>
         <input type="text" name="firstName" id="firstName" required>
         <span class="error-message" id="firstNameError" style="color: red;"></span>
         <br>
 
-        <label for="lastName">Last Name:</label>
+        <label for="lastName">Apellidos:</label>
         <input type="text" name="lastName" id="lastName">
         <span class="error-message" id="lastNameError" style="color: red;"></span>
         <br>
@@ -37,77 +31,20 @@
         <span class="error-message" id="emailError" style="color: red;"></span>
         <br>
 
-        <label for="password">Password:</label>
+        <label for="password">Contraseña:</label>
         <input type="password" name="password" id="password" required>
         <span class="error-message" id="passwordError" style="color: red;"></span>
         <br>
 
-        <label for="billingAddress">Billing Address:</label>
+        <label for="billingAddress">Dirección:</label>
         <input type="text" name="billingAddress" id="billingAddress" required>
         <span class="error-message" id="billingAddressError" style="color: red;"></span>
         <br>
 
-        <label for="isWholesaler">Is Wholesaler:</label>
-        <input type="checkbox" name="isWholesaler" id="isWholesaler">
-        <br>
-
-        <label for="organizationId">Organization ID:</label>
-        <input type="text" name="organizationId" id="organizationId">
-        <span class="error-message" id="organizationIdError" style="color: red;"></span>
-        <br>
-
-        <button type="submit">Register</button>
+        <button type="submit">Enviar</button>
     </form>
 
-    <script>
-        // Función de validación del formulario
-        function validateForm() {
-            // Borrar mensajes de error previos
-            document.querySelectorAll('.error-message').forEach(el => el.innerText = '');
-
-            let isValid = true;
-
-            // Validar cada campo individualmente
-            const name = document.getElementById('name');
-            if (name.value.trim().length < 3 || name.value.trim().length > 50) {
-                document.getElementById('nameError').innerText = 'El nombre debe tener entre 3 y 50 caracteres.';
-                isValid = false;
-            }
-
-            const firstName = document.getElementById('firstName');
-            if (firstName.value.trim().length < 3 || firstName.value.trim().length > 50) {
-                document.getElementById('firstNameError').innerText = 'El primer nombre debe tener entre 3 y 50 caracteres.';
-                isValid = false;
-            }
-
-            const lastName = document.getElementById('lastName');
-            if (lastName.value && (lastName.value.trim().length < 3 || lastName.value.trim().length > 50)) {
-                document.getElementById('lastNameError').innerText = 'El apellido debe tener entre 3 y 50 caracteres.';
-                isValid = false;
-            }
-
-            const email = document.getElementById('email');
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email.value)) {
-                document.getElementById('emailError').innerText = 'Por favor, ingresa un email válido.';
-                isValid = false;
-            }
-
-            const password = document.getElementById('password');
-            if (password.value.length < 6 || password.value.length > 20) {
-                document.getElementById('passwordError').innerText = 'La contraseña debe tener entre 6 y 20 caracteres.';
-                isValid = false;
-            }
-
-            const billingAddress = document.getElementById('billingAddress');
-            if (billingAddress.value.trim().length < 10 || billingAddress.value.trim().length > 200) {
-                document.getElementById('billingAddressError').innerText = 'La dirección de facturación debe tener entre 10 y 200 caracteres.';
-                isValid = false;
-            }
-
-            return isValid; // Solo enviar si todos los campos son válidos
-        }
-    </script>
+    
 
     @include('partials/footer')
 </body>

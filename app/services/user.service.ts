@@ -8,10 +8,9 @@ import { USER_STATUS } from '#types/user_type';
 export default class UserService {
   // Crear un usuario
 
-  public async createUser(data: { name: string; firstName: string; lastName: string; email: string; password: string }) {
+  public async createUser(data: { firstName: string; lastName: string; email: string; password: string }) {
 
     const user = await User.create({
-      name: data.name,
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,

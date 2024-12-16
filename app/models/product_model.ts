@@ -14,7 +14,7 @@ export default class Product extends BaseModel {
   @beforeSave()
   public static async generateUuid(product: Product) {
     if (!product.productId) {
-      product.productId = uuidv4();  // Generar UUID antes de guardar
+      product.productId = uuidv4(); 
     }
   }
 

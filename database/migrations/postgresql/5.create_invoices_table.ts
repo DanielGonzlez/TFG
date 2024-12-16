@@ -1,6 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema';
 import { MIGRATIONS_TABLE_NAME } from '#utils/dictionaries/migrations_table_names';
-import { DISCOUNT_TYPE } from '#types/invoice_type';
 import { STATUS } from '#types/invoice_type';
 
 export default class extends BaseSchema {
@@ -18,7 +17,6 @@ export default class extends BaseSchema {
       table.string('tax_name', 50).notNullable().defaultTo('IVA');
       table.enu('status', [STATUS.CREATED, STATUS.PAID, STATUS.CANCELLED, STATUS.RECURRING]).defaultTo(STATUS.CREATED);
 
-      // Nuevos campos
       table.decimal('subtotal', 10, 2).notNullable().defaultTo(0);
       table.decimal('tax_total', 10, 2).notNullable().defaultTo(0);
       table.decimal('total', 10, 2).notNullable().defaultTo(0);

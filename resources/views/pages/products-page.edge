@@ -16,7 +16,7 @@
 
   <div class="products-container">
 
-    <!-- Productos de 5 en 5 -->
+    
     <div class="products-list-5">
       <div class="products-list">
         @include('partials/product-list')
@@ -26,10 +26,10 @@
     <div class="sub-container">
       <div class="filters">
         <form id="filterForm" method="GET" action="{{ route('products') }}">
-          <!-- Campo oculto para el término de búsqueda -->
+          
           <input type="hidden" name="search" value="{{ searchTerm !== undefined ? searchTerm : '' }}" />
       
-          <!-- Filtro de precios -->
+          
           <div>
             <h4>Rango de precios</h4>
             <label>
@@ -54,7 +54,7 @@
             </label>
           </div>
       
-          <!-- Filtro de categorías -->
+          
           <div>
             <h4>Categorías</h4>
             @each(category in categories)
@@ -76,7 +76,7 @@
       </div>
     </div>
     
-    <!-- Paginación -->
+    
   <div class="pagination">
     @if (page > 1)
       <a href="?page={{ page - 1 }}">Página anterior</a>

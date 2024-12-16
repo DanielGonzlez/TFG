@@ -1,4 +1,4 @@
-/* Estilo original del contenedor */
+
 .detalle-producto {
   display: flex;
   justify-content: flex-start;
@@ -13,7 +13,7 @@
   box-sizing: border-box;
 }
 
-/* Precio original (sin tachar por defecto) */
+
 .detalle-info .precio-original {
   font-size: 1.2vw;
   color: #666;
@@ -21,20 +21,20 @@
   text-decoration: none;
 }
 
-/* Precio original tachado si hay descuento */
+
 .detalle-info .precio-original.con-descuento {
   text-decoration: line-through;
   color: #999;
 }
 
-/* Precio con descuento */
+
 .detalle-info .precio-descuento {
   font-size: 1.5vw;
   font-weight: bold;
   color: #ff0000;
 }
 
-/* Otros estilos */
+
 .detalle-producto .imagen-botones {
   display: flex;
   flex-direction: column;
@@ -130,7 +130,7 @@
   margin-bottom: 100px;
 }
 
-/* Responsivo para pantallas pequeñas */
+
 @media (max-width: 768px) {
   .detalle-producto {
     flex-direction: column;
@@ -158,39 +158,39 @@
     margin-bottom: 10
   }}
 
-  /* Estilo para el formulario de añadir al carrito */
+  
 .add-to-cart-form-detail {
-  position: absolute; /* Posicionamos el formulario sobre el producto */
+  position: absolute; 
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 20%; /* Asegura que ocupe todo el ancho */
+  width: 20%; 
   max-width: 350px;
   height: auto;
   padding: 20px;
-  background-color: #f0f0f0; /* Fondo sólido (sin transparencia) */
+  background-color: #f0f0f0; 
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-inline-start: 770px;
   margin-top: -5px;
   
-  transition: bottom 0.1s ease-out; /* Transición más rápida y fluida */
+  transition: bottom 0.1s ease-out; 
 }
 
-/* Estilo cuando el producto es hover y el formulario se muestra */
+
 .libros:hover .add-to-cart-form-detail{
-  display: flex; /* Muestra el formulario cuando el ratón pasa por encima */
-  bottom: 0; /* Hace que el formulario suba y quede visible */
-  animation: slideUp 0.1s ease-out; /* Animación más rápida y fluida */
+  display: flex; 
+  bottom: 0; 
+  animation: slideUp 0.1s ease-out; 
 }
 
-/* Estilo para el botón de comprar ahora */
+
 .buy-now-btn-detail {
-  background-color: #D81B60; /* Rosa fuerte */
+  background-color: #D81B60; 
   color: white;
   font-size: 15px;
-  padding: 14px 22px; /* Botón más grande */
+  padding: 14px 22px; 
   font-family: "Roboto", sans-serif;
   font-weight: 700;
   border-radius: 8px;
@@ -199,19 +199,19 @@
   width: 100%;
   height: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; 
   margin-top: 100px;
 }
 
-/* Efecto hover y clic en el botón */
+
 .buy-now-btn-detail:hover {
-  background-color: #C2185B; /* Rosa más oscuro */
+  background-color: #C2185B; 
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .buy-now-btn-detail:active {
-  background-color: #880E4F; /* Rosa más oscuro al hacer clic */
+  background-color: #880E4F; 
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -220,7 +220,7 @@
   background-color: #003f75;
   color: white;
   font-size: 14px;
-  padding: 0; /* Sin margen interno */
+  padding: 0; 
   font-family: "Roboto", sans-serif;
   border-radius: 8px;
   margin-bottom: 7px;
@@ -229,10 +229,10 @@
   width: 100%;
   height: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; /* Rápido y suave */
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s; 
 }
 
-/* Efecto hover y clic en el botón */
+
 .add-to-cart-btn-detail:hover {
   background-color: #1565C0;
   transform: translateY(-3px);
@@ -250,7 +250,7 @@
 .product-units-many, 
 .product-units-lot {
   font-size: 13px;
-  font-family: "Roboto", sans-serif; /* Aplicar estilo de fuente Roboto */
+  font-family: "Roboto", sans-serif; 
 }
 
 .product-units-ex {

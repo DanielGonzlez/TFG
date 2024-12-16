@@ -25,11 +25,9 @@ export default class ClientSeeder extends BaseSeeder {
       await Client.create({
         clientId: clientData.client_id, 
         userId: clientData.user_id, 
-        organizationId: clientData.organization_id,
         fullName: clientData.full_name,
         billingAddress: clientData.billing_address,
-        email: clientData.email,
-        isWholesaler: clientData.is_wholesaler
+        email: clientData.email
       })
     }
   }

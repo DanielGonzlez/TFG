@@ -17,7 +17,7 @@ export default class Invoice extends BaseModel {
   @beforeSave()
   public static async generateUuid(inv: Invoice) {
     if (!inv.invoiceId) {
-      inv.invoiceId = uuidv4();  // Generar UUID antes de guardar
+      inv.invoiceId = uuidv4();
     }
   }
 

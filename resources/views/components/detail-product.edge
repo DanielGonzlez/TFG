@@ -1,12 +1,12 @@
 <div class="detalle-producto">
-    <!-- Imagen y botones -->
+    
     <div class="imagen-botones">
         <img id="img-pro" src="{{ product.image }}" alt="Imagen del producto">
         
         @if(user)
             @if(user?.rol === USER_ROL.ADMIN)
                 <div class="botones">
-                    <!-- Botón de edición -->
+                    
                     <a href="{{ route('products.edit', { productId: product.productId }) }}" class="noselect">
                         <button id="btn-mod">
                             <span class="icon">
@@ -17,7 +17,7 @@
                         </button>
                     </a>
 
-                    <!-- Botón de eliminación -->
+                    
                     <form id="productoForm" action="{{ route('products.delete', { productId: product.productId }) }}?_method=DELETE" method="POST">
                         {{ csrfField() }} 
                         <button type="submit" id="btn-elm">
@@ -33,7 +33,7 @@
         @endif
     </div>
 
-    <!-- Información del producto -->
+    
     <div class="detalle-info">
         <div class="recuadro">
             <h2>{{ product.name }}</h2>
@@ -60,11 +60,11 @@
   
   
         </div>
-        <!-- Formulario para añadir al carrito -->
+        
         <form id="add-to-cart-form-{{ product.productId }}" class="add-to-cart-form-detail" method="POST" action="{{ route('cart.add') }}">
             {{ csrfField() }} 
             <input type="hidden" name="productId" value="{{ product.productId }}">
-            <input type="hidden" name="quantity" value="1">  <!-- Siempre se añade 1 producto -->
+            <input type="hidden" name="quantity" value="1">  
       
 
 
@@ -72,7 +72,7 @@
 
             
             @if ((user?.rol == USER_ROL.CLIENT || !user) && product.unit > 0)
-                <button type="submit" class="add-to-cart-btn-detail" data-id="{{ product.productId }}">
+                <button type="submit" class="add-to-cart-btn-detail" data-id="{{ product.productId }}" data-product-unit="{{ product.unit }}">
                     AÑADIR A LA CESTA
                 </button>
             @endif
@@ -87,19 +87,26 @@
                 <div class="product-units-lot">Quedan muchas unidades<p>
             @endif
       
-             <!-- Botón para compra directa -->
-             @if ((user?.rol == USER_ROL.CLIENT || !user) && product.unit > 0)
-            <button id="buy-now-btn" class="buy-now-btn" 
-                type="button"
-                onclick="window.location.href='{{ route('buyNowPage', { productId: product.productId }) }}'" 
-                class="btn-directo">
-                COMPRAR AHORA
-            </button>
-            @elseif (user.rol == USER_ROL.ADMIN)
-            @else
-            <button id="buy-now-btn" class="buy-now-btn-disabled" type="button" disabled>
-                NO DISPONIBLE
-            </button>
+            @if (user?.rol == USER_ROL.ADMIN)
+
+            @elseif (product.unit <= 0)
+                <button id="buy-now-btn" class="buy-now-btn-disabled" type="button" disabled>
+                    NO DISPONIBLE
+                </button>
+
+            @elseif ((user?.rol == USER_ROL.CLIENT || !user) && product.unit > 0)
+                <button id="buy-now-btn" class="buy-now-btn" 
+                    type="button"
+                    onclick="window.location.href='{{ route('buyNowPage', { productId: product.productId }) }}'" 
+                    class="btn-directo">
+                        COMPRAR AHORA
+                </button>
+
+            @else 
+                
+                <button id="buy-now-btn" class="buy-now-btn-disabled" type="button" disabled>
+                    NO DISPONIBLE
+                </button>
             @endif
         </form>
     </div>

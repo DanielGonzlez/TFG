@@ -22,7 +22,6 @@
             <input type="text" class="form-control" id="search" name="search" value="{{ searchTerm !== undefined ? searchTerm : '' }}" placeholder="Buscar por nombre, categoría, autor...">
         </div>
         
-        <!-- Incluye los filtros de precio y categoría en la URL -->
         @if (selectedPriceRange && selectedPriceRange.length > 0)
             <input type="hidden" name="priceRange" value="{{ selectedPriceRange }}">
         @endif

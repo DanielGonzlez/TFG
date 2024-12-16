@@ -1,5 +1,5 @@
 <div class="user-profile">
-    <!-- Información del Usuario -->
+    
     <div class="profile-header">
         @if(user.rol === USER_ROL.CLIENT)
             <h1>Información del Usuario</h1>
@@ -12,7 +12,7 @@
         <table class="user-info-table">
             <tr>
                 <th>Nombre</th>
-                <td>{{ user.name }}</td>
+                <td>{{ user.firstName }} {{ user.lastName }}</td>
             </tr>
             <tr>
                 <th>Email</th>
@@ -32,7 +32,7 @@
     </div>
 
     @if(user.rol === USER_ROL.CLIENT)
-        <!-- Facturas Asociadas -->
+        
         <div class="invoice-summary">
             <h2>Facturas Asociadas</h2>
             @if(invoices.length > 0)

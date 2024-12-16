@@ -16,11 +16,11 @@ export default class extends BaseSchema {
       table.string('product_id').notNullable();
       table.string('product_name').notNullable();
       table.integer('quantity').notNullable();
-      table.decimal('price', 10, 2).notNullable(); // Precio original
+      table.decimal('price', 10, 2).notNullable();
       table.enu('discount_type', [DISCOUNT_TYPE.FIXED, DISCOUNT_TYPE.PERCENTAGE]).defaultTo(DISCOUNT_TYPE.NONE);
-      table.decimal('discounted_price', 10, 2).notNullable(); // Precio con descuento
+      table.decimal('discounted_price', 10, 2).notNullable();
       table.decimal('discount', 10, 2).nullable();
-      table.decimal('tax', 10, 2).notNullable(); // IVA aplicado
+      table.decimal('tax', 10, 2).notNullable();
 
       table.timestamp('created_at').notNullable();
       table.timestamp('updated_at').nullable();

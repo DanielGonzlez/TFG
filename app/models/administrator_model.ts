@@ -15,7 +15,7 @@ export default class Administrator extends BaseModel {
     @beforeSave()
     public static async generateUuid(adm: Administrator) {
       if (!adm.userId) {
-        adm.userId = uuidv4();  // Generar UUID antes de guardar
+        adm.userId = uuidv4();
       }
     }
   
@@ -31,11 +31,11 @@ export default class Administrator extends BaseModel {
     @column.dateTime({ autoCreate: true, autoUpdate: true })
     declare updatedAt: DateTime | null
   
-    // Relación con User
+    //* Relación con User
     @hasOne(() => User, { foreignKey: 'userId' })
     declare user: HasOne<typeof User>
 
-    // Relación con Product (un administrador puede crear muchos productos)
+    //* Relación con Product (un administrador puede crear muchos productos)
     @hasMany(() => Product, { foreignKey: 'adminId' })
     declare products: HasMany<typeof Product>
   }

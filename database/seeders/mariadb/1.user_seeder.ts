@@ -26,7 +26,6 @@ export default class UserSeeder extends BaseSeeder {
     for (const userData of users) {
       await User.create({
         userId: userData.user_id,
-        name: userData.name,
         firstName: userData.first_name,
         lastName: userData.last_name,
         email: userData.email,

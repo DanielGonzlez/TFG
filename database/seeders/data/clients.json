@@ -2,19 +2,16 @@
     {
       "client_id": "4",
       "user_id": "4",
-      "organization_id": "5",
       "full_name": "Ana Martinez",
-      "billing_address": "CALLE INVENTADA 1",
-      "email": "ana.martinez@example.com",
-      "is_wholesaler": true
+      "billing_address": "Calle de la Luna 3",
+      "email": "ana.martinez@example.com"
     },
     {
       "client_id": "5",
       "user_id": "5",
       "full_name": "Luis Rodríguez",
-      "billing_address": "CALLE INVENTADA 2",
-      "email": "luis.rodriguez@example.com",
-      "is_wholesaler": false
+      "billing_address": "Calle de la Caja Baja 2",
+      "email": "luis.rodriguez@example.com"
     }
   ]
   

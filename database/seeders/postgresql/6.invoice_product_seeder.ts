@@ -11,15 +11,14 @@ export default class InvoiceProductSeeder extends BaseSeeder {
         product_id: "1",
         product_name: "PRODUCTO1",
         quantity: 1,
-        price: 100, // Precio original
-        discounted_price: 95, // Precio con descuento (5%)
+        price: 100,
+        discounted_price: 95,
         discount: 5,
         discount_type: DISCOUNT_TYPE.PERCENTAGE,
-        tax: 3.8, // IVA 4% aplicado al precio con descuento
+        tax: 3.8,
         created_at: DateTime.fromISO('2024-11-12T00:00:00Z'),
         updated_at: DateTime.fromISO('2024-11-12T00:00:00Z'),
-      },
-      // Más productos...
+      }
     ];
 
     for (const invoiceProductData of invoiceProducts) {

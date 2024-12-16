@@ -21,7 +21,6 @@ export default class AuthController {
   //! Registrar usuario y cliente
   public async register({ request, response, session }: HttpContext) {
     const data = request.only([
-      'name',
       'firstName',
       'lastName',
       'email',
@@ -30,36 +29,29 @@ export default class AuthController {
     ])
   
     try {
-      // Realizar validación utilizando el esquema de RegisterValidator
       const validatedData = await RegisterValidator.validate(data)
-  
-      // Hashear la contraseña
+
       const hashedPassword = await hash.make(validatedData.password)
-  
-      // Ajustar el valor de `lastName` para evitar incompatibilidades de tipo
+
       const userPayload = {
         ...validatedData,
-        lastName: validatedData.lastName || '', // Asignar cadena vacía si `lastName` es `undefined`
-        password: hashedPassword, // Utilizar la contraseña hasheada
+        lastName: validatedData.lastName || '',
+        password: hashedPassword,
       }
-  
-      // Crear el usuario
+
       const user = await userService.createUser(userPayload)
-  
-      // Crear cliente asociado al usuario
+
       await clientService.createClient({
         userId: user.userId,
         fullName: `${validatedData.firstName} ${validatedData.lastName || ''}`,
         billingAddress: validatedData.billingAddress,
-        email: validatedData.email,
-        isWholesaler: validatedData.isWholesaler || false,
-        organizationId: validatedData.organizationId || null,
+        email: validatedData.email
       })
   
       return response.redirect().toRoute('/')
     } catch (error) {
       if (error.errors) {
-        // Si hay errores de validación, los almacenamos en la sesión
+        
         session.flash('errors', error.errors)
         
         return response.redirect().back()
@@ -81,27 +73,22 @@ export default class AuthController {
     const { email, password } = request.only(['email', 'password'])
   
     try {
-      // Busca el usuario por email
       const user = await User.findBy('email', email)
   
       if (!user) {
-        // Si no existe el usuario, redirige a registro
         session.flash({ error: 'Usuario no encontrado. Por favor, regístrate.' })
         return response.redirect('/register')
       }
-  
-      // Verifica si la contraseña es correcta
+
       const passwordValid = await hash.verify(user.password, password)
       if (!passwordValid) {
-        // Si la contraseña es incorrecta, redirige al login
+        
         session.flash({ error: 'Credenciales incorrectas.' })
         return response.redirect('/login')
       }
-  
-      // Guarda la sesión del usuario
-      session.put('user', user) // Guardar el usuario en la sesión
 
-      // Redirige a la página de inicio si la autenticación fue exitosa
+      session.put('user', user)
+
       return response.redirect('/')
   
     } catch (error) {
@@ -113,10 +100,8 @@ export default class AuthController {
 
   //! Cerrar sesion
   public async logout({ response, session }: HttpContext) {
-    // Elimina la sesión del usuario
     session.forget('user')
-  
-    // Redirige al login o página de inicio
+
     return response.redirect('/')
   }
    

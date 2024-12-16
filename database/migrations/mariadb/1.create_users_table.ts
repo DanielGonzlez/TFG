@@ -12,7 +12,6 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('user_id').primary().defaultTo(this.db.raw('UUID()'));
-      table.string('name').nullable()
       table.string('first_name').nullable()
       table.string('last_name').nullable()
       table.string('email').notNullable().unique()

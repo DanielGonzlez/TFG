@@ -1,5 +1,3 @@
-<!--  partials/product-list.edge -->
-
 <div class="products-grid">
     @each(product in products)
       @component('components/card-product', { product: product, user, USER_ROL })

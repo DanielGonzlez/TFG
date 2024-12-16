@@ -1,4 +1,4 @@
-<!-- resources/views/components/form-product.edge -->
+
 
 <form id="productoForm" 
       action="{{ modoCreacion ? route('products.store') : route('products.update', { productId: producto.productId }) }}{{ modoCreacion ? '' : '?_method=PUT' }}" 
@@ -7,7 +7,7 @@
     
     {{ csrfField() }}
     
-    <!-- Si estamos en modo edición, añadimos el campo _method para PUT -->
+    
     @if(!modoCreacion)
         <input type="hidden" name="id" value="{{ producto.productId }}">
     @endif
@@ -21,42 +21,42 @@
             </div>
 
             <div class="modal__body">
-                <!-- Nombre -->
+                
                 <div class="input">
                     <label class="input__label">Nombre</label>
                     <input class="input__field" type="text" id="name" name="name" value="{{ old('name', producto?.name || '') }}" placeholder="Nombre del producto">
                     <div id="nameError" class="error-message"></div>
                 </div>
 
-                <!-- Autor -->
+                
                 <div class="input">
                     <label class="input__label">Autor</label>
                     <input class="input__field" type="text" id="author" name="author" value="{{ old('author', producto?.author || '') }}" placeholder="Autor del producto">
                     <div id="authorError" class="error-message"></div>
                 </div>
 
-                <!-- Descripción -->
+                
                 <div class="input">
                     <label class="input__label">Descripción</label>
                     <textarea id="description" name="description" placeholder="Descripción del producto">{{ old('description', producto?.description || '') }}</textarea>
                     <div id="descriptionError" class="error-message"></div>
                 </div>
 
-                <!-- Precio -->
+                
                 <div class="input">
                     <label class="input__label">Precio</label>
                     <input class="input__field" type="number" id="price" name="price" value="{{ old('price', producto?.price) }}" placeholder="Precio del producto">
                     <div id="priceError" class="error-message"></div>
                 </div>
 
-                <!-- Unidades -->
+                
                 <div class="input">
                     <label class="input__label">Unidades</label>
                     <input class="input__field" type="number" id="unit" name="unit" value="{{ old('unit', producto?.unit || '') }}" placeholder="Unidades disponibles">
                     <div id="unitError" class="error-message"></div>
                 </div>                
 
-                <!-- Categoría -->
+                
                 <div class="input">
                     <label class="input__label">Categoría</label>
                     <select class="input__field" name="category">
@@ -70,14 +70,14 @@
                     </select>
                 </div>
 
-                <!-- Descuento -->
+                
                 <div class="input">
                     <label class="input__label">Descuento</label>
                     <input class="input__field" type="number" id="discount" name="discount" value="{{ old('discount', producto?.discount || '') }}" placeholder="Ingrese el descuento" min="0" step="0.01">
                     <div id="discountError" class="error-message"></div>
                 </div>
 
-                <!-- Tipo de descuento -->
+                
                 <div class="input">
                     <label class="input__label">Tipo de descuento</label>
                     <select class="input__field" name="discountType">
@@ -95,13 +95,13 @@
                 </div>
 
 
-                <!-- Disponible -->
+                
                 <div class="input">
                     <label class="input__label">Disponible</label>
                     <input type="checkbox" id="available" name="available" value="1" {{ old('available', producto?.available) ? 'checked' : '' }}>
                 </div>
 
-                <!-- Imagen -->
+                
                 <div class="input">
                     <label class="input__label">Imagen</label>
                     <input type="file" id="image" name="image" accept="image/*">

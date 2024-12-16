@@ -14,7 +14,7 @@ export default class User extends BaseModel {
   @beforeSave()
   public static async generateUuid(user: User) {
     if (!user.userId) {
-      user.userId = uuidv4()  // Generar UUID antes de guardar
+      user.userId = uuidv4()
     }
   }
 

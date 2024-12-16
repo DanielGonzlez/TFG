@@ -1,7 +1,5 @@
-<!-- partials/product-list.edge -->
-<h2>Los más vendidos</h2>
+<div id="best">Los más vendidos</div>
 <div class="products-list">
-  <!-- Mostrar los primeros 5 productos aleatorios -->
   @if (firstProducts)
       @each(product in firstProducts)
           @component('components/card-product', { product: product, user: user, USER_ROL})

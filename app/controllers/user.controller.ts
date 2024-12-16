@@ -13,13 +13,13 @@ export default class UserController {
       return;
     }
 
-    // Formatear fecha de creación del usuario
+    //* Formatear fecha de creación del usuario
     const createdAt = user.createdAt;
     const formattedDate = DateTime.fromISO(createdAt).setLocale('es').isValid
       ? DateTime.fromISO(createdAt).setLocale('es').toFormat('d \'de\' MMMM \'de\' yyyy')
       : 'Fecha no válida';
 
-    // Buscar cliente asociado al usuario
+    //* Buscar cliente asociado al usuario
     const client = await Client.findBy('user_id', user.userId);
     const billAdd = client?.billingAddress;
     if (!client) {
@@ -33,11 +33,11 @@ export default class UserController {
       });
     }
 
-    // Delegar la obtención de las facturas al InvoiceController
+    //* Delegar la obtención de las facturas al InvoiceController
     const invoiceController = new InvoiceController();
     const invoices = await invoiceController.getClientInvoices(client.clientId);
 
-    // Renderizar vista con las facturas
+    //* Renderizar vista con las facturas
     return view.render('pages/user-profile', {
       user,
       USER_ROL,
