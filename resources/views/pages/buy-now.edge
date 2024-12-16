@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
-
-    
+    <script src="{{ asset('js/load-page.js') }}"></script>
     <script src="/js/stripe-pay-now.js" defer></script>
 
     <title>Pagar {{ product.name }}</title>
@@ -27,7 +26,7 @@
         <div class="payment-form">
             <h2>Introduce los datos de tu tarjeta</h2>
             <div id="card-element"></div>
-            
+            <!-- Pasar el productId como un atributo data-product-id -->
             <button id="btn-pagar" data-product-id="{{ product.productId }}">Pagar ahora</button>
         </div>
     </div>

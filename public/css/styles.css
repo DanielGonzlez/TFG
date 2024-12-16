@@ -14,6 +14,8 @@ body {
   overflow-x: hidden; 
   box-sizing: border-box; 
   height: 100%; 
+  opacity: 0;
+  transition: opacity 0.3s ease; /* Transición suave al mostrar */
 }
   
 .price-lined {
