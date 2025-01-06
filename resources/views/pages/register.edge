@@ -12,38 +12,53 @@
 </head>
 <body>
     @include('partials/header')
-    <h1>Register</h1>
+    <h1>Registro de usuario</h1>
 
-    <form id="registerForm" action="{{ route('register') }}" method="POST" onsubmit="return validateForm()">
-        {{ csrfField() }}
+    <div class="modal">
+        <form id="registerForm" action="{{ route('register') }}" method="POST" onsubmit="return validateForm()">
+            {{ csrfField() }}
 
-        <label for="firstName">Nombre:</label>
-        <input type="text" name="firstName" id="firstName" required>
-        <span class="error-message" id="firstNameError" style="color: red;"></span>
-        <br>
+            <div class="modal__body">
 
-        <label for="lastName">Apellidos:</label>
-        <input type="text" name="lastName" id="lastName">
-        <span class="error-message" id="lastNameError" style="color: red;"></span>
-        <br>
+                <div class="input">
+                    <label class="input__label" for="firstName">Nombre</label>
+                    <input class="input__field" type="text" name="firstName" id="firstName" required>
+                    <span class="error-message" id="firstNameError" style="color: red;"></span>
+                    <br>
+                </div>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
-        <span class="error-message" id="emailError" style="color: red;"></span>
-        <br>
+                <div class="input">
+                    <label class="input__label" for="lastName">Apellidos</label>
+                    <input class="input__field" type="text" name="lastName" id="lastName">
+                    <span class="error-message" id="lastNameError" style="color: red;"></span>
+                    <br>
+                </div>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required>
-        <span class="error-message" id="passwordError" style="color: red;"></span>
-        <br>
+                <div class="input">
+                    <label class="input__label" for="email">Email</label>
+                    <input class="input__field" type="email" name="email" id="email" required>
+                    <span class="error-message" id="emailError" style="color: red;"></span>
+                    <br>
+                </div>
 
-        <label for="billingAddress">Dirección:</label>
-        <input type="text" name="billingAddress" id="billingAddress" required>
-        <span class="error-message" id="billingAddressError" style="color: red;"></span>
-        <br>
+                <div class="input">
+                    <label class="input__label" for="password">Contraseña</label>
+                    <input class="input__field" type="password" name="password" id="password" required>
+                    <span class="error-message" id="passwordError" style="color: red;"></span>
+                    <br>
+                </div>
 
-        <button type="submit">Enviar</button>
-    </form>
+                <div class="input">
+                    <label class="input__label" for="billingAddress">Dirección</label>
+                    <input class="input__field" type="text" name="billingAddress" id="billingAddress" required>
+                    <span class="error-message" id="billingAddressError" style="color: red;"></span>
+                    <br>
+                </div>
+
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
 
     
 

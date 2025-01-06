@@ -383,23 +383,34 @@ img {
 
   
 button {
-  background-color: #00ab17;
-  color: #FFF;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
-  font-size: 0.875rem;
+  background-color: #7F9FF4; /* Azul suave, pero más oscuro */
+  color: #FFF; /* Color del texto */
+  padding: 0.75rem 1.25rem; /* Espaciado interno */
+  border-radius: 0.5rem; /* Bordes redondeados */
+  font-weight: 500; /* Peso de la fuente */
+  font-size: 1rem; /* Tamaño de fuente un poco más grande */
   position: relative;
   align-self: flex-end; 
-  margin-top: auto; 
+  margin-top: auto;
+  border: 2px solid transparent; /* Borde transparente para efecto de foco */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  transition: all 0.3s ease; /* Transición suave para todos los efectos */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
-  
+
 button:hover {
-  background-color: #006489;
+  background-color: #4A69C8; /* Azul más oscuro al hacer hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al hacer hover */
+  transform: translateY(-2px); /* Efecto de elevación */
 }
-    
-button:hover {
-  background-color: #006489;
+
+button:focus {
+  outline: none; /* Elimina el contorno predeterminado */
+  border: 2px solid #4A69C8; /* Borde visible al tener el foco */
+}
+
+button:active {
+  transform: translateY(1px); /* Efecto de presión cuando se hace clic */
 }
   
 .input {
